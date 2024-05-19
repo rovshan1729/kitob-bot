@@ -31,14 +31,14 @@ async def get_olympics(message: types.Message, state: FSMContext):
             lang = tg_user.language
     olympics = Olimpic.objects.filter(is_active=True, end_time__gte=timezone.now()).order_by('start_time', 'end_time')
 
-    if olympics.filter(region__isnull=False).exists():
-        olympics = olympics.filter(Q(region=tg_user.region) | Q(region__isnull=True))
-    if olympics.filter(district__isnull=False).exists():
-        olympics = olympics.filter(Q(district=tg_user.district) | Q(district__isnull=True))
-    if olympics.filter(school__isnull=False).exists():
-        olympics = olympics.filter(Q(school_id=tg_user.school_id) | Q(school__isnull=True))
-    if olympics.filter(class_room__isnull=False).exists():
-        olympics = olympics.filter(Q(class_room=tg_user.class_room) | Q(class_room__isnull=True))
+    # if olympics.filter(region__isnull=False).exists():
+    #     olympics = olympics.filter(Q(region=tg_user.region) | Q(region__isnull=True))
+    # if olympics.filter(district__isnull=False).exists():
+    #     olympics = olympics.filter(Q(district=tg_user.district) | Q(district__isnull=True))
+    # if olympics.filter(school__isnull=False).exists():
+    #     olympics = olympics.filter(Q(school_id=tg_user.school_id) | Q(school__isnull=True))
+    # if olympics.filter(class_room__isnull=False).exists():
+    #     olympics = olympics.filter(Q(class_room=tg_user.class_room) | Q(class_room__isnull=True))
 
     markup = await get_olympics_markup(olympics, language=lang)
     await message.answer(_("Olimpiadalar bilan tanishing"), reply_markup=markup)
@@ -109,8 +109,38 @@ async def send_next_poll(olympic: Olimpic, user_olimpic: UserOlimpic, user: Tele
                                                     content_message_id=content_message_id if content_message_id else 0)
         user_question.options.set(option_variants)
     else:
-        await bot.send_message(chat_id=user.telegram_id,
-                               text=_("Test tugadi raxmat! Natijalar hozir e'lon qilinadi ..."))
+        user_questions = UserQuestion.objects.filter(olimpic=olympic, user_olimpic=user_olimpic, user=user)
+        answered_count = user_questions.filter(is_answered=True).count()
+        correct = user_questions.filter(is_correct=True).count()
+        wrong = user_questions.filter(is_answered=True, is_correct=False).count()
+        not_answered = user_questions.count() - answered_count
+        result_publish = timezone.template_localtime(user_olimpic.olimpic.result_publish).strftime("%d-%m-%Y %H:%M")
+        end_time = timezone.now()
+        user_olimpic.end_time = end_time
+        user_olimpic.correct_answers = correct
+        user_olimpic.wrong_answers = wrong
+        user.not_answered = not_answered
+        olimpic_time = user_olimpic.end_time - user_olimpic.start_time
+        user_olimpic.olimpic_duration = str(olimpic_time).split(".")[0]
+        user_olimpic.save(
+            update_fields=["olimpic_duration", "end_time", "correct_answers", "wrong_answers", "not_answered"])
+        await bot.send_message(
+            user.telegram_id,
+            _("🏁 “{olimpic_name}” testi yakunlandi!\n\n"
+              "Siz {answered_count} ta savolga javob berdingiz:\n\n"
+              "✅ Toʻgʻri – {correct}\n❌ Xato – {wrong}\n"
+              "⌛️ Tashlab ketilgan – {not_answered}\n🕰 {time}\n\n"
+              "Natija {result_publish} da e'lon qilinadi\n\nNatijalarni ko'rish bo'limida").format(
+                olimpic_name=user_olimpic.olimpic.title,
+                answered_count=answered_count,
+                correct=correct,
+                wrong=wrong,
+                not_answered=not_answered,
+                time=user_olimpic.olimpic_duration,
+                result_publish=result_publish
+            ),
+            reply_markup=main_markup(language=user.language)
+        )
 
 
 @dp.message_handler(text=_("▶️ Testni boshlash"), state=OlympiadState.confirm_start)
