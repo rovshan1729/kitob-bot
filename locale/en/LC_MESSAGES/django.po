@@ -1,0 +1,735 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-19 02:26+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: bot/buttons/default.py:30 bot/buttons/default.py:44
+#: bot/buttons/default.py:80 bot/buttons/default.py:115
+#: bot/buttons/default.py:150 bot/buttons/default.py:178
+#: bot/buttons/default.py:246 bot/buttons/default.py:292
+#: bot/buttons/default.py:308 bot/buttons/default.py:366
+#: bot/buttons/default.py:379 bot/buttons/default.py:417
+#: bot/buttons/default.py:454 bot/buttons/default.py:485 bot/telegrambot.py:217
+#: bot/telegrambot.py:261 bot/telegrambot.py:292 bot/telegrambot.py:327
+#: bot/telegrambot.py:365 bot/telegrambot.py:406 bot/telegrambot.py:449
+#: bot/telegrambot.py:583 bot/telegrambot.py:592 bot/telegrambot.py:689
+#: bot/telegrambot.py:745 bot/telegrambot.py:1056 bot/telegrambot.py:1152
+#: bot/telegrambot.py:1209 bot/telegrambot.py:1239 bot/telegrambot.py:1271
+#: bot/telegrambot.py:1309 bot/telegrambot.py:1349 bot/telegrambot.py:1400
+#: tgbot/bot/keyboards/reply.py:20 tgbot/bot/keyboards/reply.py:28
+#: tgbot/bot/keyboards/reply.py:70 tgbot/bot/keyboards/reply.py:77
+#: tgbot/bot/keyboards/reply.py:84 tgbot/bot/keyboards/reply.py:91
+msgid "🔙 Orqaga"
+msgstr ""
+
+#: bot/buttons/default.py:41 tgbot/bot/keyboards/reply.py:17
+msgid "📞 Telefon raqamni yuborish"
+msgstr ""
+
+#: bot/buttons/default.py:159 bot/buttons/default.py:467
+#: bot/telegrambot.py:1364 common/models.py:139 tgbot/bot/keyboards/reply.py:49
+msgid "5-sinf"
+msgstr ""
+
+#: bot/buttons/default.py:160 bot/buttons/default.py:468
+#: bot/telegrambot.py:1365 common/models.py:140 tgbot/bot/keyboards/reply.py:52
+msgid "6-sinf"
+msgstr ""
+
+#: bot/buttons/default.py:163 bot/buttons/default.py:471
+#: bot/telegrambot.py:1366 common/models.py:141 tgbot/bot/keyboards/reply.py:53
+msgid "7-sinf"
+msgstr ""
+
+#: bot/buttons/default.py:164 bot/buttons/default.py:472
+#: bot/telegrambot.py:1367 common/models.py:142 tgbot/bot/keyboards/reply.py:56
+msgid "8-sinf"
+msgstr ""
+
+#: bot/buttons/default.py:167 bot/buttons/default.py:475
+#: bot/telegrambot.py:1368 common/models.py:143 tgbot/bot/keyboards/reply.py:57
+msgid "9-sinf"
+msgstr ""
+
+#: bot/buttons/default.py:168 bot/buttons/default.py:476
+#: bot/telegrambot.py:1369 common/models.py:144
+msgid "10-sinf"
+msgstr ""
+
+#: bot/buttons/default.py:171 bot/buttons/default.py:479
+#: bot/telegrambot.py:1370 common/models.py:145
+msgid "11-sinf"
+msgstr ""
+
+#: bot/buttons/default.py:188 bot/management/commands/bot.py:30
+#: bot/telegrambot.py:509 bot/views.py:73
+msgid "Olimpiadaga kirish"
+msgstr ""
+
+#: bot/buttons/default.py:189 bot/management/commands/bot.py:31
+#: bot/telegrambot.py:517 bot/views.py:74
+msgid "Olimpiada natijalarini ko’rish"
+msgstr ""
+
+#: bot/buttons/default.py:216 bot/management/commands/bot.py:32
+#: bot/telegrambot.py:524 bot/views.py:76
+msgid "Olimpiada reytingini ko’rish"
+msgstr ""
+
+#: bot/buttons/default.py:217 bot/management/commands/bot.py:33
+#: bot/telegrambot.py:532 bot/views.py:78
+msgid "Tilni alishtirish"
+msgstr ""
+
+#: bot/buttons/default.py:303 bot/telegrambot.py:763
+msgid "Testni boshlash"
+msgstr ""
+
+#: bot/buttons/default.py:320 bot/management/commands/bot.py:28
+#: bot/management/commands/bot.py:38 bot/management/commands/bot.py:119
+#: bot/management/commands/bot.py:123 bot/telegrambot.py:754 bot/views.py:71
+#: bot/views.py:83 bot/views.py:164 bot/views.py:168
+msgid "Bosh sahifa"
+msgstr ""
+
+#: bot/buttons/default.py:376 bot/telegrambot.py:1160
+msgid "Sertifikatni yuklab olish"
+msgstr ""
+
+#: bot/buttons/default.py:389 bot/buttons/default.py:427
+#: bot/buttons/default.py:464 bot/telegrambot.py:1280 bot/telegrambot.py:1318
+#: bot/telegrambot.py:1358
+msgid "Reytingni ko'rish"
+msgstr ""
+
+#: bot/buttons/inline.py:35 bot/telegrambot.py:192 utils/decorators.py:97
+msgid "Tekshirish"
+msgstr ""
+
+#: bot/forms.py:26
+msgid "Bot is not admin in this chat"
+msgstr ""
+
+#: bot/forms.py:28
+msgid "Chat not found"
+msgstr ""
+
+#: bot/models.py:31 bot/models.py:104 bot/models.py:155
+msgid "Telegram Bot"
+msgstr ""
+
+#: bot/models.py:32
+msgid "Telegram Bots"
+msgstr ""
+
+#: bot/models.py:45 olimpic/admin.py:23
+msgid "Full Name"
+msgstr ""
+
+#: bot/models.py:46
+msgid "Phone Number"
+msgstr ""
+
+#: bot/models.py:47
+msgid "Bith Day"
+msgstr ""
+
+#: bot/models.py:49 bot/models.py:157 common/models.py:84 olimpic/models.py:30
+msgid "Region"
+msgstr ""
+
+#: bot/models.py:51 bot/models.py:158 common/models.py:112 olimpic/models.py:32
+msgid "District"
+msgstr ""
+
+#: bot/models.py:52 bot/models.py:159 olimpic/models.py:34
+msgid "School"
+msgstr ""
+
+#: bot/models.py:53 bot/models.py:160 olimpic/models.py:35
+msgid "Class Room"
+msgstr ""
+
+#: bot/models.py:57
+msgid "User Data"
+msgstr ""
+
+#: bot/models.py:69
+msgid "Chat ID or Username"
+msgstr ""
+
+#: bot/models.py:70
+msgid "Chat ID: -100000000 or Username: @username"
+msgstr ""
+
+#: bot/models.py:98 bot/models.py:99
+msgid "Required Chats"
+msgstr ""
+
+#: bot/models.py:107
+msgid "Button Name"
+msgstr ""
+
+#: bot/models.py:108
+msgid "Button Text"
+msgstr ""
+
+#: bot/models.py:109
+msgid "Button Content"
+msgstr ""
+
+#: bot/models.py:117 olimpic/models.py:50 olimpic/models.py:102
+#: olimpic/models.py:137
+msgid "Invalid content"
+msgstr ""
+
+#: bot/models.py:144 bot/models.py:199 common/models.py:81 common/models.py:105
+#: common/models.py:132 olimpic/models.py:43 olimpic/models.py:133
+msgid "Title is required"
+msgstr ""
+
+#: bot/models.py:146 bot/models.py:202 olimpic/models.py:98
+msgid "Text is required"
+msgstr ""
+
+#: bot/models.py:149
+msgid "Telegram Button"
+msgstr ""
+
+#: bot/models.py:150
+msgid "Telegram Buttons"
+msgstr ""
+
+#: bot/models.py:156
+msgid "Users"
+msgstr ""
+
+#: bot/models.py:161 olimpic/models.py:28
+msgid "Is All Users"
+msgstr ""
+
+#: bot/models.py:163
+msgid "Is Not Registered"
+msgstr ""
+
+#: bot/models.py:165
+msgid "Notification Title"
+msgstr ""
+
+#: bot/models.py:166
+msgid "Notification Text"
+msgstr ""
+
+#: bot/models.py:167
+msgid "Notification File Content"
+msgstr ""
+
+#: bot/models.py:205
+msgid "Notification"
+msgstr ""
+
+#: bot/models.py:206
+msgid "Notifications"
+msgstr ""
+
+#: bot/tasks.py:72 bot/telegrambot.py:979
+#, python-brace-format
+msgid ""
+"🏁 “{olimpic_name}” testi yakunlandi!\n"
+"\n"
+"Siz {answered_count} ta savolga javob berdingiz:\n"
+"\n"
+"✅ Toʻgʻri – {correct}\n"
+"❌ Xato – {wrong}\n"
+"⌛️ Tashlab ketilgan – {not_answered}\n"
+"⏱ {time}\n"
+"\n"
+"Natija {result_publish} da e'lon qilinadi\n"
+"\n"
+"Natijalarni ko'rish bo'limida"
+msgstr ""
+
+#: bot/telegrambot.py:41 bot/telegrambot.py:154 bot/telegrambot.py:232
+msgid "Выберите язык/Tilni tanlash/Choose language"
+msgstr ""
+
+#: bot/telegrambot.py:49 bot/telegrambot.py:146 bot/telegrambot.py:250
+#: bot/telegrambot.py:263 tgbot/bot/handlers/users/start.py:136
+msgid "Familiya, Ism va Sharifingizni kiriting"
+msgstr ""
+
+#: bot/telegrambot.py:57 bot/telegrambot.py:243 bot/telegrambot.py:280
+#: bot/telegrambot.py:294
+msgid "Telefon raqamingizni yuboring"
+msgstr ""
+
+#: bot/telegrambot.py:65 bot/telegrambot.py:273 bot/telegrambot.py:315
+#: bot/telegrambot.py:329 tgbot/bot/handlers/users/start.py:147
+#: tgbot/bot/handlers/users/start.py:175
+msgid ""
+"Tug'ilgan kuningizni kiriting.\n"
+"Format 15.01.1990"
+msgstr ""
+
+#: bot/telegrambot.py:73 bot/telegrambot.py:305 bot/telegrambot.py:367
+msgid "Viloyatni tanlang"
+msgstr ""
+
+#: bot/telegrambot.py:81 bot/telegrambot.py:344 bot/telegrambot.py:408
+#: tgbot/bot/handlers/users/start.py:191 tgbot/bot/handlers/users/start.py:226
+#: tgbot/bot/handlers/users/start.py:236
+msgid "Tuman yoki shaharni tanlang"
+msgstr ""
+
+#: bot/telegrambot.py:91 bot/telegrambot.py:451
+msgid "Maktabni tanlang "
+msgstr ""
+
+#: bot/telegrambot.py:102 bot/telegrambot.py:474
+msgid "Sinf topilmadi, sinfni tanlang"
+msgstr ""
+
+#: bot/telegrambot.py:111 bot/telegrambot.py:197 bot/telegrambot.py:467
+msgid "Bosh menu"
+msgstr ""
+
+#: bot/telegrambot.py:123
+msgid "O'zbekcha"
+msgstr ""
+
+#: bot/telegrambot.py:126
+msgid "Русский"
+msgstr ""
+
+#: bot/telegrambot.py:129
+msgid "English"
+msgstr ""
+
+#: bot/telegrambot.py:139
+msgid "Bosh menu 1"
+msgstr ""
+
+#: bot/telegrambot.py:203 bot/telegrambot.py:206 utils/decorators.py:104
+msgid "Obuna bo'ling"
+msgstr ""
+
+#: bot/telegrambot.py:353
+msgid "Vioyat topilmadi, viloyatni tanlang"
+msgstr ""
+
+#: bot/telegrambot.py:383
+msgid "Maktabni tanlang 1"
+msgstr ""
+
+#: bot/telegrambot.py:393
+msgid "Topilmadi, Tuman yoki shaharni tanlang"
+msgstr ""
+
+#: bot/telegrambot.py:426 bot/telegrambot.py:1339 bot/telegrambot.py:1375
+#: bot/telegrambot.py:1426
+msgid "Sinfni tanlang"
+msgstr ""
+
+#: bot/telegrambot.py:435
+msgid "Topilmadi, Maktabni tanlang "
+msgstr ""
+
+#: bot/telegrambot.py:487 bot/telegrambot.py:534
+msgid "Tilni tanlash"
+msgstr ""
+
+#: bot/telegrambot.py:500 bot/telegrambot.py:547 bot/telegrambot.py:572
+#: bot/telegrambot.py:586 bot/telegrambot.py:599 bot/telegrambot.py:691
+#: bot/telegrambot.py:757 bot/telegrambot.py:1058 bot/telegrambot.py:1211
+msgid "Bosh menu\n"
+msgstr ""
+
+#: bot/telegrambot.py:511 bot/telegrambot.py:679 bot/telegrambot.py:702
+#: bot/telegrambot.py:748 bot/telegrambot.py:765 bot/telegrambot.py:1068
+#: bot/telegrambot.py:1221 bot/telegrambot.py:1241
+msgid "Olimpiadalardan birini tanlang\n"
+msgstr ""
+
+#: bot/telegrambot.py:519 bot/telegrambot.py:526 bot/telegrambot.py:1045
+#: bot/telegrambot.py:1198
+msgid "Olimpiadalardan bitini tanlang"
+msgstr ""
+
+#: bot/telegrambot.py:614 bot/telegrambot.py:641
+msgid "Bunday menu topilmadi!"
+msgstr ""
+
+#: bot/telegrambot.py:672
+msgid "Olimpiada topilmadi"
+msgstr ""
+
+#: bot/telegrambot.py:715
+msgid "Siz bu olimpiadaga kira olmayiz!"
+msgstr ""
+
+#: bot/telegrambot.py:776
+msgid "Olimpiadada savollar topilmadi!"
+msgstr ""
+
+#: bot/telegrambot.py:783
+#, python-brace-format
+msgid ""
+"Olimpiada hali boshlanmagan\n"
+"Boshlanish sanasi: {start_time}"
+msgstr ""
+
+#: bot/telegrambot.py:793
+msgid "Olimpiada tugagan"
+msgstr ""
+
+#: bot/telegrambot.py:805
+msgid "Siz allaqachon ushbu olimpiadada qatnashgansiz!"
+msgstr ""
+
+#: bot/telegrambot.py:811
+msgid "Olimpiada boshlanmoqda"
+msgstr ""
+
+#: bot/telegrambot.py:1078
+msgid "Natija {} vaqtda e'lon qilinadi"
+msgstr ""
+
+#: bot/telegrambot.py:1100 bot/telegrambot.py:1457
+msgid "Natijalar topilmadi"
+msgstr ""
+
+#: bot/telegrambot.py:1106
+msgid ""
+"<b>{}</b> - Natijalari\n"
+"\n"
+msgstr ""
+
+#: bot/telegrambot.py:1112 bot/telegrambot.py:1172 bot/telegrambot.py:1467
+msgid ""
+"Siz bu olimpiadada ishtirok etmadingiz\n"
+"\n"
+msgstr ""
+
+#: bot/telegrambot.py:1116
+#, python-brace-format
+msgid ""
+"{index}) {full_name} - {correct_answers} - {wrong_answers} - {not_answered} "
+"- {olimpic_duration}\n"
+msgstr ""
+
+#: bot/telegrambot.py:1127 bot/telegrambot.py:1482
+msgid "---------------------"
+msgstr ""
+
+#: bot/telegrambot.py:1129 bot/telegrambot.py:1484
+#, python-brace-format
+msgid ""
+"\n"
+"{index}) {full_name} - {correct_answers}/{wrong_answers}/{not_answered} - "
+"{olimpic_duration}\n"
+msgstr ""
+
+#: bot/telegrambot.py:1139
+msgid ""
+"\n"
+"Sertificatni Yuklab olish uchun 👇 ni bosing"
+msgstr ""
+
+#: bot/telegrambot.py:1154
+msgid "Olimpiadalardan birini tanlang"
+msgstr ""
+
+#: bot/telegrambot.py:1162
+msgid "Sertificatni yuklab olish uchun 👇 ni bosing"
+msgstr ""
+
+#: bot/telegrambot.py:1180
+msgid ""
+"Sertificat topilmadi\n"
+"\n"
+msgstr ""
+
+#: bot/telegrambot.py:1188
+msgid "Sertificat"
+msgstr ""
+
+#: bot/telegrambot.py:1229 bot/telegrambot.py:1250 bot/telegrambot.py:1274
+#: bot/telegrambot.py:1403
+msgid "Viloyatlardan birini tanlang"
+msgstr ""
+
+#: bot/telegrambot.py:1261 bot/telegrambot.py:1290 bot/telegrambot.py:1312
+#: bot/telegrambot.py:1411
+msgid "Tuman yoki shahar"
+msgstr ""
+
+#: bot/telegrambot.py:1299 bot/telegrambot.py:1331 bot/telegrambot.py:1352
+#: bot/telegrambot.py:1419
+msgid "Maktabni tanlang"
+msgstr ""
+
+#: bot/telegrambot.py:1462
+msgid ""
+"{} - Natijalari\n"
+"\n"
+msgstr ""
+
+#: bot/telegrambot.py:1471
+#, python-brace-format
+msgid ""
+"{index}) {full_name} - {correct_answers}/{wrong_answers}/{not_answered} - "
+"{olimpic_duration}\n"
+msgstr ""
+
+#: bot/telegrambot.py:1505
+msgid "Sizda savollar bormi? Bizga yozing: @roboteachhelp"
+msgstr ""
+
+#: common/mixins.py:24
+msgid "General "
+msgstr ""
+
+#: common/models.py:8
+msgid "Created at"
+msgstr ""
+
+#: common/models.py:9
+msgid "Updated at"
+msgstr ""
+
+#: common/models.py:16
+msgid "Version"
+msgstr ""
+
+#: common/models.py:17
+msgid "Required"
+msgstr ""
+
+#: common/models.py:20
+msgid "Version history"
+msgstr ""
+
+#: common/models.py:21
+msgid "Version histories"
+msgstr ""
+
+#: common/models.py:28
+msgid "Key"
+msgstr ""
+
+#: common/models.py:29 olimpic/models.py:88
+msgid "Text"
+msgstr ""
+
+#: common/models.py:32
+msgid "Frontend translation"
+msgstr ""
+
+#: common/models.py:33
+msgid "Frontend translations"
+msgstr ""
+
+#: common/models.py:41
+msgid "Video"
+msgstr ""
+
+#: common/models.py:42
+msgid "Image"
+msgstr ""
+
+#: common/models.py:45
+msgid "File"
+msgstr ""
+
+#: common/models.py:46
+msgid "File Type"
+msgstr ""
+
+#: common/models.py:50 common/models.py:51
+msgid "Media"
+msgstr ""
+
+#: common/models.py:65 common/models.py:119
+msgid "Name"
+msgstr ""
+
+#: common/models.py:85
+msgid "Regions"
+msgstr ""
+
+#: common/models.py:113
+msgid "Districts"
+msgstr ""
+
+#: common/models.py:150
+msgid "Site name"
+msgstr ""
+
+#: common/models.py:151
+msgid "Site logo"
+msgstr ""
+
+#: common/models.py:153
+msgid "Bot token"
+msgstr ""
+
+#: common/models.py:154
+msgid "Host URL"
+msgstr ""
+
+#: common/models.py:160
+msgid "Settings"
+msgstr ""
+
+#: olimpic/admin.py:24
+msgid "Olimpic"
+msgstr ""
+
+#: olimpic/admin.py:25 olimpic/models.py:22
+msgid "Start Time"
+msgstr ""
+
+#: olimpic/admin.py:26 olimpic/models.py:23
+msgid "End Time"
+msgstr ""
+
+#: olimpic/admin.py:27
+msgid "Correct Answers"
+msgstr ""
+
+#: olimpic/admin.py:28
+msgid "Wrong Answers"
+msgstr ""
+
+#: olimpic/admin.py:29
+msgid "Not Answered"
+msgstr ""
+
+#: olimpic/admin.py:62 olimpic/admin.py:93
+msgid "This field is required."
+msgstr ""
+
+#: olimpic/admin.py:65
+msgid "Image size must be 1582x1172."
+msgstr ""
+
+#: olimpic/models.py:18
+msgid "Title"
+msgstr ""
+
+#: olimpic/models.py:19
+msgid "Description"
+msgstr ""
+
+#: olimpic/models.py:24
+msgid "Is Active"
+msgstr ""
+
+#: olimpic/models.py:25
+msgid "Result Publish"
+msgstr ""
+
+#: olimpic/models.py:26
+msgid "Certificate Generate"
+msgstr ""
+
+#: olimpic/models.py:46
+msgid "Description is required"
+msgstr ""
+
+#: olimpic/models.py:89
+msgid "Duration (seconds)"
+msgstr ""
+
+#: tgbot/bot/handlers/users/main.py:8
+msgid "🌐 Tilni o'zgartirish"
+msgstr "🌐 Change language"
+
+#: tgbot/bot/handlers/users/main.py:10
+msgid "Tilni o'zgartirishingiz mumkin"
+msgstr ""
+
+#: tgbot/bot/handlers/users/main.py:16
+msgid "Main menyu ishlayapti!"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:116
+msgid "Bosh menyu"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:127 tgbot/bot/handlers/users/start.py:156
+msgid "Telefon raqamingizni quyidagi tugmani bosgan holda yuboring."
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:131
+msgid "Faqat Text Formatda Kamida 2ta so'z bilan yozing"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:144
+msgid "Pastdagi tugma orqali raqamingizni yuboring"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:151
+msgid "📲 Iltimos Raqamni Yuborish Tugmasini Bosing"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:166 tgbot/bot/handlers/users/start.py:195
+#: tgbot/bot/handlers/users/start.py:203
+msgid "Viloyatingizni tanlang"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:170
+msgid "Tug'ilgan Sanangizni To'g'ri Formatda Kiriting.Masalan :16.07.2002"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:197 tgbot/bot/handlers/users/start.py:229
+msgid "Iltimos To'g'ri Formatda Kiriting (16.07.2002)"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:218 tgbot/bot/handlers/users/start.py:256
+#: tgbot/bot/handlers/users/start.py:267
+msgid "Maktabingizni tanlang"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:248
+msgid "Sinfingizni Tanlang"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:258 tgbot/bot/handlers/users/start.py:307
+msgid "Iltimos Tugmalardan Birini Tanlang"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:277
+msgid "Qabul Qilindi"
+msgstr ""
+
+#: tgbot/bot/keyboards/reply.py:7
+msgid "🏆 Olimpiadalar 🏆"
+msgstr ""
+
+#: tgbot/bot/keyboards/reply.py:7
+msgid "📈 Natijalar 📉"
+msgstr ""
+
+#: tgbot/bot/keyboards/reply.py:8
+msgid "🔝 Reyting 📊"
+msgstr ""
+
+#: utils/decorators.py:52
+msgid "Siz Olimpiadada siz!!!"
+msgstr ""
