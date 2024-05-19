@@ -30,7 +30,7 @@ LANGUAGES = (
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://globaledubot.uicgroup.tech', 'localhost']
 
 # Application definition
 
@@ -168,3 +168,9 @@ RECAPTCHA_PUBLIC_KEY = env.str("RECAPTCHA_PUBLIC_KEY", "6LdlOWYpAAAAAOEsejvu7mT-
 RECAPTCHA_PRIVATE_KEY = env.str("RECAPTCHA_PRIVATE_KEY", "6LdlOWYpAAAAAP2nediVlYsjEXrFZpzH4DZlUarQ")
 
 BACK_END_URL = env.str("BACK_END_URL", "https://d0d0-82-215-111-82.ngrok-free.app")
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = False
+CSRF_TRUSTED_ORIGINS = [
+    'https://globaledubot.uicgroup.tech',  # Add your domain here
+    'http://localhost:8000',  # Localhost for testing
+]
