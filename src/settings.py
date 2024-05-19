@@ -161,6 +161,7 @@ os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 REDIS_HOST = env.str("REDIS_HOST")
 REDIS_PORT = env.str("REDIS_PORT")
 REDIS_DB = env.str("REDIS_DB")
+REDIS_URL=f'{env.str("REDIS_HOST")}://{env.str("REDIS_HOST")}:{env.str("REDIS_PORT")}/{env.str("REDIS_DB")}'
 
 I18N_DOMAIN = "django"
 LOCALES_DIR = BASE_DIR / "locale"
