@@ -1,0 +1,33 @@
+before_script:
+  - docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
+stages:
+  - build_staging
+  - deploy_staging
+
+build_image_prod:
+  stage: build_staging
+  image: registry.uicgroup.tech/devops/docker:dind
+  before_script:
+    - docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
+  script:
+    - make build-image TAG=$CI_PIPELINE_IID SERVICE_NAME=$CI_PROJECT_NAME PROJECT_NAME=$CI_PROJECT_NAMESPACE REGISTRY=$CI_REGISTRY ENV_TAG=latest
+    - make push-image TAG=$CI_PIPELINE_IID SERVICE_NAME=$CI_PROJECT_NAME PROJECT_NAME=$CI_PROJECT_NAMESPACE REGISTRY=$CI_REGISTRY ENV_TAG=latest
+  only:
+    - master
+
+
+deploy_image_master:
+  image: registry.uicgroup.tech/devops/docker:dind
+  stage: deploy_staging
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "$GITLAB_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+  script:
+    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_backend''
+    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_celery_beat''
+    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_celery_worker''
+  #  - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'docker exec $(docker ps --filter "name=global_edu_backend.*" --format "{{.Names}}" | head -n 1) python manage.py migrate'
+  only:
+    - master
