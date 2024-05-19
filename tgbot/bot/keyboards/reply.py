@@ -99,7 +99,7 @@ classes = ReplyKeyboardMarkup(
             KeyboardButton(text=_("11-sinf"))
         ],
         [
-            KeyboardButton(text="🔙 Orqaga"),
+            KeyboardButton(text=_("🔙 Orqaga")),
         ],
     ],
     resize_keyboard=True,
