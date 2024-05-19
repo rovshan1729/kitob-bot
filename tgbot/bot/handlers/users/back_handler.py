@@ -45,7 +45,7 @@ async def back_to_region(message: types.Message):
 
 
 @dp.message_handler(state=AdmissionState.school, text=_("🔙 Orqaga"))
-async def back_to_region(message: types.Message, state: FSMContext):
+async def back_to_district(message: types.Message, state: FSMContext):
     data = await state.get_data()
     lang = data.get("language")
     if not lang:
