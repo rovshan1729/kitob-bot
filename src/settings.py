@@ -30,7 +30,7 @@ LANGUAGES = (
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ALLOWED_HOSTS = ['globaledubot.uicgroup.tech', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -171,6 +171,5 @@ BACK_END_URL = env.str("BACK_END_URL", "https://d0d0-82-215-111-82.ngrok-free.ap
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = False
 CSRF_TRUSTED_ORIGINS = [
-    'https://globaledubot.uicgroup.tech',  # Add your domain here
-    'http://localhost:8000',  # Localhost for testing
+    'https://globaledubot.uicgroup.tech'
 ]
