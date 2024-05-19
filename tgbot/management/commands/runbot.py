@@ -13,4 +13,4 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS("Bot started"))
         for admin in settings.ADMINS:
             send_message(chat_id=admin, text="Bot ishga tushdi!")
-        executor.start_polling(dp)  # skip_updates=True
+        executor.start_polling(dp, skip_updates=True)
