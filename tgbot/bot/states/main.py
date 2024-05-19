@@ -61,3 +61,18 @@ class AdmissionState(StatesGroup):
     friend_is_data_correct = State()
 
     about_university = State()
+
+
+
+class OlimpicResultsState(StatesGroup):
+    olimpics = State()
+    olimpic = State()
+
+
+class OlimpicRatingState(StatesGroup):
+    olimpic = State()
+    region = State()
+    district = State()
+    school = State()
+    class_room = State()
+    rating = State()
