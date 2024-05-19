@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-19 02:26+0500\n"
+"POT-Creation-Date: 2024-05-19 18:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,72 +33,107 @@ msgstr ""
 #: bot/telegrambot.py:745 bot/telegrambot.py:1056 bot/telegrambot.py:1152
 #: bot/telegrambot.py:1209 bot/telegrambot.py:1239 bot/telegrambot.py:1271
 #: bot/telegrambot.py:1309 bot/telegrambot.py:1349 bot/telegrambot.py:1400
-#: tgbot/bot/keyboards/reply.py:20 tgbot/bot/keyboards/reply.py:28
-#: tgbot/bot/keyboards/reply.py:70 tgbot/bot/keyboards/reply.py:77
-#: tgbot/bot/keyboards/reply.py:84 tgbot/bot/keyboards/reply.py:91
+#: tgbot/bot/handlers/users/back_handler.py:14
+#: tgbot/bot/handlers/users/back_handler.py:20
+#: tgbot/bot/handlers/users/back_handler.py:26
+#: tgbot/bot/handlers/users/back_handler.py:33
+#: tgbot/bot/handlers/users/back_handler.py:47
+#: tgbot/bot/handlers/users/back_handler.py:61
+#: tgbot/bot/handlers/users/back_handler.py:77
+#: tgbot/bot/handlers/users/back_handler.py:83
+#: tgbot/bot/handlers/users/back_handler.py:96
+#: tgbot/bot/handlers/users/dynamic.py:19 tgbot/bot/keyboards/default.py:30
+#: tgbot/bot/keyboards/default.py:44 tgbot/bot/keyboards/default.py:80
+#: tgbot/bot/keyboards/default.py:115 tgbot/bot/keyboards/default.py:150
+#: tgbot/bot/keyboards/default.py:178 tgbot/bot/keyboards/default.py:246
+#: tgbot/bot/keyboards/default.py:255 tgbot/bot/keyboards/default.py:282
+#: tgbot/bot/keyboards/default.py:298 tgbot/bot/keyboards/default.py:356
+#: tgbot/bot/keyboards/default.py:369 tgbot/bot/keyboards/default.py:407
+#: tgbot/bot/keyboards/default.py:444 tgbot/bot/keyboards/default.py:475
+#: tgbot/bot/keyboards/reply.py:22 tgbot/bot/keyboards/reply.py:34
+#: tgbot/bot/keyboards/reply.py:46 tgbot/bot/keyboards/reply.py:58
+#: tgbot/bot/keyboards/reply.py:66 tgbot/bot/keyboards/reply.py:113
+#: tgbot/bot/keyboards/reply.py:121 tgbot/bot/keyboards/reply.py:129
+#: tgbot/bot/keyboards/reply.py:136 tgbot/bot/keyboards/reply.py:144
 msgid "🔙 Orqaga"
 msgstr ""
 
-#: bot/buttons/default.py:41 tgbot/bot/keyboards/reply.py:17
+#: bot/buttons/default.py:41 tgbot/bot/keyboards/default.py:41
+#: tgbot/bot/keyboards/reply.py:55
 msgid "📞 Telefon raqamni yuborish"
 msgstr ""
 
 #: bot/buttons/default.py:159 bot/buttons/default.py:467
-#: bot/telegrambot.py:1364 common/models.py:139 tgbot/bot/keyboards/reply.py:49
+#: bot/telegrambot.py:1364 common/models.py:139
+#: tgbot/bot/keyboards/default.py:159 tgbot/bot/keyboards/default.py:457
+#: tgbot/bot/keyboards/reply.py:87
 msgid "5-sinf"
 msgstr ""
 
 #: bot/buttons/default.py:160 bot/buttons/default.py:468
-#: bot/telegrambot.py:1365 common/models.py:140 tgbot/bot/keyboards/reply.py:52
+#: bot/telegrambot.py:1365 common/models.py:140
+#: tgbot/bot/keyboards/default.py:160 tgbot/bot/keyboards/default.py:458
+#: tgbot/bot/keyboards/reply.py:90
 msgid "6-sinf"
 msgstr ""
 
 #: bot/buttons/default.py:163 bot/buttons/default.py:471
-#: bot/telegrambot.py:1366 common/models.py:141 tgbot/bot/keyboards/reply.py:53
+#: bot/telegrambot.py:1366 common/models.py:141
+#: tgbot/bot/keyboards/default.py:163 tgbot/bot/keyboards/default.py:461
+#: tgbot/bot/keyboards/reply.py:91
 msgid "7-sinf"
 msgstr ""
 
 #: bot/buttons/default.py:164 bot/buttons/default.py:472
-#: bot/telegrambot.py:1367 common/models.py:142 tgbot/bot/keyboards/reply.py:56
+#: bot/telegrambot.py:1367 common/models.py:142
+#: tgbot/bot/keyboards/default.py:164 tgbot/bot/keyboards/default.py:462
+#: tgbot/bot/keyboards/reply.py:94
 msgid "8-sinf"
 msgstr ""
 
 #: bot/buttons/default.py:167 bot/buttons/default.py:475
-#: bot/telegrambot.py:1368 common/models.py:143 tgbot/bot/keyboards/reply.py:57
+#: bot/telegrambot.py:1368 common/models.py:143
+#: tgbot/bot/keyboards/default.py:167 tgbot/bot/keyboards/default.py:465
+#: tgbot/bot/keyboards/reply.py:95
 msgid "9-sinf"
 msgstr ""
 
 #: bot/buttons/default.py:168 bot/buttons/default.py:476
 #: bot/telegrambot.py:1369 common/models.py:144
+#: tgbot/bot/keyboards/default.py:168 tgbot/bot/keyboards/default.py:466
+#: tgbot/bot/keyboards/reply.py:98
 msgid "10-sinf"
 msgstr ""
 
 #: bot/buttons/default.py:171 bot/buttons/default.py:479
 #: bot/telegrambot.py:1370 common/models.py:145
+#: tgbot/bot/keyboards/default.py:171 tgbot/bot/keyboards/default.py:469
+#: tgbot/bot/keyboards/reply.py:99
 msgid "11-sinf"
 msgstr ""
 
 #: bot/buttons/default.py:188 bot/management/commands/bot.py:30
-#: bot/telegrambot.py:509 bot/views.py:73
+#: bot/telegrambot.py:509 bot/views.py:73 tgbot/bot/keyboards/default.py:188
 msgid "Olimpiadaga kirish"
 msgstr ""
 
 #: bot/buttons/default.py:189 bot/management/commands/bot.py:31
-#: bot/telegrambot.py:517 bot/views.py:74
+#: bot/telegrambot.py:517 bot/views.py:74 tgbot/bot/keyboards/default.py:189
 msgid "Olimpiada natijalarini ko’rish"
 msgstr ""
 
 #: bot/buttons/default.py:216 bot/management/commands/bot.py:32
-#: bot/telegrambot.py:524 bot/views.py:76
+#: bot/telegrambot.py:524 bot/views.py:76 tgbot/bot/keyboards/default.py:216
 msgid "Olimpiada reytingini ko’rish"
 msgstr ""
 
 #: bot/buttons/default.py:217 bot/management/commands/bot.py:33
-#: bot/telegrambot.py:532 bot/views.py:78
+#: bot/telegrambot.py:532 bot/views.py:78 tgbot/bot/keyboards/default.py:217
 msgid "Tilni alishtirish"
 msgstr ""
 
 #: bot/buttons/default.py:303 bot/telegrambot.py:763
+#: tgbot/bot/keyboards/default.py:293
 msgid "Testni boshlash"
 msgstr ""
 
@@ -106,16 +141,19 @@ msgstr ""
 #: bot/management/commands/bot.py:38 bot/management/commands/bot.py:119
 #: bot/management/commands/bot.py:123 bot/telegrambot.py:754 bot/views.py:71
 #: bot/views.py:83 bot/views.py:164 bot/views.py:168
+#: tgbot/bot/keyboards/default.py:310
 msgid "Bosh sahifa"
 msgstr ""
 
 #: bot/buttons/default.py:376 bot/telegrambot.py:1160
+#: tgbot/bot/keyboards/default.py:366
 msgid "Sertifikatni yuklab olish"
 msgstr ""
 
 #: bot/buttons/default.py:389 bot/buttons/default.py:427
 #: bot/buttons/default.py:464 bot/telegrambot.py:1280 bot/telegrambot.py:1318
-#: bot/telegrambot.py:1358
+#: bot/telegrambot.py:1358 tgbot/bot/keyboards/default.py:379
+#: tgbot/bot/keyboards/default.py:417 tgbot/bot/keyboards/default.py:454
 msgid "Reytingni ko'rish"
 msgstr ""
 
@@ -131,7 +169,7 @@ msgstr ""
 msgid "Chat not found"
 msgstr ""
 
-#: bot/models.py:31 bot/models.py:104 bot/models.py:155
+#: bot/models.py:31 bot/models.py:103 bot/models.py:154
 msgid "Telegram Bot"
 msgstr ""
 
@@ -151,7 +189,7 @@ msgstr ""
 msgid "Bith Day"
 msgstr ""
 
-#: bot/models.py:49 bot/models.py:157 common/models.py:84 olimpic/models.py:30
+#: bot/models.py:49 bot/models.py:156 common/models.py:84 olimpic/models.py:30
 msgid "Region"
 msgstr ""
 
@@ -159,11 +197,11 @@ msgstr ""
 msgid "District"
 msgstr ""
 
-#: bot/models.py:52 bot/models.py:159 olimpic/models.py:34
+#: bot/models.py:52 bot/models.py:160 olimpic/models.py:34
 msgid "School"
 msgstr ""
 
-#: bot/models.py:53 bot/models.py:160 olimpic/models.py:35
+#: bot/models.py:53 bot/models.py:161 olimpic/models.py:35
 msgid "Class Room"
 msgstr ""
 
@@ -179,73 +217,76 @@ msgstr ""
 msgid "Chat ID: -100000000 or Username: @username"
 msgstr ""
 
-#: bot/models.py:98 bot/models.py:99
+#: bot/models.py:97 bot/models.py:98
 msgid "Required Chats"
 msgstr ""
 
-#: bot/models.py:107
+#: bot/models.py:106
 msgid "Button Name"
 msgstr ""
 
-#: bot/models.py:108
+#: bot/models.py:107
 msgid "Button Text"
 msgstr ""
 
-#: bot/models.py:109
+#: bot/models.py:108
 msgid "Button Content"
 msgstr ""
 
-#: bot/models.py:117 olimpic/models.py:50 olimpic/models.py:102
-#: olimpic/models.py:137
+#: bot/models.py:109
+msgid "File ID"
+msgstr ""
+
+#: bot/models.py:117 olimpic/models.py:103 olimpic/models.py:138
 msgid "Invalid content"
 msgstr ""
 
-#: bot/models.py:144 bot/models.py:199 common/models.py:81 common/models.py:105
-#: common/models.py:132 olimpic/models.py:43 olimpic/models.py:133
+#: bot/models.py:143 bot/models.py:200 common/models.py:81 common/models.py:105
+#: common/models.py:132 olimpic/models.py:43 olimpic/models.py:134
 msgid "Title is required"
 msgstr ""
 
-#: bot/models.py:146 bot/models.py:202 olimpic/models.py:98
+#: bot/models.py:145 bot/models.py:203 olimpic/models.py:99
 msgid "Text is required"
 msgstr ""
 
-#: bot/models.py:149
+#: bot/models.py:148
 msgid "Telegram Button"
 msgstr ""
 
-#: bot/models.py:150
+#: bot/models.py:149
 msgid "Telegram Buttons"
 msgstr ""
 
-#: bot/models.py:156
+#: bot/models.py:155
 msgid "Users"
 msgstr ""
 
-#: bot/models.py:161 olimpic/models.py:28
+#: bot/models.py:162 olimpic/models.py:28
 msgid "Is All Users"
 msgstr ""
 
-#: bot/models.py:163
+#: bot/models.py:164
 msgid "Is Not Registered"
 msgstr ""
 
-#: bot/models.py:165
+#: bot/models.py:166
 msgid "Notification Title"
 msgstr ""
 
-#: bot/models.py:166
+#: bot/models.py:167
 msgid "Notification Text"
 msgstr ""
 
-#: bot/models.py:167
+#: bot/models.py:168
 msgid "Notification File Content"
 msgstr ""
 
-#: bot/models.py:205
+#: bot/models.py:206
 msgid "Notification"
 msgstr ""
 
-#: bot/models.py:206
+#: bot/models.py:207
 msgid "Notifications"
 msgstr ""
 
@@ -271,7 +312,7 @@ msgid "Выберите язык/Tilni tanlash/Choose language"
 msgstr ""
 
 #: bot/telegrambot.py:49 bot/telegrambot.py:146 bot/telegrambot.py:250
-#: bot/telegrambot.py:263 tgbot/bot/handlers/users/start.py:136
+#: bot/telegrambot.py:263 tgbot/bot/handlers/users/back_handler.py:16
 msgid "Familiya, Ism va Sharifingizni kiriting"
 msgstr ""
 
@@ -281,8 +322,8 @@ msgid "Telefon raqamingizni yuboring"
 msgstr ""
 
 #: bot/telegrambot.py:65 bot/telegrambot.py:273 bot/telegrambot.py:315
-#: bot/telegrambot.py:329 tgbot/bot/handlers/users/start.py:147
-#: tgbot/bot/handlers/users/start.py:175
+#: bot/telegrambot.py:329 tgbot/bot/handlers/users/back_handler.py:28
+#: tgbot/bot/handlers/users/start.py:165
 msgid ""
 "Tug'ilgan kuningizni kiriting.\n"
 "Format 15.01.1990"
@@ -293,8 +334,8 @@ msgid "Viloyatni tanlang"
 msgstr ""
 
 #: bot/telegrambot.py:81 bot/telegrambot.py:344 bot/telegrambot.py:408
-#: tgbot/bot/handlers/users/start.py:191 tgbot/bot/handlers/users/start.py:226
-#: tgbot/bot/handlers/users/start.py:236
+#: tgbot/bot/handlers/users/back_handler.py:57
+#: tgbot/bot/handlers/users/start.py:209 tgbot/bot/handlers/users/start.py:244
 msgid "Tuman yoki shaharni tanlang"
 msgstr ""
 
@@ -534,7 +575,7 @@ msgstr ""
 msgid "Key"
 msgstr ""
 
-#: common/models.py:29 olimpic/models.py:88
+#: common/models.py:29 olimpic/models.py:89
 msgid "Text"
 msgstr ""
 
@@ -622,12 +663,8 @@ msgstr ""
 msgid "Not Answered"
 msgstr ""
 
-#: olimpic/admin.py:62 olimpic/admin.py:93
+#: olimpic/admin.py:93
 msgid "This field is required."
-msgstr ""
-
-#: olimpic/admin.py:65
-msgid "Image size must be 1582x1172."
 msgstr ""
 
 #: olimpic/models.py:18
@@ -650,86 +687,133 @@ msgstr ""
 msgid "Certificate Generate"
 msgstr ""
 
-#: olimpic/models.py:46
-msgid "Description is required"
-msgstr ""
-
-#: olimpic/models.py:89
+#: olimpic/models.py:90
 msgid "Duration (seconds)"
 msgstr ""
 
-#: tgbot/bot/handlers/users/main.py:8
-msgid "🌐 Tilni o'zgartirish"
-msgstr "🌐 Изменить язык"
-
-#: tgbot/bot/handlers/users/main.py:10
-msgid "Tilni o'zgartirishingiz mumkin"
-msgstr ""
-
-#: tgbot/bot/handlers/users/main.py:16
-msgid "Main menyu ishlayapti!"
-msgstr ""
-
-#: tgbot/bot/handlers/users/start.py:116
-msgid "Bosh menyu"
-msgstr ""
-
-#: tgbot/bot/handlers/users/start.py:127 tgbot/bot/handlers/users/start.py:156
+#: tgbot/bot/handlers/users/back_handler.py:22
+#: tgbot/bot/handlers/users/start.py:151
 msgid "Telefon raqamingizni quyidagi tugmani bosgan holda yuboring."
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:131
-msgid "Faqat Text Formatda Kamida 2ta so'z bilan yozing"
-msgstr ""
-
-#: tgbot/bot/handlers/users/start.py:144
-msgid "Pastdagi tugma orqali raqamingizni yuboring"
-msgstr ""
-
-#: tgbot/bot/handlers/users/start.py:151
-msgid "📲 Iltimos Raqamni Yuborish Tugmasini Bosing"
-msgstr ""
-
-#: tgbot/bot/handlers/users/start.py:166 tgbot/bot/handlers/users/start.py:195
-#: tgbot/bot/handlers/users/start.py:203
+#: tgbot/bot/handlers/users/back_handler.py:43
+#: tgbot/bot/handlers/users/start.py:184 tgbot/bot/handlers/users/start.py:214
 msgid "Viloyatingizni tanlang"
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:170
-msgid "Tug'ilgan Sanangizni To'g'ri Formatda Kiriting.Masalan :16.07.2002"
-msgstr ""
-
-#: tgbot/bot/handlers/users/start.py:197 tgbot/bot/handlers/users/start.py:229
-msgid "Iltimos To'g'ri Formatda Kiriting (16.07.2002)"
-msgstr ""
-
-#: tgbot/bot/handlers/users/start.py:218 tgbot/bot/handlers/users/start.py:256
-#: tgbot/bot/handlers/users/start.py:267
+#: tgbot/bot/handlers/users/back_handler.py:73
+#: tgbot/bot/handlers/users/start.py:237 tgbot/bot/handlers/users/start.py:274
 msgid "Maktabingizni tanlang"
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:248
-msgid "Sinfingizni Tanlang"
+#: tgbot/bot/handlers/users/back_handler.py:79
+#: tgbot/bot/handlers/users/main.py:20
+msgid "Tilni o'zgartirishingiz mumkin"
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:258 tgbot/bot/handlers/users/start.py:307
-msgid "Iltimos Tugmalardan Birini Tanlang"
+#: tgbot/bot/handlers/users/back_handler.py:92
+#: tgbot/bot/handlers/users/main.py:128
+msgid "Main menyudasiz!"
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:277
-msgid "Qabul Qilindi"
+#: tgbot/bot/handlers/users/back_handler.py:106
+#: tgbot/bot/handlers/users/main.py:45
+msgid "Olimpiadalar bilan tanishing"
 msgstr ""
 
-#: tgbot/bot/keyboards/reply.py:7
+#: tgbot/bot/handlers/users/dynamic.py:47
+#: tgbot/bot/handlers/users/dynamic.py:50
+#: tgbot/bot/handlers/users/dynamic.py:53
+msgid "Bosh menyu!"
+msgstr ""
+
+#: tgbot/bot/handlers/users/dynamic.py:114
+msgid "Bunday tugma mavjud emas!"
+msgstr ""
+
+#: tgbot/bot/handlers/users/main.py:18 tgbot/bot/keyboards/reply.py:14
+msgid "🌐 Tilni o'zgartirish"
+msgstr "🌐 Изменить язык"
+
+#: tgbot/bot/handlers/users/main.py:24 tgbot/bot/keyboards/reply.py:11
 msgid "🏆 Olimpiadalar 🏆"
 msgstr ""
 
-#: tgbot/bot/keyboards/reply.py:7
+#: tgbot/bot/handlers/users/main.py:61
+msgid "Iltimos Tugmalardan birini Tanlang!"
+msgstr ""
+
+#: tgbot/bot/handlers/users/main.py:89 tgbot/bot/handlers/users/main.py:112
+#: tgbot/bot/handlers/users/main.py:114
+msgid "Olimpiada mavjud emas!"
+msgstr ""
+
+#: tgbot/bot/handlers/users/main.py:92 tgbot/bot/keyboards/reply.py:43
+msgid "▶️ Testni boshlash"
+msgstr ""
+
+#: tgbot/bot/handlers/users/main.py:104
+msgid "Test boshlandi"
+msgstr ""
+
+#: tgbot/bot/handlers/users/main.py:110
+msgid "Hozircha testlar mavjud emas!"
+msgstr ""
+
+#: tgbot/bot/handlers/users/main.py:126 tgbot/bot/keyboards/reply.py:31
+msgid "🏠 Asosiy menyu"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:138
+msgid ""
+"Siz qilgan o'zgarishlar saqlandi, iltimos botni /start bosib qayta ishga "
+"tushiring"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:155
+msgid "Faqat Text Formatda Kamida 2ta so'z bilan yozing"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:162
+msgid "Pastdagi tugma orqali raqamingizni yuboring"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:169
+msgid "📲 Iltimos Raqamni Yuborish Tugmasini Bosing"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:188
+msgid "Tug'ilgan Sanangizni To'g'ri Formatda Kiriting.Masalan :16.07.2002"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:216 tgbot/bot/handlers/users/start.py:248
+msgid "Iltimos To'g'ri Formatda Kiriting (16.07.2002)"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:259
+msgid "Sinfingizni Tanlang"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:276 tgbot/bot/handlers/users/start.py:320
+msgid "Iltimos Tugmalardan Birini Tanlang"
+msgstr ""
+
+#: tgbot/bot/handlers/users/start.py:317
+msgid "Ma'lumotlaringiz qabul qilindi"
+msgstr ""
+
+#: tgbot/bot/keyboards/reply.py:11
 msgid "📈 Natijalar 📉"
 msgstr ""
 
-#: tgbot/bot/keyboards/reply.py:8
+#: tgbot/bot/keyboards/reply.py:14
 msgid "🔝 Reyting 📊"
+msgstr ""
+
+#: tgbot/bot/middlewares/checksub.py:28
+msgid ""
+"Quyidagi kanallarga obuna bo'lishingiz kerak, pastdagi tugmalar ustiga "
+"bosing ⬇️"
 msgstr ""
 
 #: utils/decorators.py:52
