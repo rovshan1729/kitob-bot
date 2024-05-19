@@ -30,7 +30,7 @@ LANGUAGES = (
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ALLOWED_HOSTS = ['https://globaledubot.uicgroup.tech', 'localhost']
+ALLOWED_HOSTS = ['globaledubot.uicgroup.tech', 'localhost']
 
 # Application definition
 
