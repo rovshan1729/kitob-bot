@@ -175,16 +175,19 @@ class UserOlimpic(BaseModel):
 
 class UserQuestion(BaseModel):
     olimpic = models.ForeignKey(Olimpic, models.CASCADE, related_name="user_questions")
+    user_olimpic = models.ForeignKey(UserOlimpic, models.CASCADE, related_name="user_questions", null=True)
     user = models.ForeignKey("bot.TelegramProfile", models.CASCADE, related_name="user_questions")
     question = models.ForeignKey(Question, models.CASCADE, related_name="user_questions")
 
     is_sent = models.BooleanField(default=False, db_index=True)
     is_answered = models.BooleanField(default=False, db_index=True)
-
     is_correct = models.BooleanField(default=False, db_index=True)
 
     message_id = models.PositiveBigIntegerField(default=0)
     content_message_id = models.PositiveBigIntegerField(default=0)
+    poll_id = models.CharField(null=True, blank=True, db_index=True)
+    options = models.ManyToManyField(Option, related_name="user_questions")
+    user_option = models.ForeignKey(Option, models.CASCADE, related_name="user_options", null=True)
     task_id = models.CharField(max_length=255, null=True, blank=True)
     next_task_id = models.CharField(max_length=255, null=True, blank=True)
 
