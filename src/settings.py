@@ -158,9 +158,9 @@ os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 # Example Redis credentials
 # In production, replace these with secure environment variables or a configuration file
-REDIS_HOST = 'localhost'  # Redis server host
-REDIS_PORT = 6379  # Redis server port
-REDIS_DB = 0  # Database index
+REDIS_HOST = env.str("REDIS_HOST")
+REDIS_PORT = env.str("REDIS_PORT")
+REDIS_DB = env.str("REDIS_DB")
 
 I18N_DOMAIN = "django"
 LOCALES_DIR = BASE_DIR / "locale"
