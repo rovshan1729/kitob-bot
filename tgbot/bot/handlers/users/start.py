@@ -45,18 +45,11 @@ async def do_start(message: types.Message, state: FSMContext):
             reply_markup=languages_markup)
         await AdmissionState.full_name.set()
     else:
-        await message.answer("Bosh menyu", reply_markup=main_markup(lang))
+        await message.answer(_("Bosh menyu"), reply_markup=main_markup(lang))
 
 
 @dp.message_handler(CommandStart(), state="*")
 async def bot_start(message: types.Message, state: FSMContext):
-    data = await state.get_data()
-    lang = data.get("language")
-    if not lang:
-        user = get_user(message.from_user.id)
-        if user:
-            lang = user.language
-
     await state.finish()
 
     final_status, chat_ids = await get_result(user_id=message.from_user.id)
@@ -78,7 +71,13 @@ async def bot_start(message: types.Message, state: FSMContext):
 
 @dp.callback_query_handler(text="check_subs")
 async def checker(call: types.CallbackQuery, state: FSMContext):
-    # await call.answer()
+    data = await state.get_data()
+    lang = data.get("language")
+    if not lang:
+        user = get_user(call.message.from_user.id)
+        if user:
+            lang = user.language
+
     final_status, chat_ids = await get_result(user_id=call.from_user.id)
     if final_status:
         data = await state.get_data()
@@ -100,16 +99,17 @@ async def checker(call: types.CallbackQuery, state: FSMContext):
                 reply_markup=languages_markup)
             await AdmissionState.full_name.set()
         else:
-            await call.message.answer("Bosh menyu", reply_markup=main_markup(lang))
+            await call.message.answer(_("Bosh menyu"), reply_markup=main_markup(lang))
     else:
         reply_markup = await get_check_button(chat_ids)
         if not reply_markup:
             await call.message.delete()
+            await call.answer(_("Barcha kanallarga obuna bo'ldingiz!"))
         else:
             try:
                 await call.message.edit_reply_markup(reply_markup=reply_markup)
             except MessageNotModified:
-                await call.answer("Siz obuna bo'lmagan kanallar mavjud!", show_alert=True)
+                await call.answer(_("Siz obuna bo'lmagan kanallar mavjud!"), show_alert=True)
 
 
 @dp.message_handler(state=AdmissionState.change_language)

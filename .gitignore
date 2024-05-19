@@ -165,3 +165,5 @@ media/
 
 # Redis
 dump.rdb
+
+.DS_Store

@@ -26,8 +26,9 @@ deploy_image_master:
     - chmod 700 ~/.ssh
   script:
     - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_backend''
+    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_bot''
     - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_celery_beat''
     - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_celery_worker''
-  #  - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'docker exec $(docker ps --filter "name=global_edu_backend.*" --format "{{.Names}}" | head -n 1) python manage.py migrate'
+    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'docker exec $(docker ps --filter "name=global_edu_backend.*" --format "{{.Names}}" | head -n 1) python manage.py migrate'
   only:
     - master
