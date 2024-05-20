@@ -50,11 +50,15 @@ async def get_result(message: types.Message, state: FSMContext):
         await OlimpicResultsState.olimpics.set()
         return
     olympic = queryset.first()
-    is_end_time = olympic.end_time > timezone.now()
+
+    end_date_time = timezone.template_localtime(olympic.end_time)
+    now_time = timezone.template_localtime(timezone.now())
+    is_end_time = end_date_time > now_time
     markup = await get_result_markup(not is_end_time)
+
     if is_end_time:
         await message.answer(
-            _("Natija {end_time} vaqtda e'lon qilinadi".format(end_time=olympic.end_time.strftime("%d.%m.%Y %H:%M"))),
+            _("Natija {end_time} vaqtda e'lon qilinadi".format(end_time=end_date_time.strftime("%d.%m.%Y %H:%M"))),
             reply_markup=markup
         )
         await OlimpicResultsState.olimpic.set()
@@ -64,7 +68,7 @@ async def get_result(message: types.Message, state: FSMContext):
         olimpic=olympic,
         correct_answers__isnull=False,
         wrong_answers__isnull=False,
-        not_answered__isnull=False,
+        # not_answered__isnull=False,
         olimpic_duration__isnull=False,
     ).order_by("-correct_answers", "wrong_answers", "not_answered", "olimpic_duration").select_related("user")
 
@@ -93,7 +97,7 @@ async def get_result(message: types.Message, state: FSMContext):
             full_name=result.user.full_name,
             correct_answers=result.correct_answers,
             wrong_answers=result.wrong_answers,
-            not_answered=result.not_answered,
+            not_answered=result.not_answered or '',
             olimpic_duration=result.olimpic_duration,
         )
 
@@ -106,7 +110,7 @@ async def get_result(message: types.Message, state: FSMContext):
             full_name=user_result.user.full_name,
             correct_answers=user_result.correct_answers,
             wrong_answers=user_result.wrong_answers,
-            not_answered=user_result.not_answered,
+            not_answered=user_result.not_answered or '',
             olimpic_duration=user_result.olimpic_duration,
         )
 

@@ -26,12 +26,23 @@ from django.db.models import Q
 
 async def olimpi_rating_func(tg_id, olimpic, region, district, school, class_room):
     olympic = Olimpic.objects.get(id=olimpic)
+    start_date_time = timezone.template_localtime(olympic.start_time)
+    end_date_time = timezone.template_localtime(olympic.end_time)
+    now_time = timezone.template_localtime(timezone.now())
+
+    if now_time < start_date_time:
+        return _("Olimpiada boshlanmadi")
+
+    if now_time < end_date_time:
+        return _("Natija {end_time} vaqtda e'lon qilinadi").format(end_time=timezone.template_localtime(olympic.end_time).strftime("%d.%m.%Y %H:%M"))
+
     results = UserOlimpic.objects.filter(
         olimpic=olympic,
         correct_answers__isnull=False,
         wrong_answers__isnull=False,
-        not_answered__isnull=False,
+        end_time__isnull=False,
         olimpic_duration__isnull=False,
+        # not_answered__isnull=False,
     ).order_by("-correct_answers", "wrong_answers", "not_answered", "olimpic_duration").select_related("user")
 
     if region is not None:
@@ -65,7 +76,7 @@ async def olimpi_rating_func(tg_id, olimpic, region, district, school, class_roo
             full_name=result.user.full_name,
             correct_answers=result.correct_answers,
             wrong_answers=result.wrong_answers,
-            not_answered=result.not_answered,
+            not_answered=result.not_answered or '',
             olimpic_duration=result.olimpic_duration,
         )
 
@@ -78,7 +89,7 @@ async def olimpi_rating_func(tg_id, olimpic, region, district, school, class_roo
             full_name=user_result.user.full_name,
             correct_answers=user_result.correct_answers,
             wrong_answers=user_result.wrong_answers,
-            not_answered=user_result.not_answered,
+            not_answered=user_result.not_answered or '',
             olimpic_duration=user_result.olimpic_duration,
         )
 
@@ -358,67 +369,9 @@ async def olimpic_rating(message: types.Message, state: FSMContext):
         return
 
 
-    olympic = Olimpic.objects.get(id=data.get("olimpic_id"))
-    results = UserOlimpic.objects.filter(
-        olimpic=olympic,
-        correct_answers__isnull=False,
-        wrong_answers__isnull=False,
-        not_answered__isnull=False,
-        olimpic_duration__isnull=False,
-    ).order_by("-correct_answers", "wrong_answers", "not_answered", "olimpic_duration").select_related("user")
-
-    if region is not None:
-        results = results.filter(user__region=region)
-
-    if district is not None:
-        results = results.filter(user__district=district)
-
-    if school is not None:
-        results = results.filter(user__school=school)
-
-    if class_room is not None:
-        results = results.filter(user__class_room=class_room)
-    if not results:
-        await message.answer(
-            _("Natijalar topilmadi"),
-            reply_markup=await get_result_markup(False),
-            parse_mode="HTML",
-        )
-        await OlimpicRatingState.class_room.set()
-        return
-
-    text = _("<b>{}</b> - Natijalari\n\n").format(olympic.title)
-
-    user_result = results.filter(user__telegram_id=message.from_user.id).first()
-    query_result = list(results)
-
-    if not user_result:
-        text += _("Siz bu olimpiadada ishtirok etmadingiz\n\n")
-
-    for result in results[:10]:
-        text += _(
-            "{index}) {full_name} - {correct_answers} - {wrong_answers} - {not_answered} - {olimpic_duration}\n"
-        ).format(
-            index=query_result.index(result) + 1,
-            full_name=result.user.full_name,
-            correct_answers=result.correct_answers,
-            wrong_answers=result.wrong_answers,
-            not_answered=result.not_answered,
-            olimpic_duration=result.olimpic_duration,
-        )
-
-    if user_result and user_result not in results[:10]:
-        text += _("---------------------")
-        text += _(
-            "\n{index}) {full_name} - {correct_answers}/{wrong_answers}/{not_answered} - {olimpic_duration}\n"
-        ).format(
-            index=query_result.index(user_result) + 1,
-            full_name=user_result.user.full_name,
-            correct_answers=user_result.correct_answers,
-            wrong_answers=user_result.wrong_answers,
-            not_answered=user_result.not_answered,
-            olimpic_duration=user_result.olimpic_duration,
-        )
+    text = await olimpi_rating_func(message.from_user.id, data.get("olimpic_id"), data.get("region"),
+                                    data.get("district"), data.get("school"),
+                                    message.text)
 
     await message.answer(text, reply_markup=await rating_back(), parse_mode="HTML")
     # await OlimpicRatingState.rating.set()
