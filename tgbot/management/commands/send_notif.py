@@ -13,7 +13,7 @@ class Command(BaseCommand):
                 "/start ni bosing va 🏆Olimpiadalar🏆 bo'limidan test topshiring va sovg'alaringizni yutib oling! "
                 "Murojaat: @roboteachhelp")
         success_count = failed_count = 0
-        users = User.objects.filter(class_room__in=["5-sinf", "6-sinf", "7-sinf"])
+        users = User.objects.filter(class_room__in=["8-sinf", "9-sinf"])
         self.stdout.write(self.style.SUCCESS("Xabar yuborish boshlandi"))
         for user in users:
             response = send_message(chat_id=user.telegram_id, text=text)
