@@ -52,10 +52,6 @@ async def choose_olympiad(message: types.Message, state: FSMContext):
 
     if queryset.exists():
         olympic = queryset.first()
-        user_olympic = UserOlimpic.objects.filter(user=tg_user, olimpic=olympic).exists()
-        if user_olympic:
-            await message.answer(_("Siz oldin bu olimpiadada ishtirok qilgansiz"))
-            return
         if (
                 (olympic.region and olympic.region != tg_user.region) or
                 (olympic.district and olympic.district != tg_user.district) or
@@ -168,12 +164,16 @@ async def start_test(message: types.Message, state: FSMContext):
     if current_olympic_id:
         olympic = Olimpic.objects.filter(id=current_olympic_id).first()
         if olympic:
+            user = get_user(message.from_user.id)
+            user_olympic = UserOlimpic.objects.filter(user=user, olimpic=olympic).exists()
+            if user_olympic:
+                await message.answer(_("Siz oldin bu olimpiadada ishtirok qilgansiz"))
+                return
             if olympic.start_time > timezone.now():
                 await message.answer(f"Test boshlanish sanasi: {olympic.start_time.strftime('%d-%m-%Y %H:%M')}")
             else:
                 questions = Question.objects.filter(olimpic=olympic).order_by('?')
                 if questions:
-                    user = get_user(message.from_user.id)
                     await message.answer(
                         _("Test boshlandi, agar savolga javob bera olmasangiz savol tagidagi tugma orqali keyigisiga o'tkazib yuborishingiz mumkin ⬇️"),
                         reply_markup=test_skip_markup())
