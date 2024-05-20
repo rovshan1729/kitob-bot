@@ -103,6 +103,17 @@ async def back_olympics(message: types.Message, state: FSMContext):
         user = get_user(message.from_user.id)
         if user:
             lang = user.language
+    olympics = Olimpic.objects.filter(is_active=True, end_time__gte=timezone.now()).order_by('start_time', 'end_time')
+    if olympics.filter(region__isnull=False).exists():
+        olympics = olympics.filter(Q(region=tg_user.region) | Q(region__isnull=True))
+    if olympics.filter(district__isnull=False).exists():
+        olympics = olympics.filter(Q(district=tg_user.district) | Q(district__isnull=True))
+    if olympics.filter(school__isnull=False).exists():
+        olympics = olympics.filter(Q(school_id=tg_user.school_id) | Q(school__isnull=True))
+    if olympics.filter(class_room__isnull=False).exists():
+        olympics = olympics.filter(Q(class_room=tg_user.class_room) | Q(class_room__isnull=True))
+
+
     olympics = Olimpic.objects.filter(is_active=True).order_by('start_time', 'end_time')
 
     if olympics.filter(region__isnull=False).exists():

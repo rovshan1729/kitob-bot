@@ -85,10 +85,10 @@ class BigBrother(BaseMiddleware):
         if not final_status:
             if reply_markup:
                 await update.message.answer(
-                    "Quyidagi kanallarga obuna bo'lishingiz kerak, pastdagi tugmalar ustiga bosing ⬇️",
+                    _("Quyidagi kanallarga obuna bo'lishingiz kerak, pastdagi tugmalar ustiga bosing ⬇️"),
                     reply_markup=reply_markup, disable_web_page_preview=True)
             else:
-                await update.message.answer("Ba'zi kanallarga obuna bo'lmagansiz")
+                await update.message.answer(_("🛑 Ba'zi kanallarga obuna bo'lmagansiz"))
             raise CancelHandler()
 
 
