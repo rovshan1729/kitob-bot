@@ -90,11 +90,22 @@ async def olimpi_rating_func(tg_id, olimpic, region, district, school, class_roo
 async def get_results(message: types.Message, state: FSMContext):
     data = await state.get_data()
     lang = data.get("language")
+    tg_user = get_user(message.from_user.id)
     if not lang:
         user = get_user(message.from_user.id)
         if user:
             lang = user.language
     olympics = Olimpic.objects.filter(is_active=True).order_by('start_time', 'end_time')
+
+    if olympics.filter(region__isnull=False).exists():
+        olympics = olympics.filter(Q(region=tg_user.region) | Q(region__isnull=True))
+    if olympics.filter(district__isnull=False).exists():
+        olympics = olympics.filter(Q(district=tg_user.district) | Q(district__isnull=True))
+    if olympics.filter(school__isnull=False).exists():
+        olympics = olympics.filter(Q(school_id=tg_user.school_id) | Q(school__isnull=True))
+    if olympics.filter(class_room__isnull=False).exists():
+        olympics = olympics.filter(Q(class_room=tg_user.class_room) | Q(class_room__isnull=True))
+
     markup = await get_olympics_markup(olympics, language=lang)
     await message.answer(_("Olimpiadalardan birini tanlang"), reply_markup=markup)
     await OlimpicRatingState.olimpic.set()
@@ -138,7 +149,19 @@ async def get_resgions(message: types.Message, state: FSMContext):
 async def get_districts(message: types.Message, state: FSMContext):
     if message.text == _("🔙 Orqaga"):
         await state.update_data({"olimpic_id": None})
-        await message.answer(_("Olimpiadalardan birini tanlang"), reply_markup=await get_olympics_markup(Olimpic.objects.filter(is_active=True).order_by('start_time', 'end_time')))
+        tg_user = get_user(message.from_user.id)
+        olympics = Olimpic.objects.filter(is_active=True).order_by('start_time', 'end_time')
+
+        if olympics.filter(region__isnull=False).exists():
+            olympics = olympics.filter(Q(region=tg_user.region) | Q(region__isnull=True))
+        if olympics.filter(district__isnull=False).exists():
+            olympics = olympics.filter(Q(district=tg_user.district) | Q(district__isnull=True))
+        if olympics.filter(school__isnull=False).exists():
+            olympics = olympics.filter(Q(school_id=tg_user.school_id) | Q(school__isnull=True))
+        if olympics.filter(class_room__isnull=False).exists():
+            olympics = olympics.filter(Q(class_room=tg_user.class_room) | Q(class_room__isnull=True))
+
+        await message.answer(_("Olimpiadalardan birini tanlang"), reply_markup=await get_olympics_markup(olympics))
         await OlimpicRatingState.olimpic.set()
         return
 
