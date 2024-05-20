@@ -1,13 +1,10 @@
 from aiogram import types
-from aiogram.dispatcher.filters.builtin import CommandHelp
+from aiogram.dispatcher.filters.builtin import Command
 
 from tgbot.bot.loader import dp
 
 
-@dp.message_handler(CommandHelp())
+@dp.message_handler(Command("yordam"), state="*")
 async def bot_help(message: types.Message):
-    text = ("Buyruqlar: ",
-            "/start - Botni ishga tushirish",
-            "/help - Yordam")
-    
-    await message.answer("\n".join(text))
+    text = "Savollaringiz yoki takliflaringiz bo'lsa, ➡️ @roboteachhelp ⬅️ga murojaat qiling!"
+    await message.answer(text)

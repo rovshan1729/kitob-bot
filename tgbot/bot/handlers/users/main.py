@@ -1,8 +1,8 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from tgbot.bot.keyboards.inline import languages_markup
-from tgbot.bot.keyboards.reply import main_markup, get_olympics_markup, start_olympic_markup
-from tgbot.bot.states.main import AdmissionState, OlympiadState
+from tgbot.bot.keyboards.inline import languages_markup, test_skip_inline
+from tgbot.bot.keyboards.reply import main_markup, get_olympics_markup, start_olympic_markup, test_skip_markup
+from tgbot.bot.states.main import AdmissionState, OlympiadState, MainState
 from olimpic.models import Olimpic, Question, UserOlimpic, UserQuestion, Option
 from tgbot.bot.utils import get_user
 from tgbot.bot.loader import dp, bot, gettext as _
@@ -102,7 +102,7 @@ async def send_next_poll(olympic: Olimpic, user_olimpic: UserOlimpic, user: Tele
                                            question=f"[{len(list(user_questions)) + 1} / {olympic.questions.count()}]. {question.text}",
                                            options=[option.title for option in option_variants],
                                            open_period=question.duration, is_anonymous=False,
-                                           protect_content=True)
+                                           protect_content=True, reply_markup=test_skip_inline())
         user_question = UserQuestion.objects.create(olimpic=olympic, user_olimpic=user_olimpic, user=user,
                                                     question=question, is_sent=True,
                                                     poll_id=str(poll_message.poll.id),
@@ -157,7 +157,9 @@ async def start_test(message: types.Message, state: FSMContext):
                 questions = Question.objects.filter(olimpic=olympic).order_by('?')
                 if questions:
                     user = get_user(message.from_user.id)
-                    await message.answer(_("Test boshlandi"), reply_markup=types.ReplyKeyboardRemove())
+                    await message.answer(
+                        _("Test boshlandi, agar savolga javob bera olmasangiz savol tagidagi tugma orqali keyigisiga o'tkazib yuborishingiz mumkin ⬇️"),
+                        reply_markup=test_skip_markup())
                     start_time = timezone.now()
                     user_olympic = UserOlimpic.objects.create(user=user, olimpic=olympic, start_time=start_time)
                     question = questions.first()
@@ -181,8 +183,8 @@ async def start_test(message: types.Message, state: FSMContext):
                         question=f"[1 / {olympic.questions.count()}]. {question.text}",
                         options=[option.title for option in option_variants],
                         open_period=question.duration, is_anonymous=False,
-                        protect_content=True)
-                    # await state.update_data({"current_poll_id": poll_message.poll.id})
+                        protect_content=True, reply_markup=test_skip_inline())
+                    await state.update_data({"olympic_id": olympic.id, "user_olympic_id": user_olympic.id})
                     user_question = UserQuestion.objects.create(olimpic=olympic, user_olimpic=user_olympic, user=user,
                                                                 question=question, is_sent=True,
                                                                 poll_id=str(poll_message.poll.id),
@@ -196,6 +198,59 @@ async def start_test(message: types.Message, state: FSMContext):
             await message.answer(_("Olimpiada mavjud emas!"))
     else:
         await message.answer(_("Olimpiada mavjud emas!"))
+
+
+@dp.callback_query_handler(text="skip_test", state=OlympiadState.test)
+async def skip_test(call: types.CallbackQuery, state: FSMContext):
+    data = await state.get_data()
+    olympic_id = data.get("olympic_id")
+    user_olympic_id = data.get("user_olympic_id")
+    user = get_user(call.from_user.id)
+    if olympic_id and user_olympic_id:
+        last_question = UserQuestion.objects.filter(user=user, olimpic_id=olympic_id,
+                                                    user_olimpic_id=user_olympic_id).last()
+    else:
+        last_question = UserQuestion.objects.filter(user=user).last()
+    if last_question:
+        try:
+            user_id = last_question.user.telegram_id
+            if last_question.message_id:
+                await bot.delete_message(user_id, last_question.message_id)
+            if last_question.question.image or last_question.question.file_content:
+                await bot.delete_message(user_id, last_question.content_message_id)
+        except Exception as e:
+            print(e)
+        # send another poll if olympic questions is not finished
+        await send_next_poll(olympic=last_question.olimpic, user_olimpic=last_question.user_olimpic, user=user)
+
+
+@dp.message_handler(text=_("🏁 Yakunlash"), state=OlympiadState.test)
+async def finished_test(message: types.Message, state: FSMContext):
+    await message.delete()
+    data = await state.get_data()
+    lang = data.get("language")
+    user = get_user(message.from_user.id)
+    if not lang and user:
+        lang = user.language
+    olympic_id = data.get("olympic_id")
+    user_olympic_id = data.get("user_olympic_id")
+    user = get_user(message.from_user.id)
+    if olympic_id and user_olympic_id:
+        last_question = UserQuestion.objects.filter(user=user, olimpic_id=olympic_id,
+                                                    user_olimpic_id=user_olympic_id).last()
+    else:
+        last_question = UserQuestion.objects.filter(user=user).last()
+    if last_question:
+        try:
+            user_id = last_question.user.telegram_id
+            if last_question.message_id:
+                await bot.delete_message(user_id, last_question.message_id)
+            if last_question.question.image or last_question.question.file_content:
+                await bot.delete_message(user_id, last_question.content_message_id)
+        except Exception as e:
+            print(e)
+    await message.answer(_("Bosh menyu"), reply_markup=main_markup(lang))
+    await MainState.main.set()
 
 
 @dp.poll_answer_handler()
