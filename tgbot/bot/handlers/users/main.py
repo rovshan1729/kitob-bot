@@ -156,7 +156,7 @@ async def start_test(message: types.Message, state: FSMContext):
         olympic = Olimpic.objects.filter(id=current_olympic_id).first()
         if olympic:
             if olympic.start_time > timezone.now():
-                await message.answer(f"Test boshlanish sanasi: {olympic.start_time}")
+                await message.answer(f"Test boshlanish sanasi: {olympic.start_time.strftime('%d-%m-%Y %H:%M')}")
             else:
                 questions = Question.objects.filter(olimpic=olympic).order_by('?')
                 if questions:
