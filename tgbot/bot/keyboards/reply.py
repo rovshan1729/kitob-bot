@@ -5,6 +5,13 @@ from bot.models import TelegramButton
 from utils.bot import get_object_value
 
 
+def test_skip_markup():
+    markup = ReplyKeyboardMarkup(resize_keyboard=True)
+    # markup.add(KeyboardButton(text=_("➡️ O'tkazib yuborish")))
+    markup.add(KeyboardButton(text=_("🏁 Yakunlash")))
+    return markup
+
+
 def main_markup(language="uz"):
     button_obj = TelegramButton.objects.filter(parent=None)
     button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)

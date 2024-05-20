@@ -3,6 +3,7 @@ from aiogram.types.chat_member import ChatMemberStatus
 from django.conf import settings
 from tgbot.bot.loader import bot
 from bot.models import RequiredGroup
+from tgbot.bot.loader import gettext as _
 
 languages_markup = ReplyKeyboardMarkup(
     keyboard=[
@@ -56,3 +57,10 @@ async def get_required_chats_markup(required_chats, user_id):
         InlineKeyboardButton(text=_("Obuna bo'ldim/Qo'shildim"), callback_data="subscribed")
     ])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
+
+def test_skip_inline():
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=_("➡️ O'tkazib yuborish"), callback_data="skip_test")],
+        # [InlineKeyboardButton(text=_("🏁 Yakunlash"), callback_data="finished")]
+    ])
