@@ -350,8 +350,11 @@ async def olimpic_rating(message: types.Message, state: FSMContext):
         return
 
     if message.text == _("📊 Reytingni ko'rish"):
+        text = await olimpi_rating_func(message.from_user.id, data.get("olimpic_id"), data.get("region"),
+                                        data.get("district"), data.get("school"),
+                                        None)
+        await message.answer(text, reply_markup=await rating_back(), parse_mode="HTML")
         await OlimpicRatingState.rating.set()
-        await olimpic_rating(message, state)
         return
 
 
