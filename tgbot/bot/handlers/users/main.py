@@ -30,6 +30,7 @@ async def get_olympics(message: types.Message, state: FSMContext):
         if tg_user:
             lang = tg_user.language
     olympics = Olimpic.objects.filter(is_active=True, end_time__gte=timezone.now()).order_by('start_time', 'end_time')
+
     if olympics.filter(region__isnull=False).exists():
         olympics = olympics.filter(Q(region=tg_user.region) | Q(region__isnull=True))
     if olympics.filter(district__isnull=False).exists():
@@ -151,7 +152,7 @@ async def start_test(message: types.Message, state: FSMContext):
         olympic = Olimpic.objects.filter(id=current_olympic_id).first()
         if olympic:
             if olympic.start_time > timezone.now():
-                await message.answer(f"Test boshlanish sanasi: {olympic.start_time}")
+                await message.answer(f"Test boshlanish sanasi: {olympic.start_time.strftime('%d-%m-%Y %H:%M')}")
             else:
                 questions = Question.objects.filter(olimpic=olympic).order_by('?')
                 if questions:
