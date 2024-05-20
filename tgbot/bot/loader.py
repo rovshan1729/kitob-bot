@@ -9,7 +9,7 @@ bot = Bot(token=API_TOKEN, parse_mode=types.ParseMode.HTML)
 storage = RedisStorage2(
     host=REDIS_HOST,
     port=REDIS_PORT,
-    db=REDIS_DB,
+    db=1,  # REDIS_DB
 )
 # storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
