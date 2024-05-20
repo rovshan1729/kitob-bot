@@ -3,7 +3,7 @@ from aiogram.dispatcher import FSMContext
 from tgbot.bot.keyboards.inline import languages_markup, test_skip_inline
 from tgbot.bot.keyboards.reply import main_markup, get_olympics_markup, start_olympic_markup, test_skip_markup
 from tgbot.bot.states.main import AdmissionState, OlympiadState, MainState
-from olimpic.models import Olimpic, Question, UserOlimpic, UserQuestion, Option
+from olimpic.models import Olimpic, Question, UserOlimpic, UserQuestion, Option, UserQuestionOption
 from tgbot.bot.utils import get_user
 from tgbot.bot.loader import dp, bot, gettext as _
 from django.utils import timezone
@@ -93,6 +93,14 @@ async def choose_olympiad(message: types.Message, state: FSMContext):
         await message.answer(_("Olimpiada mavjud emas!"))
 
 
+def get_correct_option_id(poll_options, correct_option):
+    index = 0
+    for poll_option in poll_options:
+        if poll_option.text == correct_option.title:
+            return index
+        index += 1
+
+
 async def send_next_poll(olympic: Olimpic, user_olimpic: UserOlimpic, user: TelegramProfile):
     user_questions = UserQuestion.objects.filter(olimpic=olympic, user_olimpic=user_olimpic, user=user).values_list(
         "question_id", flat=True)
@@ -113,6 +121,11 @@ async def send_next_poll(olympic: Olimpic, user_olimpic: UserOlimpic, user: Tele
                                                     message_id=poll_message.message_id,
                                                     content_message_id=content_message_id if content_message_id else 0)
         user_question.options.set(option_variants)
+        correct_option = option_variants.filter(is_correct=True).first()
+        if correct_option:
+            poll_correct_option_id = get_correct_option_id(poll_message.poll.options, correct_option)
+            UserQuestionOption.objects.create(user_question=user_question, option=correct_option,
+                                              order=poll_correct_option_id)
     else:
         user_questions = UserQuestion.objects.filter(olimpic=olympic, user_olimpic=user_olimpic, user=user)
         answered_count = user_questions.filter(is_answered=True).count()
@@ -195,6 +208,11 @@ async def start_test(message: types.Message, state: FSMContext):
                                                                 message_id=poll_message.message_id,
                                                                 content_message_id=content_message_id if content_message_id else 0)
                     user_question.options.set(option_variants)
+                    correct_option = option_variants.filter(is_correct=True).first()
+                    if correct_option:
+                        poll_correct_option_id = get_correct_option_id(poll_message.poll.options, correct_option)
+                        UserQuestionOption.objects.create(user_question=user_question, option=correct_option,
+                                                          order=poll_correct_option_id)
                     await OlympiadState.test.set()
                 else:
                     await message.answer(_("Hozircha testlar mavjud emas!"))
@@ -265,14 +283,13 @@ async def get_poll_answer(poll_answer: types.PollAnswer):
     user = get_user(user_id)
     user_question = UserQuestion.objects.filter(poll_id=str(poll_id), user=user).first()
     if user_question:
-        option = user_question.question.options.filter(is_correct=True).first()
-        if option and len(option_ids) == 1:
-            user_option = option_ids[0]
-            correct_option_id = option.id
-            user_option_id = list(user_question.options.all().values_list('id', flat=True))[user_option]
+        user_question_option = UserQuestionOption.objects.filter(user_question=user_question).first()
+        if user_question_option and len(option_ids) == 1:
+            user_option_index = option_ids[0]
+            correct_option_index = user_question_option.order
             user_question.is_answered = True
-            user_question.is_correct = bool(correct_option_id == user_option_id)
-            user_question.user_option = Option.objects.filter(id=user_option_id).first()
+            user_question.is_correct = bool(correct_option_index == user_option_index)
+            user_question.user_option = user_question_option.option
             user_question.save(update_fields=["is_answered", "is_correct", "user_option"])
             try:
                 if user_question.message_id:

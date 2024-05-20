@@ -12,7 +12,7 @@ from olimpic import models
 
 
 admin.site.register(models.UserQuestion)
-# admin.site.register(models.UserQuestionOption)
+admin.site.register(models.UserQuestionOption)
 # admin.site.register(models.UserOlimpic)
 # admin.site.register(models.OlimpicCertifeicate)
 
