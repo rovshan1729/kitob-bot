@@ -64,7 +64,7 @@ async def get_result(message: types.Message, state: FSMContext):
         olimpic=olympic,
         correct_answers__isnull=False,
         wrong_answers__isnull=False,
-        not_answered__isnull=False,
+        # not_answered__isnull=False,
         olimpic_duration__isnull=False,
     ).order_by("-correct_answers", "wrong_answers", "not_answered", "olimpic_duration").select_related("user")
 
@@ -93,7 +93,7 @@ async def get_result(message: types.Message, state: FSMContext):
             full_name=result.user.full_name,
             correct_answers=result.correct_answers,
             wrong_answers=result.wrong_answers,
-            not_answered=result.not_answered,
+            not_answered=result.not_answered or '',
             olimpic_duration=result.olimpic_duration,
         )
 
@@ -106,7 +106,7 @@ async def get_result(message: types.Message, state: FSMContext):
             full_name=user_result.user.full_name,
             correct_answers=user_result.correct_answers,
             wrong_answers=user_result.wrong_answers,
-            not_answered=user_result.not_answered,
+            not_answered=user_result.not_answered or '',
             olimpic_duration=user_result.olimpic_duration,
         )
 
