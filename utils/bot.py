@@ -31,6 +31,7 @@ def send_message(chat_id, text):
         print(f"Message sent to chat_id {chat_id}")
     else:
         print(f"Failed to send message to chat_id {chat_id}: {response.text}")
+    return response
 
 
 def get_object_value(object, field, language):

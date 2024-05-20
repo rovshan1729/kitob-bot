@@ -164,6 +164,15 @@ async def start_test(message: types.Message, state: FSMContext):
     if current_olympic_id:
         olympic = Olimpic.objects.filter(id=current_olympic_id).first()
         if olympic:
+            start_date_time = timezone.template_localtime(olympic.start_time)
+            end_date_time = timezone.template_localtime(olympic.end_time)
+            now_time = timezone.template_localtime(timezone.now())
+            if start_date_time > now_time:
+                await message.answer(_("Olimpiada hali boshlanmagan\nBoshlanish sanasi: {start_time}").format(start_time=start_date_time.strftime("%d.%m.%Y")))
+                return
+            if end_date_time < now_time:
+                await message.answer(_("Olimpiada tugagan"))
+                return
             user = get_user(message.from_user.id)
             user_olympic = UserOlimpic.objects.filter(user=user, olimpic=olympic).exists()
             if user_olympic:
