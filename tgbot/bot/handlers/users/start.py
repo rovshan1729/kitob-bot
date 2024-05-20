@@ -162,7 +162,7 @@ async def contact(message: types.Message, state: FSMContext):
     elif message.content_type in types.ContentTypes.CONTACT and message.contact.phone_number and message.from_user.id == message.contact.user_id:
         await state.update_data({"phone": message.contact.phone_number})
         await message.answer(_("Tug'ilgan kuningizni kiriting.\n"
-                               "Format 15.01.1990"), reply_markup=types.ReplyKeyboardRemove())
+                               "Format 01.01.2000"), reply_markup=types.ReplyKeyboardRemove())
         await AdmissionState.birth_date.set()
     else:
         await message.answer(_('📲 Iltimos Raqamni Yuborish Tugmasini Bosing'))
@@ -184,7 +184,7 @@ async def user_birth_date(message: types.Message, state: FSMContext):
         await AdmissionState.region.set()
 
     else:
-        await message.answer(_("Tug'ilgan Sanangizni To'g'ri Formatda Kiriting.Masalan :16.07.2002"))
+        await message.answer(_("Tug'ilgan sanangizni to'g'ri formatda kiriting.\n\nMasalan: 01.01.2000 (tug'ilgan yilingiz 2000-yildan katta bo'lishi shart)"))
 
 
 @dp.message_handler(state=AdmissionState.region)
