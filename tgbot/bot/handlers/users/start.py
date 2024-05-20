@@ -140,7 +140,8 @@ async def language(message: types.Message, state: FSMContext):
         await state.finish()
     user.language = get_lang(lang)
     user.save(update_fields=['language'])
-    await state.update_data({"language": user.language})
+    # We need get language from DB not from state memory
+    # await state.update_data({"language": user.language})
 
 
 @dp.message_handler(state=AdmissionState.self_introduction)
@@ -315,6 +316,7 @@ async def collect_user_data(message: types.Message, state: FSMContext):
                 is_registered=True,
             )
         await message.answer(text=_("Ma'lumotlaringiz qabul qilindi"), reply_markup=main_markup(lang))
+        await state.reset_data()
         await state.finish()
     else:
         await message.answer(_("Iltimos Tugmalardan Birini Tanlang"))
