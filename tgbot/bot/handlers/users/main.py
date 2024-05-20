@@ -62,7 +62,7 @@ async def choose_olympiad(message: types.Message, state: FSMContext):
                 (olympic.school and olympic.school != tg_user.school) or
                 (olympic.class_room and olympic.class_room != tg_user.class_room)
         ):
-            await message.answer(_("Bu Test Siz Uchun emas.Iltimos Tugmalardan birini Tanlang!"))
+            await message.answer(_("Olimpiada Mavjud Emas.Iltimos Tugmalardan birini Tanlang!"))
         else:
             await state.update_data({"current_olympic_id": olympic.id})
             data = await state.get_data()
