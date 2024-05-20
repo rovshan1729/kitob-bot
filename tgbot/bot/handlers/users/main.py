@@ -30,15 +30,14 @@ async def get_olympics(message: types.Message, state: FSMContext):
         if tg_user:
             lang = tg_user.language
     olympics = Olimpic.objects.filter(is_active=True, end_time__gte=timezone.now()).order_by('start_time', 'end_time')
-
-    # if olympics.filter(region__isnull=False).exists():
-    #     olympics = olympics.filter(Q(region=tg_user.region) | Q(region__isnull=True))
-    # if olympics.filter(district__isnull=False).exists():
-    #     olympics = olympics.filter(Q(district=tg_user.district) | Q(district__isnull=True))
-    # if olympics.filter(school__isnull=False).exists():
-    #     olympics = olympics.filter(Q(school_id=tg_user.school_id) | Q(school__isnull=True))
-    # if olympics.filter(class_room__isnull=False).exists():
-    #     olympics = olympics.filter(Q(class_room=tg_user.class_room) | Q(class_room__isnull=True))
+    if olympics.filter(region__isnull=False).exists():
+        olympics = olympics.filter(Q(region=tg_user.region) | Q(region__isnull=True))
+    if olympics.filter(district__isnull=False).exists():
+        olympics = olympics.filter(Q(district=tg_user.district) | Q(district__isnull=True))
+    if olympics.filter(school__isnull=False).exists():
+        olympics = olympics.filter(Q(school_id=tg_user.school_id) | Q(school__isnull=True))
+    if olympics.filter(class_room__isnull=False).exists():
+        olympics = olympics.filter(Q(class_room=tg_user.class_room) | Q(class_room__isnull=True))
 
     markup = await get_olympics_markup(olympics, language=lang)
     await message.answer(_("Olimpiadalar bilan tanishing"), reply_markup=markup)
@@ -49,15 +48,16 @@ async def get_olympics(message: types.Message, state: FSMContext):
 async def choose_olympiad(message: types.Message, state: FSMContext):
     queryset = get_model_queryset(Olimpic, message.text)
     tg_user = get_user(message.from_user.id)
+
     if queryset.exists():
         olympic = queryset.first()
         if (
-                (olympic.region is not None and olympic.region != tg_user.region) or
-                (olympic.district is not None and olympic.district != tg_user.district) or
-                (olympic.school is not None and olympic.school != tg_user.school) or
-                (olympic.class_room is not None and olympic.class_room != tg_user.class_room)
+                (olympic.region and olympic.region != tg_user.region) or
+                (olympic.district and olympic.district != tg_user.district) or
+                (olympic.school and olympic.school != tg_user.school) or
+                (olympic.class_room and olympic.class_room != tg_user.class_room)
         ):
-            await message.answer(_("Iltimos Tugmalardan birini Tanlang!"))
+            await message.answer(_("Bu Test Siz Uchun emas.Iltimos Tugmalardan birini Tanlang!"))
         else:
             await state.update_data({"current_olympic_id": olympic.id})
             data = await state.get_data()
