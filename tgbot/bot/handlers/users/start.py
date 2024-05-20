@@ -135,7 +135,8 @@ async def language(message: types.Message, state: FSMContext):
                                  "Пожалуйста, выберите одну из кнопок 🇷🇺\n\n"
                                  "Please, select one of the buttons 🇺🇸", reply_markup=languages_markup)
     else:
-        await message.answer(_("Bosh menyu"), reply_markup=main_markup(lang))
+        await message.answer(_("Siz qilgan o'zgarishlar saqlandi, iltimos botni /start bosib qayta ishga tushiring"),
+                             reply_markup=types.ReplyKeyboardRemove())
         await state.finish()
     user.language = get_lang(lang)
     user.save(update_fields=['language'])

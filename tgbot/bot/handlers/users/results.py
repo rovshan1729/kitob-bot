@@ -50,11 +50,15 @@ async def get_result(message: types.Message, state: FSMContext):
         await OlimpicResultsState.olimpics.set()
         return
     olympic = queryset.first()
-    is_end_time = olympic.end_time > timezone.now()
+
+    end_date_time = timezone.template_localtime(olympic.end_time)
+    now_time = timezone.template_localtime(timezone.now())
+    is_end_time = end_date_time > now_time
     markup = await get_result_markup(not is_end_time)
+
     if is_end_time:
         await message.answer(
-            _("Natija {end_time} vaqtda e'lon qilinadi".format(end_time=olympic.end_time.strftime("%d.%m.%Y %H:%M"))),
+            _("Natija {end_time} vaqtda e'lon qilinadi".format(end_time=end_date_time.strftime("%d.%m.%Y %H:%M"))),
             reply_markup=markup
         )
         await OlimpicResultsState.olimpic.set()
