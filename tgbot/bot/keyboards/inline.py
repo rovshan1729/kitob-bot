@@ -28,7 +28,7 @@ async def get_check_button(chat_ids: list = []):
                 continue
     if channels_data:
         buttons = [[InlineKeyboardButton(text=channel_chat.get("title", "No title"), url=channel_chat.get("url"))] for channel_chat in channels_data]
-        buttons.append([InlineKeyboardButton(text="✅ Obunalarni tekshirish", callback_data="check_subs")])
+        buttons.append([InlineKeyboardButton(text=_("✅ Obunalarni tekshirish"), callback_data="check_subs")])
         check_button = InlineKeyboardMarkup(
             inline_keyboard=buttons
         )
@@ -53,6 +53,6 @@ async def get_required_chats_markup(required_chats, user_id):
     if not keyboard:
         return None
     keyboard.append([
-        InlineKeyboardButton(text="Obuna bo'ldim/Qo'shildim", callback_data="subscribed")
+        InlineKeyboardButton(text=_("Obuna bo'ldim/Qo'shildim"), callback_data="subscribed")
     ])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)

@@ -59,7 +59,7 @@ async def bot_start(message: types.Message, state: FSMContext):
     if not final_status:
         if reply_markup:
             check_subs_message = await message.answer(
-                f"Quyidagi kanallarga obuna bo'lishingiz kerak, pastdagi tugmalar ustiga bosing ⬇️",
+                _(f"Quyidagi kanallarga obuna bo'lishingiz kerak, pastdagi tugmalar ustiga bosing ⬇️"),
                 reply_markup=reply_markup,
                 disable_web_page_preview=True)
             await state.update_data({"check_subs_message_id": check_subs_message.message_id})
