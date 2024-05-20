@@ -49,15 +49,16 @@ async def get_olympics(message: types.Message, state: FSMContext):
 async def choose_olympiad(message: types.Message, state: FSMContext):
     queryset = get_model_queryset(Olimpic, message.text)
     tg_user = get_user(message.from_user.id)
+
     if queryset.exists():
         olympic = queryset.first()
         if (
-                (olympic.region is not None and olympic.region != tg_user.region) or
-                (olympic.district is not None and olympic.district != tg_user.district) or
-                (olympic.school is not None and olympic.school != tg_user.school) or
-                (olympic.class_room is not None and olympic.class_room != tg_user.class_room)
+                (olympic.region and olympic.region != tg_user.region) or
+                (olympic.district and olympic.district != tg_user.district) or
+                (olympic.school and olympic.school != tg_user.school) or
+                (olympic.class_room and olympic.class_room != tg_user.class_room)
         ):
-            await message.answer(_("Iltimos Tugmalardan birini Tanlang!"))
+            await message.answer(_("Bu Test Siz Uchun emas.Iltimos Tugmalardan birini Tanlang!"))
         else:
             await state.update_data({"current_olympic_id": olympic.id})
             data = await state.get_data()
