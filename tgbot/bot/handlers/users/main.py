@@ -52,6 +52,10 @@ async def choose_olympiad(message: types.Message, state: FSMContext):
 
     if queryset.exists():
         olympic = queryset.first()
+        user_olympic = UserOlimpic.objects.filter(user=tg_user, olimpic=olympic).exists()
+        if user_olympic:
+            await message.answer(_("Siz oldin bu olimpiadada ishtirok qilgansiz"))
+            return
         if (
                 (olympic.region and olympic.region != tg_user.region) or
                 (olympic.district and olympic.district != tg_user.district) or
