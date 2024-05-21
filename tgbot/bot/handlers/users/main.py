@@ -123,6 +123,8 @@ async def send_next_poll(olympic: Olimpic, user_olimpic: UserOlimpic, user: Tele
             UserQuestionOption.objects.create(user_question=user_question, option=correct_option,
                                               order=poll_correct_option_id)
     else:
+        user.is_olimpic = False
+        user.save(update_fields=["is_olimpic"])
         user_questions = UserQuestion.objects.filter(olimpic=olympic, user_olimpic=user_olimpic, user=user)
         answered_count = user_questions.filter(is_answered=True).count()
         correct = user_questions.filter(is_correct=True).count()
@@ -174,6 +176,8 @@ async def start_test(message: types.Message, state: FSMContext):
                 await message.answer(_("Olimpiada tugagan"))
                 return
             user = get_user(message.from_user.id)
+            user.is_olimpic = True
+            user.save(update_fields=["is_olimpic"])
             user_olympic = UserOlimpic.objects.filter(user=user, olimpic=olympic).exists()
             if user_olympic:
                 await message.answer(_("Siz oldin bu olimpiadada ishtirok qilgansiz"))
@@ -255,12 +259,15 @@ async def skip_test(call: types.CallbackQuery, state: FSMContext):
         await send_next_poll(olympic=last_question.olimpic, user_olimpic=last_question.user_olimpic, user=user)
 
 
-@dp.message_handler(text=_("🏁 Yakunlash"), state=OlympiadState.test)
+@dp.message_handler(state=OlympiadState.test)
 async def finished_test(message: types.Message, state: FSMContext):
+    user = get_user(message.from_user.id)
+    if message.text != _("🏁 Yakunlash") and user.is_olimpic:
+        await message.answer(_("Siz Olimpiadadasiz!!!"))
+        return
     await message.delete()
     data = await state.get_data()
     lang = data.get("language")
-    user = get_user(message.from_user.id)
     if not lang and user:
         lang = user.language
     olympic_id = data.get("olympic_id")
@@ -281,8 +288,10 @@ async def finished_test(message: types.Message, state: FSMContext):
         except Exception as e:
             print(e)
 
-    user_olimpic = last_question.user_olimpic
+    user.is_olimpic = False
+    user.save(update_fields=["is_olimpic"])
 
+    user_olimpic = last_question.user_olimpic
     user_questions = UserQuestion.objects.filter(olimpic=last_question.olimpic, user_olimpic=user_olimpic, user=user)
     answered_count = user_questions.filter(is_answered=True).count()
     correct = user_questions.filter(is_correct=True).count()
