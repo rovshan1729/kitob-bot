@@ -51,14 +51,15 @@ async def get_result(message: types.Message, state: FSMContext):
         return
     olympic = queryset.first()
 
-    end_date_time = timezone.template_localtime(olympic.end_time)
+    result_publish_date_time = timezone.template_localtime(olympic.result_publish)
     now_time = timezone.template_localtime(timezone.now())
-    is_end_time = end_date_time > now_time
+    is_end_time = result_publish_date_time > now_time
     markup = await get_result_markup(not is_end_time)
 
     if is_end_time:
         await message.answer(
-            _("Natija {end_time} vaqtda e'lon qilinadi".format(end_time=end_date_time.strftime("%d.%m.%Y %H:%M"))),
+            _("Natija {end_time} vaqtda e'lon qilinadi".format(
+                end_time=result_publish_date_time.strftime("%d.%m.%Y %H:%M"))),
             reply_markup=markup
         )
         await OlimpicResultsState.olimpic.set()
@@ -128,7 +129,8 @@ async def get_result(message: types.Message, state: FSMContext):
         return
 
     olimpic_id = await state.get_data()
-    user_olimpic = UserOlimpic.objects.filter(user__telegram_id=message.from_user.id, olimpic_id=olimpic_id['olimpic_id']).first()
+    user_olimpic = UserOlimpic.objects.filter(user__telegram_id=message.from_user.id,
+                                              olimpic_id=olimpic_id['olimpic_id']).first()
     if not user_olimpic:
         await message.answer(_("Siz bu olimpiadada ishtirok etmadingiz"))
         await OlimpicResultsState.olimpic.set()
