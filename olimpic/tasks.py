@@ -1,10 +1,10 @@
 import io
-from core.celery_app import app as celery_app
+from src.celery_app import app as celery_app
 from PIL import Image, ImageDraw, ImageFont
 from django.core.files.base import ContentFile
 from urllib.request import urlopen
 
-from apps.olimpic.models import UserOlimpic, Olimpic
+from olimpic.models import UserOlimpic, Olimpic
 
 from docxtpl import DocxTemplate
 

@@ -59,9 +59,27 @@ class TelegramButtonAdmin(TranslationRequiredMixin, TabbedTranslationAdmin):
 
 @admin.register(models.Notification)
 class NotificatoinAdmin(TabbedTranslationAdmin, TranslationRequiredMixin):
-    list_display = ("id", "bot", "title", "created_at", "updated_at")
+    list_display = ("id", "bot", "title", 'sent_count', "fail_count", "is_all_users", "is_not_registered", "created_at")
     list_display_links = ("id", "title", "bot")
     search_fields = ("bot", "title")
     list_per_page = 20
 
-    # filter_horizontal = ("users",
+    def has_change_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(models.UserNotification)
+class UserNotificationAdmin(admin.ModelAdmin):
+    list_display = ("id", "notification", "user", "is_sent", "sent_at",)
+    list_display_links = ("id", "notification", "user")
+    search_fields = ("notification", "user")
+    list_per_page = 20
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False

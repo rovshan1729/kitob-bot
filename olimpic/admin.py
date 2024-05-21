@@ -97,8 +97,61 @@ class OptionInline(admin.TabularInline):
     extra = 0
     formset = OptionInlineFormset
 
+
+class QuestionResource(resources.ModelResource):
+    def __init__(self, *args, **kwargs):
+        super(QuestionResource, self).__init__(*args, **kwargs)
+        self.fields['text'].column_name = _('Text')
+        self.fields['olimpic__title'].column_name = _('Olimpic')
+        self.fields['duration'].column_name = _('Duration')
+
+    # def import_row(
+    #     self,
+    #     row,
+    #     instance_loader,
+    #     using_transactions=True,
+    #     dry_run=False,
+    #     raise_errors=None,
+    #     **kwargs
+    # ):
+    #     print("ROW")
+    #     print(row)
+    #     print("ROW")
+    #     return super().import_row(row, instance_loader, using_transactions, dry_run, raise_errors, **kwargs)
+    #
+    # def import_obj(self, obj, data, dry_run, **kwargs):
+    #     print("OBJ")
+    #     print(obj)
+    #     print("OBJ")
+    #     return super().import_obj(obj, data, dry_run, **kwargs)
+
+    def import_field(self, field, obj, data, is_m2m=False, **kwargs):
+        print("FIELD")
+        print(field, obj, data)
+        print("FIELD")
+
+        return super().import_field(field, obj, data, is_m2m, **kwargs)
+
+    # def import_data(
+    #     self,
+    #     dataset,
+    #     *args,
+    #     **kwargs
+    # ):
+    #     print("DATASET")
+    #     print(dataset)
+    #     print("DATASET")
+    #     return super().import_data(dataset, *args, **kwargs)
+
+    class Meta:
+        model = models.Question
+        fields = ('id', 'text', 'olimpic__title', 'duration')
+        export_order = ('id', 'text', 'olimpic__title', 'duration')
+
+
 @admin.register(models.Question)
-class QuestionAdmin(TranslationRequiredMixin, TabbedTranslationAdmin):
+class QuestionAdmin(ImportExportModelAdmin, TranslationRequiredMixin, TabbedTranslationAdmin):
+    resource_class = QuestionResource
     list_display = ("id","text","olimpic", "duration")
     list_display_links = ("id","text",)
     search_fields = ("text",'olimpic__title')

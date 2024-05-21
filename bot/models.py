@@ -168,6 +168,9 @@ class Notification(BaseModel):
     file_content = models.FileField(upload_to="notifications", verbose_name=_("Notification File Content"), blank=True,
                                     null=True)
 
+    sent_count = models.PositiveIntegerField(default=0, blank=True, null=True, verbose_name=_("Sent Count"))
+    fail_count = models.PositiveIntegerField(default=0, blank=True, null=True, verbose_name=_("Fail Count"))
+
     def __str__(self):
         return self.title
 
@@ -206,6 +209,27 @@ class Notification(BaseModel):
         verbose_name = _("Notification")
         verbose_name_plural = _("Notifications")
         db_table = "notifications"
+
+
+class UserNotification(models.Model):
+    user = models.ForeignKey(TelegramProfile, models.CASCADE, verbose_name=_("User"))
+    notification = models.ForeignKey(Notification, models.CASCADE, verbose_name=_("Notification"))
+
+    is_sent = models.BooleanField(default=False, verbose_name=_("Is Sent"))
+    sent_at = models.DateTimeField(null=True, blank=True, verbose_name=_("Sent At"))
+
+    request_body = models.JSONField(null=True, blank=True, verbose_name=_("Request Body"))
+    response_body = models.JSONField(null=True, blank=True, verbose_name=_("Response Body"))
+
+    error_message = models.TextField(null=True, blank=True, verbose_name=_("Error Message"))
+
+    def __str__(self):
+        return f"{self.user} - {self.notification}"
+
+    class Meta:
+        verbose_name = _("User Notification")
+        verbose_name_plural = _("User Notifications")
+        db_table = "user_notifications"
 
 
 auditlog.register(RequiredGroup)
