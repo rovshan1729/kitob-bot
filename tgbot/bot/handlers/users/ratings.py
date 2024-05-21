@@ -27,14 +27,15 @@ from django.db.models import Q
 async def olimpi_rating_func(tg_id, olimpic, region, district, school, class_room):
     olympic = Olimpic.objects.get(id=olimpic)
     start_date_time = timezone.template_localtime(olympic.start_time)
-    end_date_time = timezone.template_localtime(olympic.end_time)
+    result_publish_date_time = timezone.template_localtime(olympic.result_publish)
     now_time = timezone.template_localtime(timezone.now())
 
     if now_time < start_date_time:
         return _("Olimpiada boshlanmadi")
 
-    if now_time < end_date_time:
-        return _("Natija {end_time} vaqtda e'lon qilinadi").format(end_time=timezone.template_localtime(olympic.end_time).strftime("%d.%m.%Y %H:%M"))
+    if now_time < result_publish_date_time:
+        return _("Natija {end_time} vaqtda e'lon qilinadi").format(
+            end_time=result_publish_date_time.strftime("%d.%m.%Y %H:%M"))
 
     results = UserOlimpic.objects.filter(
         olimpic=olympic,
@@ -96,7 +97,6 @@ async def olimpi_rating_func(tg_id, olimpic, region, district, school, class_roo
     return text
 
 
-
 @dp.message_handler(text=_("🔝 Reyting 📊"), state="*")
 async def get_results(message: types.Message, state: FSMContext):
     data = await state.get_data()
@@ -144,12 +144,12 @@ async def get_resgions(message: types.Message, state: FSMContext):
 
     olympic = queryset.first()
     await state.update_data({
-            "olimpic_id": olympic.id,
-            'region': None,
-            'district': None,
-            'school': None,
-            'class': None,
-        })
+        "olimpic_id": olympic.id,
+        'region': None,
+        'district': None,
+        'school': None,
+        'class': None,
+    })
     markup = await get_rating_regions_markup(Region.objects.all(), lang)
 
     await message.answer(_("Viloyatlardan birini tanlang"), reply_markup=markup)
@@ -207,7 +207,8 @@ async def get_districts(message: types.Message, state: FSMContext):
 async def get_schools(message: types.Message, state: FSMContext):
     if message.text == _("🔙 Orqaga"):
         await state.update_data({"region": None})
-        await message.answer(_("Viloyatlardan birini tanlang"), reply_markup=await get_rating_regions_markup(Region.objects.all()))
+        await message.answer(_("Viloyatlardan birini tanlang"),
+                             reply_markup=await get_rating_regions_markup(Region.objects.all()))
         await OlimpicRatingState.region.set()
         return
 
@@ -225,7 +226,8 @@ async def get_schools(message: types.Message, state: FSMContext):
         return
 
     if message.text == _("📊 Reytingni ko'rish"):
-        text = await olimpi_rating_func(message.from_user.id, data.get("olimpic_id"), data.get("region"), None, None, None)
+        text = await olimpi_rating_func(message.from_user.id, data.get("olimpic_id"), data.get("region"), None, None,
+                                        None)
         await message.answer(text, reply_markup=await rating_back(), parse_mode="HTML")
         await OlimpicRatingState.rating.set()
         return
@@ -249,10 +251,11 @@ async def get_school_rating(message: types.Message, state: FSMContext):
 
     if message.text == _("🔙 Orqaga"):
         await state.update_data({"district": None})
-        await message.answer(_("Tumandagi yoki shahardagi olimpiadalar bilan tanishing"), reply_markup=await get_rating_district_markup(District.objects.filter(parent=data.get("region")), lang))
+        await message.answer(_("Tumandagi yoki shahardagi olimpiadalar bilan tanishing"),
+                             reply_markup=await get_rating_district_markup(
+                                 District.objects.filter(parent=data.get("region")), lang))
         await OlimpicRatingState.district.set()
         return
-
 
     school = get_model_queryset(School, message.text).first()
     if not school and message.text != _("📊 Reytingni ko'rish"):
@@ -261,7 +264,8 @@ async def get_school_rating(message: types.Message, state: FSMContext):
         return
 
     if message.text == _("📊 Reytingni ko'rish"):
-        text = await olimpi_rating_func(message.from_user.id, data.get("olimpic_id"), data.get("region"), data.get("district"), None,
+        text = await olimpi_rating_func(message.from_user.id, data.get("olimpic_id"), data.get("region"),
+                                        data.get("district"), None,
                                         None)
         await message.answer(text, reply_markup=await rating_back(), parse_mode="HTML")
         await OlimpicRatingState.rating.set()
@@ -293,7 +297,6 @@ async def get_olimpic_classroom_rating(message: types.Message, state: FSMContext
         await OlimpicRatingState.school.set()
         return
 
-
     is_in_class = any(message.text == class_tuple[0] for class_tuple in Class)
     if not is_in_class and message.text != _("📊 Reytingni ko'rish"):
         await message.answer(_("Bunday sinf topilmadi"))
@@ -311,7 +314,7 @@ async def get_olimpic_classroom_rating(message: types.Message, state: FSMContext
     await state.update_data({'class': message.text})
 
     text = await olimpi_rating_func(message.from_user.id, data.get("olimpic_id"), data.get("region"),
-                                    data.get("district"), data.get("school"),message.text)
+                                    data.get("district"), data.get("school"), message.text)
     await message.answer(text, reply_markup=await rating_back(), parse_mode="HTML")
     await OlimpicRatingState.rating.set()
     return
@@ -367,7 +370,6 @@ async def olimpic_rating(message: types.Message, state: FSMContext):
         await message.answer(text, reply_markup=await rating_back(), parse_mode="HTML")
         await OlimpicRatingState.rating.set()
         return
-
 
     text = await olimpi_rating_func(message.from_user.id, data.get("olimpic_id"), data.get("region"),
                                     data.get("district"), data.get("school"),
