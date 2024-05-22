@@ -282,7 +282,6 @@ async def finished_test(message: types.Message, state: FSMContext):
             print(e)
 
     user_olimpic = last_question.user_olimpic
-
     user_questions = UserQuestion.objects.filter(olimpic=last_question.olimpic, user_olimpic=user_olimpic, user=user)
     answered_count = user_questions.filter(is_answered=True).count()
     correct = user_questions.filter(is_correct=True).count()
