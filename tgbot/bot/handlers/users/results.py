@@ -9,6 +9,8 @@ from django.utils import timezone
 from utils.bot import get_model_queryset
 from utils.bot import get_object_value, parse_telegram_message
 from django.conf import settings
+
+from olimpic.tasks import generate_certificates
 from django.db.models import Q
 
 
@@ -137,9 +139,10 @@ async def get_result(message: types.Message, state: FSMContext):
         return
 
     if not user_olimpic.certificate:
-        await message.answer(_("Sertifikat topilmadi"))
+        generate_certificates.delay(user_olimpic.id)
+        await message.answer(_("Sertifikat jarayonda yaratilmoqda. Iltimos kuting."))
         await OlimpicResultsState.olimpic.set()
         return
 
-    await message.answer_document(user_olimpic.certificate, caption=_("Sertifikat"), reply_markup=main_markup())
+    await message.answer_document(str(settings.BACK_END_URL) + user_olimpic.certificate.url, caption=_("Sertifikat"), reply_markup=main_markup())
     await OlimpicResultsState.olimpic.set()
