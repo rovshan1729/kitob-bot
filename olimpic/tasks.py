@@ -17,8 +17,7 @@ def generate_certificates(user_olimpic_id):
     if not olimpic.certificate:
         return "Stopped"
 
-    truetype_url = 'https://github.com/googlefonts/roboto/blob/main/src/hinted/Roboto-Black.ttf?raw=true'
-    font = urlopen(truetype_url)
+    font = "static/assets/font.ttf"
 
     user_olimpics = UserOlimpic.objects.filter(
         olimpic=olimpic,
@@ -40,7 +39,7 @@ def generate_certificates(user_olimpic_id):
     draw = ImageDraw.Draw(im)
     draw.text((600, 480), full_name, fill="indigo", font=full_name_font)
 
-    main_font = ImageFont.truetype(font, size=23)
+    main_font = ImageFont.truetype(urlopen(truetype_url), size=23)
     olimpic_date = user_olimpic.start_time.date().strftime('%d.%m.%Y')
     draw.text((635, 1065), olimpic_date, fill="indigo", font=main_font)
 
