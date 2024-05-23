@@ -16,7 +16,7 @@ def generate_certificates(olimpic_id):
         olimpic=olimpic,
         correct_answers__isnull=False,
         wrong_answers__isnull=False,
-        not_answered__isnull=False,
+        # not_answered__isnull=False,
         olimpic_duration__isnull=False,
         # certificate__isnull=True
     ).order_by("-correct_answers", "wrong_answers", "not_answered", "olimpic_duration")
