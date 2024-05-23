@@ -135,7 +135,6 @@ async def get_result(message: types.Message, state: FSMContext):
                                               olimpic_id=olimpic_id['olimpic_id']).first()
     if not user_olimpic:
         await message.answer(_("Siz bu olimpiadada ishtirok etmadingiz"))
-        await OlimpicResultsState.olimpic.set()
         return
 
     if not user_olimpic.certificate:
