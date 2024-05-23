@@ -21,14 +21,18 @@ def generate_certificates(olimpic_id):
         # certificate__isnull=True
     ).order_by("-correct_answers", "wrong_answers", "not_answered", "olimpic_duration")
 
+    truetype_url = 'https://github.com/googlefonts/roboto/blob/main/src/hinted/Roboto-Black.ttf?raw=true'
+    font = urlopen(truetype_url)
     for user_olimpic in user_olimpics:
         im = Image.open(olimpic.certificate.certificate)
 
-        truetype_url = 'https://github.com/googlefonts/roboto/blob/main/src/hinted/Roboto-Black.ttf?raw=true'
 
         if im.width != 1582 and im.height != 1172:
             return "Stopped"
-        full_name_font = ImageFont.truetype(urlopen(truetype_url), size=38)
+        if urlopen(truetype_url).status != 200:
+            return "Stopped"
+
+        full_name_font = ImageFont.truetype(font, size=38)
         full_name = user_olimpic.user.full_name
         draw = ImageDraw.Draw(im)
         draw.text((600, 480), full_name, fill="indigo", font=full_name_font)
