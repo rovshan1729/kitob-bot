@@ -17,7 +17,8 @@ def generate_certificates(user_olimpic_id):
     if not olimpic.certificate:
         return "Stopped"
 
-    font = "static/assets/font.ttf"
+    truetype_url = 'https://github.com/googlefonts/roboto/blob/main/src/hinted/Roboto-Black.ttf?raw=true'
+    font = urlopen(truetype_url)
 
     user_olimpics = UserOlimpic.objects.filter(
         olimpic=olimpic,
