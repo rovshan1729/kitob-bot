@@ -135,14 +135,12 @@ async def get_result(message: types.Message, state: FSMContext):
                                               olimpic_id=olimpic_id['olimpic_id']).first()
     if not user_olimpic:
         await message.answer(_("Siz bu olimpiadada ishtirok etmadingiz"))
-        await OlimpicResultsState.olimpic.set()
         return
 
     if not user_olimpic.certificate:
         generate_certificates.delay(user_olimpic.id)
         await message.answer(_("Sertifikat jarayonda yaratilmoqda. Iltimos kuting."))
-        await OlimpicResultsState.olimpic.set()
+        # await OlimpicResultsState.olimpic.set()
         return
 
     await message.answer_document(str(settings.BACK_END_URL) + user_olimpic.certificate.url, caption=_("Sertifikat"), reply_markup=main_markup())
-    await OlimpicResultsState.olimpic.set()
