@@ -16,19 +16,19 @@ build_image_prod:
     - master
 
 
-deploy_image_master:
-  image: registry.uicgroup.tech/devops/docker:dind
-  stage: deploy_staging
-  before_script:
-    - eval $(ssh-agent -s)
-    - echo "$GITLAB_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-  script:
-    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_backend''
-    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_bot''
-    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_celery_beat''
-    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_celery_worker''
-    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'docker exec $(docker ps --filter "name=global_edu_backend.*" --format "{{.Names}}" | head -n 1) python manage.py migrate'
-  only:
-    - master
+# deploy_image_master:
+#   image: registry.uicgroup.tech/devops/docker:dind
+#   stage: deploy_staging
+#   before_script:
+#     - eval $(ssh-agent -s)
+#     - echo "$GITLAB_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+#     - mkdir -p ~/.ssh
+#     - chmod 700 ~/.ssh
+#   script:
+#     - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_backend''
+#     - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_bot''
+#     - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_celery_beat''
+#     - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'global_edu_celery_worker''
+#     - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'docker exec $(docker ps --filter "name=global_edu_backend.*" --format "{{.Names}}" | head -n 1) python manage.py migrate'
+#   only:
+#     - master
