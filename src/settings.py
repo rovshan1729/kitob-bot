@@ -172,5 +172,6 @@ BACK_END_URL = env.str("BACK_END_URL", "https://globaledubot.uicgroup.tech")
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = False
 CSRF_TRUSTED_ORIGINS = [
-    'https://globaledubot.uicgroup.tech'
+    'https://globaledubot.uicgroup.tech',
+    "https://py-olimpiada.uicgroup.tech",
 ]
