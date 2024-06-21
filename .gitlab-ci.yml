@@ -25,10 +25,10 @@ deploy_image_master:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
-    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'python-olimpiada-bot_backend''
-    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'python-olimpiada-bot_bot''
-    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'python-olimpiada-bot_celery_beat''
-    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'python-olimpiada-bot_celery_worker''
-    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'sudo docker exec $(docker ps --filter "name=python-olimpiada-bot_backend.*" --format "{{.Names}}" | head -n 1) python manage.py migrate'
+    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'python-olimpiada-bot_backend''
+    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'python-olimpiada-bot_bot''
+    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'python-olimpiada-bot_celery_beat''
+    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'docker service update --with-registry-auth --image registry.uicgroup.tech/globaledu/global-edu-bot-aiogram:'$CI_PIPELINE_IID' 'python-olimpiada-bot_celery_worker''
+    - ssh -p 22 -o StrictHostKeyChecking=no $USER@$HOST 'docker exec $(docker ps --filter "name=python-olimpiada-bot_backend.*" --format "{{.Names}}" | head -n 1) python manage.py migrate'
   only:
     - master
