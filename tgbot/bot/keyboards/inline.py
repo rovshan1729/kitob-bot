@@ -21,7 +21,12 @@ def get_skills_markup(skills, parent_id=None, page=0, selected_skills=[], langua
     markup = InlineKeyboardMarkup(row_width=2)
     start = page * ITEMS_PER_PAGE
     end = start + ITEMS_PER_PAGE
-    current_skills = skills[start:end]
+    
+    if parent_id != 0:
+        current_skills = skills
+        page = 0
+    else:
+        current_skills = skills[start:end]
 
     for skill in current_skills:
         title = getattr(skill, f"title_{language}")
@@ -47,6 +52,14 @@ def get_skills_markup(skills, parent_id=None, page=0, selected_skills=[], langua
             text="🔙 Back", 
             callback_data=skill_cb.new(id=parent_id, level=1, action='parent', page=0)
         ))
+        
+    if len(selected_skills) > 0 and parent_id == 0:
+        markup.add(
+            InlineKeyboardButton(
+                text="Confirm ✔️",
+                callback_data=skill_cb.new(id=parent_id, level=0, action="confirm", page=0)
+            )
+        )
 
     return markup
 

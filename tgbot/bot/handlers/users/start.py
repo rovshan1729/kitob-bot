@@ -189,7 +189,7 @@ async def skill(message: types.Message, state: FSMContext):
         root_skills = Skill.objects.filter(parent__isnull=True)
         markup = get_skills_markup(root_skills, language=language)
         await message.answer("Select a skill:", reply_markup=markup)
-        return AdmissionState.skill.set()
+        return await AdmissionState.skill.set()
     else:
         await message.answer(_("❌ Iltimos, to'g'ri email manzilini kiriting."))
         
@@ -201,21 +201,28 @@ async def skill_selected(callback_query: types.CallbackQuery, callback_data: dic
     skill_id = int(callback_data['id'])
     skill = Skill.objects.get(id=skill_id)
     is_parent = False
-    if skill.parent is None:
+    if skill.child.count() == 0:
         skills = Skill.objects.filter(parent__isnull=True)
-        is_parent = True
     else:
+        is_parent = True
         skills = skill.child.all()
+
     data = await state.get_data()
     if data.get("selected_skills", []) is not []:
         selected_skills = data.get("selected_skills", [])
     else:
         selected_skills = []
+        
+    if data.get("page", None) is not None:
+        page = data.get('page', 0)
+    else:
+        page = 0
     
     if skill_id in selected_skills:
         selected_skills.remove(skill_id)
     else:
-        selected_skills.append(skill_id)
+        if not is_parent:
+            selected_skills.append(skill_id)
     
     await state.update_data(
         selected_skills=selected_skills
@@ -227,15 +234,15 @@ async def skill_selected(callback_query: types.CallbackQuery, callback_data: dic
     if is_parent:
         await callback_query.message.edit_text(
             text=f"Select a skill:",
-            reply_markup=get_skills_markup(skills, selected_skills=selected_skills, parent_id=skill.id, language=language)
+            reply_markup=get_skills_markup(skills, page=page, selected_skills=selected_skills, parent_id=skill.id, language=language)
         )
     else:
         await callback_query.message.edit_text(
             text=f"Select a skill:",
-            reply_markup=get_skills_markup(skills, selected_skills=selected_skills, language=language)
+            reply_markup=get_skills_markup(skills, page=page, selected_skills=selected_skills, language=language)
         )
 
-@dp.callback_query_handler(skill_cb.filter(action='parent'))
+@dp.callback_query_handler(skill_cb.filter(action='parent'), state=AdmissionState.skill)
 async def skill_parent(callback_query: types.CallbackQuery, callback_data: dict):
     skill_id = int(callback_data['id'])
     skill = Skill.objects.get(id=skill_id)
@@ -256,25 +263,38 @@ async def skill_parent(callback_query: types.CallbackQuery, callback_data: dict)
             reply_markup=get_skills_markup(root_skills, language=language)
         )
 
-@dp.callback_query_handler(skill_cb.filter(action='paginate'))
-async def skill_paginate(callback_query: types.CallbackQuery, callback_data: dict):
-    skill_id = int(callback_data['id'])
+@dp.callback_query_handler(skill_cb.filter(action='paginate'), state=AdmissionState.skill)
+async def skill_paginate(callback_query: types.CallbackQuery, callback_data: dict, state: FSMContext):
     page = int(callback_data['page'])
     
+    data = await state.get_data()
+    if data.get("selected_skills", []) is not []:
+        selected_skills = data.get("selected_skills", [])
+    else:
+        selected_skills = []
+        
     user = get_user(callback_query.from_user.id)
     language = user.language
-
-    if skill_id:
-        parent = Skill.objects.get(id=skill_id)
-        skills = parent.child.all()
-    else:
-        skills = Skill.objects.filter(parent__isnull=True)
+    skills = Skill.objects.filter(parent__isnull=True)
+    await state.update_data(
+        page=page
+    )
     
     await callback_query.message.edit_reply_markup(
-        reply_markup=get_skills_markup(skills, parent_id=skill_id, page=page, language=language)
+        reply_markup=get_skills_markup(skills, page=page, language=language, selected_skills=selected_skills)
     )
+    
+@dp.callback_query_handler(skill_cb.filter(action='confirm'), state=AdmissionState.skill)
+async def confirm_skills(call: types.CallbackQuery, callback_data: dict, state: FSMContext):
+    data = await state.get_data()
+    selected_skills = data.get("selected_skills", [])
+    
+    if selected_skills is []:
+        return await call.answer("Skill is required")
+    
+    print(selected_skills)
 
-@dp.message_handler(commands=['start', 'skills'])
+@dp.message_handler(commands=['skills'], state=AdmissionState.skill)
 async def show_skills(message: types.Message):
     root_skills = Skill.objects.filter(parent__isnull=True)
     user = get_user(message.from_user.id)
