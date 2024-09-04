@@ -1,6 +1,6 @@
 from modeltranslation.translator import register, TranslationOptions
 
-from bot.models import RequiredGroup, TelegramButton, Notification
+from .models import RequiredGroup, TelegramButton, Skill
 
 
 @register(RequiredGroup)
@@ -11,8 +11,8 @@ class RequiredGroupTranslationOption(TranslationOptions):
 @register(TelegramButton)
 class TelegramButtonTranslationOption(TranslationOptions):
     fields = ("title", "text")
+    
 
-
-@register(Notification)
-class NotificationTranslationOption(TranslationOptions):
-    fields = ("title", "text")
+@register(Skill)
+class SkillTranslationOption(TranslationOptions):
+    fields = ('title',)

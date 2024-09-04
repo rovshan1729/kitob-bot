@@ -1,6 +1,6 @@
 from typing import Union
 from aiogram import Bot
-from bot.models import RequiredGroup
+from tgbot.models import RequiredGroup
 from tgbot.bot.loader import bot
 
 
