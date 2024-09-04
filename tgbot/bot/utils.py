@@ -1,5 +1,5 @@
 from django.conf import settings
-from bot.models import TelegramProfile as User
+from tgbot.models import TelegramProfile as User
 
 
 def get_lang(language):

@@ -1,15 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
-from bot.models import Class
 from tgbot.bot.loader import gettext as _
-from bot.models import TelegramButton
+from tgbot.models import TelegramButton
 from utils.bot import get_object_value
-
-
-def test_skip_markup():
-    markup = ReplyKeyboardMarkup(resize_keyboard=True)
-    # markup.add(KeyboardButton(text=_("➡️ O'tkazib yuborish")))
-    markup.add(KeyboardButton(text=_("🏁 Yakunlash")))
-    return markup
 
 
 def main_markup(language="uz"):
@@ -88,109 +80,6 @@ check_buttons = ReplyKeyboardMarkup(
     resize_keyboard=True,
 )
 
-classes = ReplyKeyboardMarkup(
-    keyboard=[
-        [
-            KeyboardButton(text=_("5-sinf")),
-        ],
-        [
-            KeyboardButton(text=_("6-sinf")),
-            KeyboardButton(text=_("7-sinf"))
-        ],
-        [
-            KeyboardButton(text=_("8-sinf")),
-            KeyboardButton(text=_("9-sinf"))
-        ],
-        [
-            KeyboardButton(text=_("10-sinf")),
-            KeyboardButton(text=_("11-sinf"))
-        ],
-        [
-            KeyboardButton(text=_("🔙 Orqaga")),
-        ],
-    ],
-    resize_keyboard=True,
-)
-
-
-async def get_regions_markup(regions, language="uz"):
-    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(*(KeyboardButton(text=get_object_value(region, "title", language)) for region in regions if
-                 get_object_value(region, "title", language) is not None))
-    button.add(KeyboardButton(text=_("🔙 Orqaga")))
-    return button
-
-
-async def get_districts_markup(districts, language="uz"):
-    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(*(KeyboardButton(text=get_object_value(district, "title", language)) for district in districts if
-                 get_object_value(district, "title", language) is not None))
-    button.add(KeyboardButton(text=_("🔙 Orqaga")))
-    return button
-
-
-async def get_schools_markup(schools, language="uz"):
-    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(*(KeyboardButton(text=get_object_value(school, "title", language)) for school in schools if
-                 get_object_value(school, "title", language) is not None))
-    button.add(KeyboardButton(text=_("🔙 Orqaga")))
-    return button
-
-
-async def get_classes_markup():
-    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(*(KeyboardButton(text=class_room[1]) for class_room in Class))
-    button.add(KeyboardButton(text=_("🔙 Orqaga")))
-    return button
-
-
-async def get_olympics_markup(olympics, language="uz"):
-    markup = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    markup.add(*(KeyboardButton(text=get_object_value(olympic, "title", language)) for olympic in olympics if
-                 get_object_value(olympic, "title", language) is not None))
-    markup.add(KeyboardButton(text=_("🔙 Orqaga")))
-    return markup
-
-
-
-async def get_regions_markup(regions, language="uz"):
-    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(*(KeyboardButton(text=get_object_value(region, "title", language)) for region in regions if
-                 get_object_value(region, "title", language) is not None))
-    button.add(KeyboardButton(text=_("🔙 Orqaga")))
-    return button
-
-
-async def get_districts_markup(districts, language="uz"):
-    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(*(KeyboardButton(text=get_object_value(district, "title", language)) for district in districts if
-                 get_object_value(district, "title", language) is not None))
-    button.add(KeyboardButton(text=_("🔙 Orqaga")))
-    return button
-
-
-async def get_schools_markup(schools, language="uz"):
-    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(*(KeyboardButton(text=get_object_value(school, "title", language)) for school in schools if
-                 get_object_value(school, "title", language) is not None))
-    button.add(KeyboardButton(text=_("🔙 Orqaga")))
-    return button
-
-
-async def get_classes_markup():
-    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(*(KeyboardButton(text=class_room[1]) for class_room in Class))
-    button.add(KeyboardButton(text=_("🔙 Orqaga")))
-    return button
-
-
-async def get_olympics_markup(olympics, language="uz"):
-    markup = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    markup.add(*(KeyboardButton(text=get_object_value(olympic, "title", language)) for olympic in olympics if
-                 get_object_value(olympic, "title", language) is not None))
-    markup.add(KeyboardButton(text=_("🔙 Orqaga")))
-    return markup
-
 
 async def get_result_markup(is_end_time: bool):
     markup = ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
@@ -198,62 +87,6 @@ async def get_result_markup(is_end_time: bool):
         markup.add(KeyboardButton(text=_("⬇️ Sertifikatni yuklab olish")))
     markup.add(KeyboardButton(text=_("🔙 Orqaga")))
     return markup
-
-
-async def get_rating_regions_markup(regions, language="uz"):
-    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(KeyboardButton(text=_("📊 Reytingni ko'rish")))
-    button.add(*(KeyboardButton(text=get_object_value(region, "title", language)) for region in regions if
-                 get_object_value(region, "title", language) is not None))
-    button.add(KeyboardButton(text=_("🔙 Orqaga")))
-    return button
-
-async def get_rating_district_markup(districts, language="uz"):
-    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(KeyboardButton(text=_("📊 Reytingni ko'rish")))
-    button.add(*(KeyboardButton(text=get_object_value(district, "title", language)) for district in districts if
-                 get_object_value(district, "title", language) is not None))
-    button.add(KeyboardButton(text=_("🔙 Orqaga")))
-    return button
-
-
-async def get_rating_school_markup(schools, language="uz"):
-    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(KeyboardButton(text=_("📊 Reytingni ko'rish")))
-    button.add(*(KeyboardButton(text=get_object_value(school, "title", language)) for school in schools if
-                 get_object_value(school, "title", language) is not None))
-    button.add(KeyboardButton(text=_("🔙 Orqaga")))
-    return button
-
-
-async def get_rating_classes_markup():
-    button = ReplyKeyboardMarkup(
-        keyboard=[
-            [
-                KeyboardButton(_("📊 Reytingni ko'rish"))
-            ],
-            [
-                KeyboardButton(text=_("5-sinf")),
-                KeyboardButton(text=_("6-sinf"))
-            ],
-            [
-                KeyboardButton(text=_("7-sinf")),
-                KeyboardButton(text=_("8-sinf"))
-            ],
-            [
-                KeyboardButton(text=_("9-sinf")),
-                KeyboardButton(text=_("10-sinf"))
-            ],
-            [
-                KeyboardButton(text=_("11-sinf")),
-            ],
-            [
-                KeyboardButton(text=_("🔙 Orqaga"))
-            ]
-        ],
-        resize_keyboard=True
-    )
-    return button
 
 
 async def rating_back():

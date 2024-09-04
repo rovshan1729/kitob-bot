@@ -2,8 +2,54 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardBu
 from aiogram.types.chat_member import ChatMemberStatus
 from django.conf import settings
 from tgbot.bot.loader import bot
-from bot.models import RequiredGroup
+from tgbot.models import RequiredGroup, TelegramProfile
 from tgbot.bot.loader import gettext as _
+from aiogram.dispatcher import FSMContext
+
+
+from aiogram.utils.callback_data import CallbackData
+
+# Define a CallbackData for handling button presses
+skill_cb = CallbackData('skill', 'id', 'level', 'action', 'page',)
+
+ITEMS_PER_PAGE = 5
+
+def get_skills_markup(skills, parent_id=None, page=0, selected_skills=[], language="en"):
+    if parent_id is None:
+        parent_id = 0 
+    
+    markup = InlineKeyboardMarkup(row_width=2)
+    start = page * ITEMS_PER_PAGE
+    end = start + ITEMS_PER_PAGE
+    current_skills = skills[start:end]
+
+    for skill in current_skills:
+        title = getattr(skill, f"title_{language}")
+        markup.add(InlineKeyboardButton(
+            text=f"{title} ✅" if skill.id in selected_skills else skill.title, 
+            callback_data=skill_cb.new(id=skill.id, level=0, action='select', page=page)
+        ))
+
+    if page > 0:
+        markup.add(InlineKeyboardButton(
+            text="⬅️ Previous", 
+            callback_data=skill_cb.new(id=parent_id, level=0, action='paginate', page=page-1)
+        ))
+
+    if len(skills) > end:
+        markup.add(InlineKeyboardButton(
+            text="Next ➡️", 
+            callback_data=skill_cb.new(id=parent_id, level=0, action='paginate', page=page+1)
+        ))
+
+    if parent_id:
+        markup.add(InlineKeyboardButton(
+            text="🔙 Back", 
+            callback_data=skill_cb.new(id=parent_id, level=1, action='parent', page=0)
+        ))
+
+    return markup
+
 
 languages_markup = ReplyKeyboardMarkup(
     keyboard=[
@@ -57,10 +103,3 @@ async def get_required_chats_markup(required_chats, user_id):
         InlineKeyboardButton(text=_("Obuna bo'ldim/Qo'shildim"), callback_data="subscribed")
     ])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
-
-
-def test_skip_inline():
-    return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=_("➡️ O'tkazib yuborish"), callback_data="skip_test")],
-        # [InlineKeyboardButton(text=_("🏁 Yakunlash"), callback_data="finished")]
-    ])
