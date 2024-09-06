@@ -1,34 +1,65 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from tgbot.bot.keyboards.inline import languages_markup
-from tgbot.bot.keyboards.reply import phone_keyboard, main_markup
+from tgbot.bot.keyboards.inline import languages_markup, get_skills_markup
+from tgbot.bot.keyboards.reply import (
+    phone_keyboard, 
+    main_markup, 
+    back_keyboard, 
+    select_plan, 
+    plan_button
+    )
+
 from tgbot.bot.states.main import AdmissionState
 from tgbot.bot.utils import get_user
 from django.utils import timezone
 from django.db.models import Q
 from tgbot.bot.loader import dp, gettext as _
+from tgbot.models import SelectPlan, Skill
+from aiogram.utils.callback_data import CallbackData
 
 
-# @dp.message_handler(state=AdmissionState.phone, content_types=types.ContentType.TEXT, text=_("🔙 Orqaga"))
-# async def back_to_main(message: types.Message):
-#     await message.answer(_("Familiya, Ism va Sharifingizni kiriting"), reply_markup=types.ReplyKeyboardRemove())
-#     await AdmissionState.self_introduction.set()
+
+@dp.message_handler(state=AdmissionState.full_name, content_types=types.ContentType.TEXT, text=_("🔙 Orqaga"))
+async def back_to_language(message: types.Message):
+    await message.answer(
+                text='Marhamat tilni tanlang! 🇺🇿\nПожалуйста, выберите язык! 🇷🇺\nPlease, select a language! 🇺🇸',
+                reply_markup=languages_markup)
+    await AdmissionState.language.set()
 
 
-# @dp.message_handler(state=AdmissionState.birth_date, text=_("🔙 Orqaga"))
-# async def back_to_phone(message: types.Message):
-#     await message.answer(_('Telefon raqamingizni quyidagi tugmani bosgan holda yuboring.'), reply_markup=phone_keyboard)
-#     await AdmissionState.phone.set()
+@dp.message_handler(state=AdmissionState.phone_number, content_types=types.ContentType.TEXT, text=_("🔙 Orqaga"))
+async def back_to_full_name(message: types.Message):
+    await message.answer(_("Familiya, Ism va Sharifingizni kiriting"), reply_markup=back_keyboard)
+    await AdmissionState.full_name.set()
 
 
-# @dp.message_handler(state=AdmissionState.region, text=_("🔙 Orqaga"))
-# async def back_to_birth_date(message: types.Message):
-#     await message.answer(_("Tug'ilgan kuningizni kiriting.\n"
-#                            "Format 15.01.1990"), reply_markup=types.ReplyKeyboardRemove())
-#     await AdmissionState.birth_date.set()
+@dp.message_handler(state=AdmissionState.email, text=_("🔙 Orqaga"))
+async def back_to_phone(message: types.Message):
+    await message.answer(_('Telefon raqamingizni quyidagi tugmani bosgan holda yuboring.'), reply_markup=phone_keyboard)
+    await AdmissionState.phone_number.set()
+    
 
+@dp.message_handler(state=AdmissionState.skill, text=_("🔙 Orqaga"))
+async def back_to_email(message: types.Message):
+    await message.answer(_("Email ni yuvoring"), reply_markup=back_keyboard)
+    await AdmissionState.email.set()
+    
+ 
+# @dp.message_handler(state=AdmissionState.plan, text=_("🔙 Orqaga"))
+# async def back_to_email(message: types.Message, state: FSMContext):
+#     data = await state.get_data()
+    
+#     user = get_user(message.from_user.id)
+#     language = user.language
+    
+#     # root_skills = Skill.objects.filter(parent__isnull=True)
+#     # markup = get_skills_markup(root_skills, language=language)
+#     # await message.answer("Select a skill:", reply_markup=markup)
+#     # return await AdmissionState.skill.set()
 
-# @dp.message_handler(state=AdmissionState.change_language, content_types=types.ContentType.TEXT, text=_("🔙 Orqaga"))
-# async def back_to_previous(message: types.Message):
-#     await message.answer(_("Tilni o'zgartirishingiz mumkin"), reply_markup=languages_markup)
-#     await AdmissionState.change_language.set()
+#     select_plan_buttons = data.get('select_plan_buttons')
+#     await message.answer(_("Select your plan"), reply_markup=select_plan(select_plan_buttons, language))
+#     await AdmissionState.skill.set()
+       
+
+        

@@ -9,6 +9,15 @@ admin.site.register(models.TelegramBot)
 @admin.register(models.Skill)
 class SkillAdmin(TabbedTranslationAdmin):
     list_display = ('id', 'title')
+    
+
+@admin.register(models.SelectPlan)
+class SelectPlan(TabbedTranslationAdmin):
+    list_display = ('id', 'title', 'parent')
+    
+@admin.register(models.PlanButtons)
+class PlanContent(TabbedTranslationAdmin):
+    list_display = ("id", "title", "plan")
 
 
 @admin.register(models.TelegramProfile)

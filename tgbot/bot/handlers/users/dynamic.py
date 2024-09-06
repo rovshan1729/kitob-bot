@@ -3,8 +3,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from tgbot.bot.keyboards.inline import languages_markup
 from tgbot.bot.utils import get_user, get_lang
-from tgbot.bot.keyboards.reply import main_markup, generate_custom_markup
-# from tgbot.bot.states.main import MainState
+from tgbot.bot.keyboards.reply import main_markup
 from tgbot.bot.utils import get_user
 from tgbot.bot.loader import dp, gettext as _
 from django.utils import timezone
