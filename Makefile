@@ -7,7 +7,7 @@ APP_CMD_DIR=${CURRENT_DIR}/cmd
 REGISTRY=registry.uicgroup.tech
 TAG=latest
 ENV_TAG=latest
-PROJECT_NAME=python-edu-bot
+PROJECT_NAME=project
 
 docker-login:
 	docker login -u ${REGISTRY_USER} -p ${REGISTRY_PASSWORD} ${REGISTRY}
