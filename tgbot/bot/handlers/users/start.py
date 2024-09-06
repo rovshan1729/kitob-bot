@@ -187,7 +187,6 @@ import re
 
 @dp.message_handler(state=AdmissionState.email, content_types=types.ContentTypes.TEXT)
 async def skill(message: types.Message, state: FSMContext):
-    print(await state.get_state())
     email = message.text
     user = get_user(message.from_user.id)
     language = user.language
@@ -209,7 +208,6 @@ skill_cb = CallbackData('skill', 'id', 'level', 'action', 'page')
 
 @dp.callback_query_handler(skill_cb.filter(action='select'), state=AdmissionState.skill)
 async def skill_selected(callback_query: types.CallbackQuery, callback_data: dict, state: FSMContext):
-    print(await state.get_state())
     skill_id = int(callback_data['id'])
     skill = Skill.objects.get(id=skill_id)
     is_parent = False
@@ -318,7 +316,6 @@ async def confirm_skills(call: types.CallbackQuery, callback_data: dict, state: 
 
 @dp.message_handler(state=AdmissionState.plan)
 async def select_plan_handler(message: types.Message, state: FSMContext):
-    print(await state.get_state())
     data = await state.get_data()
     selected_button = message.text.strip()
     await state.update_data(selected_button=selected_button)
@@ -328,7 +325,8 @@ async def select_plan_handler(message: types.Message, state: FSMContext):
     if message.text == _("🔙 Orqaga"):
         root_skills = Skill.objects.filter(parent__isnull=True)
         markup = get_skills_markup(root_skills, language=language)
-        await message.answer("Select a skill:", reply_markup=markup)
+        await message.answer("Select a skill", reply_markup=back_keyboard)
+        await message.answer("Skills:", reply_markup=markup)
         return await AdmissionState.skill.set()
     
     plan = SelectPlan.objects.filter(Q(title_uz=selected_button) | Q(title_ru=selected_button) | 
@@ -341,7 +339,6 @@ async def select_plan_handler(message: types.Message, state: FSMContext):
     buttons = plan.buttons.all()
     button_obj = plan.buttons.first()
     button_content = getattr(button_obj, f"content_{language}", None)
-    await state.update_data(button_content=button_content, plan=plan)
     
     if plan.type == SelectPlan.AnswerChoice.TEXT_BUTTON:
         await message.answer(text, reply_markup=plan_button(buttons, language))
@@ -351,6 +348,10 @@ async def select_plan_handler(message: types.Message, state: FSMContext):
 
     elif plan.type == SelectPlan.AnswerChoice.TEXT_LINK:
         await message.answer(text, reply_markup=plan_button(buttons, language))
+        
+    plan_type = plan.type
+    await state.update_data(button_content=button_content, plan=plan, plan_type=plan_type)
+
 
     await AdmissionState.keyboard_answer.set()
 
@@ -383,7 +384,6 @@ async def select_plan_handler(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=AdmissionState.keyboard_answer)
 async def keyboard_answer_handler(message: types.Message, state: FSMContext):
-    print(await state.get_state())
     data = await state.get_data()
     user = get_user(message.from_user.id)
     language = user.language

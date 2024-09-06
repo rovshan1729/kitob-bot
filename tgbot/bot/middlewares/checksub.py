@@ -25,6 +25,8 @@ class BigBrother(BaseMiddleware):
         logging.info(user)
         if not final_status:
             await update.message.answer(
-                _("Quyidagi kanallarga obuna bo'lishingiz kerak, pastdagi tugmalar ustiga bosing ⬇️"),
+                _(f"Quyidagi kanallarga obuna bo'lishingiz kerak, pastdagi tugmalar ustiga bosing ⬇️\n\n"
+                  f"Вам необходимо подписаться на следующие каналы, нажмите на кнопки ниже ⬇️\n\n"
+                  f"You must subscribe to the following channels, click on the buttons below ⬇️"),
                 reply_markup=reply_markup, disable_web_page_preview=True)
             raise CancelHandler()
