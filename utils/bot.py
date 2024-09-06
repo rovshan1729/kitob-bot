@@ -37,7 +37,7 @@ def send_message(chat_id, text):
 def get_object_value(object, field, language):
     if not language:
         language = 'uz'
-
+   
     if hasattr(object, field):
         if hasattr(object, f"{field}_{language}"):
             return getattr(object, f"{field}_{language}")

@@ -88,7 +88,7 @@ async def get_check_button(chat_ids: list = []):
                 continue
     if channels_data:
         buttons = [[InlineKeyboardButton(text=channel_chat.get("title", "No title"), url=channel_chat.get("url"))] for channel_chat in channels_data]
-        buttons.append([InlineKeyboardButton(text=_("✅ Obunalarni tekshirish"), callback_data="check_subs")])
+        buttons.append([InlineKeyboardButton(text=_("✅ Check"), callback_data="check_subs")])
         check_button = InlineKeyboardMarkup(
             inline_keyboard=buttons
         )

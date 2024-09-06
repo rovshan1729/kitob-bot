@@ -6,3 +6,5 @@ class AdmissionState(StatesGroup):
     phone_number = State()
     email = State()
     skill = State()
+    plan = State()
+    keyboard_answer = State()
