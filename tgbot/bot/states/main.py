@@ -8,3 +8,13 @@ class AdmissionState(StatesGroup):
     skill = State()
     plan = State()
     keyboard_answer = State()
+    
+
+class Amateur(StatesGroup):
+    pass
+
+class Intern(StatesGroup):
+    pass
+
+class Hiring(StatesGroup):
+    pass

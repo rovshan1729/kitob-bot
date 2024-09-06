@@ -43,23 +43,4 @@ async def back_to_phone(message: types.Message):
 async def back_to_email(message: types.Message):
     await message.answer(_("Email ni yuvoring"), reply_markup=back_keyboard)
     await AdmissionState.email.set()
-    
- 
-# @dp.message_handler(state=AdmissionState.plan, text=_("🔙 Orqaga"))
-# async def back_to_email(message: types.Message, state: FSMContext):
-#     data = await state.get_data()
-    
-#     user = get_user(message.from_user.id)
-#     language = user.language
-    
-#     # root_skills = Skill.objects.filter(parent__isnull=True)
-#     # markup = get_skills_markup(root_skills, language=language)
-#     # await message.answer("Select a skill:", reply_markup=markup)
-#     # return await AdmissionState.skill.set()
-
-#     select_plan_buttons = data.get('select_plan_buttons')
-#     await message.answer(_("Select your plan"), reply_markup=select_plan(select_plan_buttons, language))
-#     await AdmissionState.skill.set()
-       
-
         

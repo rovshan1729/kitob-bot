@@ -166,10 +166,10 @@ LOCALES_DIR = BASE_DIR / "locale"
 RECAPTCHA_PUBLIC_KEY = env.str("RECAPTCHA_PUBLIC_KEY", "6LdlOWYpAAAAAOEsejvu7mT-tYr9PBmMlYbVio7R")
 RECAPTCHA_PRIVATE_KEY = env.str("RECAPTCHA_PRIVATE_KEY", "6LdlOWYpAAAAAP2nediVlYsjEXrFZpzH4DZlUarQ")
 
-BACK_END_URL = env.str("BACK_END_URL", "https://globaledubot.uicgroup.tech")
+BACK_END_URL = env.str("BACK_END_URL", "https://uic-games-bot.uicgroup.tech")
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = False
 CSRF_TRUSTED_ORIGINS = [
-    'https://globaledubot.uicgroup.tech',
-    "https://py-olimpiada.uicgroup.tech",
+   "https://uic-games-bot.uicgroup.tech",
+   "http://uic-games-bot.uicgroup.tech"
 ]
