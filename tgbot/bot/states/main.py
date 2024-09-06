@@ -16,4 +16,5 @@ class Amateur(StatesGroup):
 class Intern(StatesGroup):
     pass
 
-class Hiring
+class Hiring(StatesGroup):
+    pass
