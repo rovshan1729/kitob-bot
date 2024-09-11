@@ -7,9 +7,6 @@ from django.core.exceptions import ValidationError
 from ckeditor.fields import RichTextField
 from auditlog.registry import auditlog
 
-from telegram import Bot
-from telegram.error import BadRequest
-
 from utils.bot import set_webhook_request, get_info
 from utils.validate_supported_tags import is_valid_content, validate_content
 
@@ -90,9 +87,6 @@ class TelegramProfile(BaseModel):
 
     full_name = models.CharField(max_length=255, null=True, blank=True, verbose_name=_("Full Name"))
     phone_number = models.CharField(max_length=128, blank=True, null=True, verbose_name=_("Phone Number"))
-    email = models.EmailField(blank=True, null=True, verbose_name=_("Email"))
-    plan = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("User Plan"))
-    skill = models.ManyToManyField("tgbot.Skill")
 
     is_registered = models.BooleanField(default=False)
 
@@ -104,17 +98,6 @@ class TelegramProfile(BaseModel):
         verbose_name_plural = "Telegram Profiles"
         db_table = "telegram_profiles"
         
-        
-class Skill(BaseModel):
-    title = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Skill"))
-    
-    parent = models.ForeignKey('self', models.CASCADE, blank=True, null=True, verbose_name=_("Parent"),
-                               related_name="child")
-    
-            
-    def __str__(self):
-        return self.title
-
 
 class RequiredGroup(BaseModel):
     chat_id = models.CharField(max_length=255, verbose_name=_("Chat ID or Username"),
@@ -176,44 +159,15 @@ class TelegramButton(BaseModel):
         if not self.text:
             raise ValidationError(_("Text is required"))
         
-class SelectPlan(BaseModel):
-    title = models.CharField(max_length=255)
-    
-    class AnswerChoice(models.TextChoices):
-        TEXT_BUTTON = "text_button", "Text Button"
-        TEXT_CV_LINK = "text_cv_link", "Text CV Link"
-        TEXT_LINK = "text_link", "Text Link"
-         
-    type = models.CharField(
-        max_length=50,  
-        choices=AnswerChoice.choices,
-        blank=True,
-        null=True,
-        help_text="Type of action for this plan (button, CV link, or regular link)."
-    )
-    parent = models.ForeignKey(
-        'self',
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-        related_name='children', 
-        help_text="Parent plan, if this is a sub-plan."
-    )
-    
-    content = models.TextField(verbose_name=_("Content"), null=True)
-    link = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Link"))
+
+class BookReport(BaseModel):
+    user = models.ForeignKey(TelegramProfile, on_delete=models.CASCADE, verbose_name=_("User"))
+    reading_day = models.IntegerField(default=1, verbose_name=_("Reading day"))
+    book = models.CharField(max_length=255, verbose_name=_("Book title"))
+    pages_read = models.IntegerField(default=1, verbose_name=_("Pages read"))
     
     def __str__(self):
-        return self.title
-    
-class PlanButtons(BaseModel):
-    plan = models.ForeignKey(SelectPlan, on_delete=models.CASCADE, related_name="buttons")
-    title = models.CharField(max_length=128, verbose_name=_("Keyboard name"))
-    content = models.TextField(verbose_name=_("Content"))
-    link = models.URLField(blank=True, null=True, verbose_name=_("Link"))
-    
-    def __str__(self):
-        return self.title
+        return f'{self.user.username}: {self.reading_day}-kun {self.book}. {self.pages_read}+ bet.'
     
 
 

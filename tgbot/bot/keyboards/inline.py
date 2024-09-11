@@ -4,64 +4,6 @@ from django.conf import settings
 from tgbot.bot.loader import bot
 from tgbot.models import RequiredGroup, TelegramProfile
 from tgbot.bot.loader import gettext as _
-from aiogram.dispatcher import FSMContext
-
-
-from aiogram.utils.callback_data import CallbackData
-
-# Define a CallbackData for handling button presses
-skill_cb = CallbackData('skill', 'id', 'level', 'action', 'page',)
-
-ITEMS_PER_PAGE = 5
-
-def get_skills_markup(skills, parent_id=None, page=0, selected_skills=[], language="en"):
-    if parent_id is None:
-        parent_id = 0 
-    
-    markup = InlineKeyboardMarkup(row_width=2)
-    start = page * ITEMS_PER_PAGE
-    end = start + ITEMS_PER_PAGE
-    
-    if parent_id != 0:
-        current_skills = skills
-        page = 0
-    else:
-        current_skills = skills[start:end]
-
-    for skill in current_skills:
-        title = getattr(skill, f"title_{language}")
-        markup.add(InlineKeyboardButton(
-            text=f"{title} ✅" if skill.id in selected_skills else skill.title, 
-            callback_data=skill_cb.new(id=skill.id, level=0, action='select', page=page)
-        ))
-
-    if page > 0:
-        markup.add(InlineKeyboardButton(
-            text="⬅️ Previous", 
-            callback_data=skill_cb.new(id=parent_id, level=0, action='paginate', page=page-1)
-        ))
-
-    if len(skills) > end:
-        markup.add(InlineKeyboardButton(
-            text="Next ➡️", 
-            callback_data=skill_cb.new(id=parent_id, level=0, action='paginate', page=page+1)
-        ))
-
-    if parent_id:
-        markup.add(InlineKeyboardButton(
-            text="🔙 Back", 
-            callback_data=skill_cb.new(id=parent_id, level=1, action='parent', page=0)
-        ))
-        
-    if len(selected_skills) > 0 and parent_id == 0:
-        markup.add(
-            InlineKeyboardButton(
-                text="Confirm ✔️",
-                callback_data=skill_cb.new(id=parent_id, level=0, action="confirm", page=0)
-            )
-        )
-
-    return markup
 
 
 languages_markup = ReplyKeyboardMarkup(

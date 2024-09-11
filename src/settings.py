@@ -25,8 +25,6 @@ WEBHOOK_URL = f"{WEB_DOMAIN}/{WEBHOOK_PATH}"
 LANGUAGES = (
     ("uz", "O'zbekcha"),
     ("ru", "Русский"),
-    ("en", "English"),
-    ("qr", "Qaraqalpaqsha")
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -127,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = "Asia/Tashkent"
 
@@ -173,3 +171,8 @@ CSRF_TRUSTED_ORIGINS = [
    "https://uic-games-bot.uicgroup.tech",
    "http://uic-games-bot.uicgroup.tech"
 ]
+
+# Celery settings
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
