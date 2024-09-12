@@ -1,23 +1,29 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from tgbot.bot.loader import gettext as _
-from tgbot.models import TelegramButton
-from utils.bot import get_object_value
+
+
+def confirm_markup(language="uz"):
+    button = ReplyKeyboardMarkup(resize_keyboard=True)
+    button.add(KeyboardButton(_("Tasdiqlash")), KeyboardButton(_("Bekor qilish")))
+    return button
 
 
 def main_markup(language="uz"):
+    if language == "uz":
+        content = "Kitob hisoboti."
+        lang = "🌐 Tilni o'zgartirish"
+    elif language == "ru":
+        content = "Отчет о книге"
+        lang = "🌐 Изменить язык"
+    else:
+        content = "Kitob hisoboti."
+        lang = "🌐 Tilni o'zgartirish"
+        
     button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(KeyboardButton(text=_("Bosh menyu")), KeyboardButton(text=_("🌐 Tilni o'zgartirish")))
+    button.add(KeyboardButton(text=content), KeyboardButton(text=lang))
     return button 
 
-
-def select_plan(button_obj, language="uz"):
-    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(*(KeyboardButton(text=get_object_value(button, "title", language)) for button in button_obj if
-                 get_object_value(button, "title", language) is not None))
-    button.add(KeyboardButton(text=_('🔙 Orqaga')))
-    return button
     
-
 main_menu_markup = ReplyKeyboardMarkup(
     keyboard=[
         [
@@ -50,11 +56,3 @@ back_keyboard = ReplyKeyboardMarkup(
     ],
     resize_keyboard=True,
 )
-
-
-def plan_button(button_obj, language="uz"):
-    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(*(KeyboardButton(text=get_object_value(button, "title", language)) for button in button_obj if
-                 get_object_value(button, "title", language) is not None))
-    button.add(KeyboardButton(text=_('🔙 Orqaga')))
-    return button
