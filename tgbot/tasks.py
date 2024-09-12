@@ -1,9 +1,7 @@
 import requests
-import asyncio
 from celery import shared_task
-from tgbot.bot.loader import bot
 from tgbot.bot.utils import get_all_users
-
+from tgbot.bot.loader import gettext as _
 import environ
 
 env = environ.Env()
@@ -22,13 +20,11 @@ def send_message(chat_id, text):
     return response.json(), response.status_code
         
 
-
 @shared_task
 def send_daily_message():
     users = get_all_users()
-    loop = asyncio.get_event_loop()
     for user in users:
         try:
-            send_message(chat_id=631751797, text="This is your daily reminder!")
+            send_message(chat_id=user.telegram_id, text=_("Notification"))
         except Exception as e:
             print(f"Error sending message to {user.telegram_id}: {e}")

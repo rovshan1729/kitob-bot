@@ -7,9 +7,12 @@ from tgbot.bot.loader import gettext as _
 from tgbot.bot.utils import get_user
 from tgbot.bot.keyboards.inline import languages_markup
 from tgbot.bot.states.main import ChangeLanguageState
+from aiogram.dispatcher.filters.builtin import ChatTypeFilter
+from aiogram.types import ChatType
 
 
-@dp.message_handler(text=_("🌐 Tilni o'zgartirish"), state="*")
+
+@dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text=_("🌐 Tilni o'zgartirish"), state="*")
 async def change_language_handler(message: types.Message, state: FSMContext):
     user = get_user(message.from_user.id)
     

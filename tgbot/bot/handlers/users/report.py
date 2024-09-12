@@ -7,10 +7,11 @@ from tgbot.bot.loader import dp, bot
 from tgbot.bot.loader import gettext as _
 from tgbot.bot.states.main import ReportState
 from tgbot.bot.utils import get_user
+from aiogram.dispatcher.filters.builtin import ChatTypeFilter
+from aiogram.types import ChatType
 
 
-
-@dp.message_handler(text=_("Book report"), state="*")
+@dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text=_("Book report"), state="*")
 async def send_daily_report_handler(message: types.Message, state: FSMContext):
     await message.answer(_("Nechanchi kun o'qiyotganingizni kiriting:"), reply_markup=back_keyboard)
     await ReportState.enter_reading_day.set()
@@ -18,20 +19,20 @@ async def send_daily_report_handler(message: types.Message, state: FSMContext):
     
 @dp.message_handler(state=ReportState.enter_reading_day)
 async def process_reading_day(message: types.Message, state: FSMContext):
+    user = get_user(message.from_user.id)
+    language = user.language
+    
     if message.text == _("🔙 Orqaga"):
         await message.answer(_("Bosh menyu"), reply_markup=main_markup(language=language))
         await state.finish()
         return 
-    
-    user = get_user(message.from_user.id)
-    language = user.language
     
     day = message.text
     if not day.isdigit():
         await message.answer(_("Iltimos, to'g'ri kun raqamini kiriting."), reply_markup=back_keyboard)
         return
 
-    if 1 <= int(day) <= 1000:
+    if 1 > int(day) or int(day) > 1000:
         await message.answer(_("Iltimos, to'g'ri kun raqamini kiriting."), reply_markup=back_keyboard)
         return
     
@@ -49,7 +50,7 @@ async def process_book_title(message: types.Message, state: FSMContext):
     book_title = message.text.strip()
     is_correct = message.text.split(' ')
     
-    if len(is_correct) <= 1 or len(is_correct) > 10:
+    if len(is_correct) < 1 or len(is_correct) > 10:
         await message.answer(_("Iltimos, kitobni nomini to'g'ri kiriting."))
         return
     
@@ -64,12 +65,14 @@ async def process_book_title(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=ReportState.enter_pages_read)
 async def process_pages_read(message: types.Message, state: FSMContext):
+    user = get_user(message.from_user.id)
+    language = user.language
     pages = message.text
     if not pages.isdigit():
         await message.answer(_("Iltimos, to'g'ri bet raqamini kiriting."), reply_markup=back_keyboard)
         return
     
-    if 1 <= int(pages) <= 2000:
+    if 1 > int(pages) or int(pages) > 2000:
         await message.answer(_("Iltimos, nechi bet o'qiganingizni raqamini to'g'ri kiriting."), reply_markup=back_keyboard)
         return
     
@@ -81,7 +84,7 @@ async def process_pages_read(message: types.Message, state: FSMContext):
         "Tasdiqlaysizmi?"
     )
     
-    await message.answer(confirmation_message, reply_markup=confirm_markup())
+    await message.answer(confirmation_message, reply_markup=confirm_markup(language=language))
     await ReportState.confirm_report.set()
 
 
@@ -107,7 +110,7 @@ async def confirm_report(message: types.Message, state: FSMContext):
         pages_read=pages_read
     )
     
-    await message.answer(_("Hisobotingiz yuborildi."), reply_markup=main_markup())
+    await message.answer(_("Hisobotingiz yuborildi."), reply_markup=main_markup(language=language))
     
     report_message = (
         f"@{user.username}\n {data['reading_day']}-kun\n {data['book_title']}.\n {data['pages_read']}+ bet."

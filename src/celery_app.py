@@ -1,4 +1,3 @@
-# myproject/celery.py
 from __future__ import absolute_import, unicode_literals
 import os
 import environ
@@ -22,10 +21,11 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
 
+app.conf.timezone = 'Asia/Tashkent'
 
 app.conf.beat_schedule = {
     'send-daily-message-every-24-hours': {
         'task': 'tgbot.tasks.send_daily_message',
-        'schedule': 10,
+        'schedule': crontab(hour=6),
     }
 }

@@ -1,7 +1,9 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.builtin import CommandStart
+from aiogram.dispatcher.filters.builtin import CommandStart, ChatTypeFilter
 from aiogram.utils.exceptions import MessageNotModified, MessageToDeleteNotFound
+from aiogram.types import ChatType
+
 
 from tgbot.models import TelegramProfile
 from tgbot.bot.keyboards.inline import languages_markup, get_check_button
@@ -53,7 +55,7 @@ async def do_start(message: types.Message, state: FSMContext):
         await message.answer(_("Bosh menyu."), reply_markup=main_markup(language=language))
 
 
-@dp.message_handler(CommandStart(), state="*")
+@dp.message_handler(CommandStart(), ChatTypeFilter(ChatType.PRIVATE), state="*")
 async def bot_start(message: types.Message, state: FSMContext):
     await state.finish()
 
@@ -81,7 +83,7 @@ async def bot_start(message: types.Message, state: FSMContext):
         await do_start(message, state)
 
 
-@dp.callback_query_handler(text="check_subs")
+@dp.callback_query_handler(ChatTypeFilter(ChatType.PRIVATE), text="check_subs", )
 async def checker(call: types.CallbackQuery, state: FSMContext):
     data = await state.get_data()
     user = get_user(call.message.from_user.id)

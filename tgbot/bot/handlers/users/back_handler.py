@@ -3,10 +3,12 @@ from tgbot.bot.keyboards.inline import languages_markup
 from tgbot.bot.keyboards.reply import back_keyboard
 from tgbot.bot.states.main import AdmissionState
 from tgbot.bot.loader import dp, gettext as _
+from aiogram.dispatcher.filters.builtin import ChatTypeFilter
+from aiogram.types import ChatType
 
 
 
-@dp.message_handler(state=AdmissionState.full_name, content_types=types.ContentType.TEXT, text=_("🔙 Orqaga"))
+@dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), state=AdmissionState.full_name, content_types=types.ContentType.TEXT, text=_("🔙 Orqaga"))
 async def back_to_language(message: types.Message):
     await message.answer(
                 text='Marhamat tilni tanlang! 🇺🇿\nПожалуйста, выберите язык! 🇷🇺',
