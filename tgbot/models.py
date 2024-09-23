@@ -9,6 +9,8 @@ from auditlog.registry import auditlog
 
 from utils.bot import set_webhook_request, get_info
 from utils.validate_supported_tags import is_valid_content, validate_content
+from django.utils import timezone
+
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
@@ -169,6 +171,16 @@ class BookReport(BaseModel):
     def __str__(self):
         return f'{self.user.username}: {self.reading_day}-kun {self.book}. {self.pages_read}+ bet.'
     
+
+class ReportMessage(models.Model):
+    chat_id = models.CharField(max_length=255)
+    message_id = models.PositiveIntegerField(null=True, blank=True)
+    message_text = models.TextField(null=True, blank=True)
+    last_update = models.DateField(default=timezone.now)
+    message_count = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"Message {self.message_id} in chat {self.chat_id}"
 
 
 auditlog.register(RequiredGroup)
