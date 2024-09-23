@@ -1,47 +1,44 @@
 before_script:  
   - docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
-stages:
-  # - build_staging
-  - deploy_staging
 
 workflow:
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "dev"'
-      variables:
-        RUNNER_TAG: "main"
     - if: '$CI_COMMIT_REF_NAME == "master"'
       variables:
         RUNNER_TAG: "228_server"
+        IMAGE_TAG: $CI_PIPELINE_IID
+        ENV_TAG: "latest"
+    - if: '$CI_COMMIT_REF_NAME == "dev"'
+      variables:
+        RUNNER_TAG: "main"
+        IMAGE_TAG: "dev"
+        ENV_TAG: "dev"
     - when: always       
 
-# build_image:
-#   stage: build_staging
-#   image: registry.uicgroup.tech/devops/docker:dind
-#   script:
-#     - |
-#       if [ "$CI_COMMIT_REF_NAME" == "dev" ]; then
-#         TAG=dev
-#         ENV_TAG=dev
-#       else
-#         TAG=$CI_PIPELINE_IID
-#         ENV_TAG=latest
-#       fi
-#       make build-image TAG=$TAG SERVICE_NAME=$CI_PROJECT_NAME PROJECT_NAME=$CI_PROJECT_NAMESPACE REGISTRY=$CI_REGISTRY ENV_TAG=$ENV_TAG
-#       make push-image TAG=$TAG SERVICE_NAME=$CI_PROJECT_NAME PROJECT_NAME=$CI_PROJECT_NAMESPACE REGISTRY=$CI_REGISTRY ENV_TAG=$ENV_TAG
-#   only:
-#     - master
-#     - dev 
+stages:
+  - build_staging
+  - deploy_staging
 
-deploy_image:
-  stage: deploy_staging
-  variables:
-    GIT_STRATEGY: none
-    GIT_SUBMODULE_STRATEGY: none
+build_image:
+  stage: build_staging
+  image: registry.uicgroup.tech/devops/docker:dind
   script:
-    - echo "Deploying to Swarm"
-    - ls /home/sarvar
+    - make build-image TAG=$IMAGE_TAG SERVICE_NAME=$CI_PROJECT_NAME PROJECT_NAME=$CI_PROJECT_NAMESPACE REGISTRY=$CI_REGISTRY ENV_TAG=$ENV_TAG
+    - make push-image TAG=$IMAGE_TAG SERVICE_NAME=$CI_PROJECT_NAME PROJECT_NAME=$CI_PROJECT_NAMESPACE REGISTRY=$CI_REGISTRY ENV_TAG=$ENV_TAG
   only:
     - master
     - dev 
-  tags:
-    - $RUNNER_TAG
+
+# deploy_image:
+#   stage: deploy_staging
+#   variables:
+#     GIT_STRATEGY: none
+#     GIT_SUBMODULE_STRATEGY: none
+#   script:
+#     - docker service update --with-registry-auth --image $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$IMAGE_TAG ''
+#     - docker exec $(docker ps --filter "name=project_name.*" --format "{{.Names}}" | head -n 1) python manage.py migrate
+#   only:
+#     - master 
+#     - dev 
+#   tags:
+#     - $RUNNER_TAG 
