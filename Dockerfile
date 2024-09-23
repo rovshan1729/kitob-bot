@@ -31,7 +31,3 @@ COPY . .
 
 # Expose the port
 EXPOSE 8000
-
-# run entrypoint.prod.sh
-RUN ["chmod", "+x", "/app/entrypoint.sh"]
-ENTRYPOINT ["sh", "/app/entrypoint.sh"]
