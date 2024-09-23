@@ -4,6 +4,16 @@ stages:
   # - build_staging
   - deploy_staging
 
+workflow:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "dev"'
+      variables:
+        RUNNER_TAG: "main"
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      variables:
+        RUNNER_TAG: "228_server"
+    - when: always       
+
 # build_image:
 #   stage: build_staging
 #   image: registry.uicgroup.tech/devops/docker:dind
@@ -30,15 +40,8 @@ deploy_image:
   script:
     - echo "Deploying to Swarm"
     - ls
-    - if [ "$CI_COMMIT_REF_NAME" == "dev" ]; then
-        echo "Using dev_runner";
-      else
-        echo "Using prod";
-      fi
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "dev"'
-      tags:
-        - main
-    - if: '$CI_COMMIT_REF_NAME == "master"'
-      tags:
-        - 228_server
+  only:
+    - master
+    - dev 
+  tags:
+    - $RUNNER_TAG
