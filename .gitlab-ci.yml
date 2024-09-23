@@ -39,7 +39,7 @@ deploy_image:
     GIT_SUBMODULE_STRATEGY: none
   script:
     - echo "Deploying to Swarm"
-    - ls
+    - ls /home/sarvar
   only:
     - master
     - dev 
