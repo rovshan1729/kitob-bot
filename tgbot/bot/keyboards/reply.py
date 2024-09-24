@@ -10,7 +10,7 @@ def confirm_markup(language="uz"):
 
 def main_markup(language="uz"):
     if language == "uz":
-        content = "Kitob hisoboti."
+        content = "Kitob hisoboti"
         lang = "🌐 Tilni o'zgartirish"
     elif language == "ru":
         content = "Отчет о книге"
