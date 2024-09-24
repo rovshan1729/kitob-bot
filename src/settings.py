@@ -176,3 +176,8 @@ CSRF_TRUSTED_ORIGINS = [
 CELERY_BROKER_URL = env.str("CELERY_BROKER_URL", "redis://redis:6379/0")
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = [
+    'https://kitob.uicgroup.tech'
+]
