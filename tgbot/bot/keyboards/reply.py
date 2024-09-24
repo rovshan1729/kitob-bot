@@ -16,7 +16,7 @@ def main_markup(language="uz"):
         content = "Отчет о книге"
         lang = "🌐 Изменить язык"
     else:
-        content = "Kitob hisoboti."
+        content = "Kitob hisoboti"
         lang = "🌐 Tilni o'zgartirish"
         
     button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
