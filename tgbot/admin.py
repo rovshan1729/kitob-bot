@@ -41,3 +41,8 @@ class TelegramButtonAdmin(TranslationRequiredMixin, TabbedTranslationAdmin):
 @admin.register(models.BookReport)
 class BookReportAdmin(admin.ModelAdmin):
     readonly_fields= ("created_at",)
+    
+
+@admin.register(models.DailyMessage)
+class DailyMessageAdmin(admin.ModelAdmin):
+    list_display = ("id", "message")
