@@ -181,6 +181,30 @@ class ReportMessage(models.Model):
 
     def __str__(self):
         return f"Message {self.message_id} in chat {self.chat_id}"
+    
+    
+class SingletonModel(models.Model):
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        self.__class__.objects.all().delete() 
+        super(SingletonModel, self).save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(id=1)
+        return obj
+
+class DailyMessage(SingletonModel):
+    message = models.TextField(verbose_name=_("Message"), default="Notification")
+
+    def __str__(self):
+        return self.message
+
+    class Meta:
+        verbose_name = _("Daily Message")
+        verbose_name_plural = _("Daily Messages")
 
 
 auditlog.register(RequiredGroup)
