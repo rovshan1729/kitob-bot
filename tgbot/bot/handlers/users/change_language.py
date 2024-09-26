@@ -12,7 +12,8 @@ from aiogram.types import ChatType
 
 
 
-@dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text=_("🌐 Tilni o'zgartirish"), state="*")
+@dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text="🌐 Tilni o'zgartirish", state="*")
+@dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text="🌐 Изменить язык", state="*")
 async def change_language_handler(message: types.Message, state: FSMContext):
     user = get_user(message.from_user.id)
     
