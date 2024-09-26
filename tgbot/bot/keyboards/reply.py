@@ -10,14 +10,14 @@ def confirm_markup(language="uz"):
 
 def main_markup(language="uz"):
     if language == "uz":
-        content = "Kitob hisoboti"
-        lang = "🌐 Tilni o'zgartirish"
+        content = "Kitob hisoboti1"
+        lang = "🌐 Tilni o'zgartirish1"
     elif language == "ru":
-        content = "Отчет о книге"
-        lang = "🌐 Изменить язык"
+        content = "Отчет о книге1"
+        lang = "🌐 Изменить язык1"
     else:
-        content = "Kitob hisoboti"
-        lang = "🌐 Tilni o'zgartirish"
+        content = "Kitob hisoboti2"
+        lang = "🌐 Tilni o'zgartirish2"
         
     button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
     button.add(KeyboardButton(text=content), KeyboardButton(text=lang))
