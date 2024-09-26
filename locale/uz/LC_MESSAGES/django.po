@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 12:07+0500\n"
+"POT-Creation-Date: 2024-09-24 17:32+0500\n"
 "PO-Revision-Date: 2024-09-11 15:53+0500\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,113 +19,122 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Translated-Using: django-rosetta 0.10.0\n"
 
-#: tgbot/bot/handlers/users/back_handler.py:9
-#: tgbot/bot/handlers/users/back_handler.py:17
-#: tgbot/bot/handlers/users/report.py:23 tgbot/bot/handlers/users/report.py:40
-#: tgbot/bot/keyboards/reply.py:23 tgbot/bot/keyboards/reply.py:35
-#: tgbot/bot/keyboards/reply.py:44
+#: tgbot/bot/handlers/users/back_handler.py:11
+#: tgbot/bot/handlers/users/back_handler.py:19
+#: tgbot/bot/handlers/users/report.py:26 tgbot/bot/handlers/users/report.py:47
+#: tgbot/bot/keyboards/reply.py:33 tgbot/bot/keyboards/reply.py:45
+#: tgbot/bot/keyboards/reply.py:54
 msgid "🔙 Orqaga"
 msgstr ""
 
-#: tgbot/bot/handlers/users/back_handler.py:19
+#: tgbot/bot/handlers/users/back_handler.py:21
 msgid "Familiya, Ism va Sharifingizni kiriting"
 msgstr ""
 
-#: tgbot/bot/handlers/users/change_language.py:12
-#: tgbot/bot/keyboards/reply.py:13
+#: tgbot/bot/handlers/users/change_language.py:15
 msgid "🌐 Tilni o'zgartirish"
 msgstr ""
 
-#: tgbot/bot/handlers/users/change_language.py:14
-msgid "Tilni o'zgartirin."
+#: tgbot/bot/handlers/users/change_language.py:37
+msgid "Noma'lum til. Iltimos, tilni to'g'ri tanlang."
 msgstr ""
 
-#: tgbot/bot/handlers/users/change_language.py:23
-#, python-brace-format
-msgid "Language has been changed to {changed_language}"
-msgstr "Til {changed_language} ga oʻzgartirildi"
-
-#: tgbot/bot/handlers/users/report.py:13 tgbot/bot/keyboards/reply.py:13
+#: tgbot/bot/handlers/users/report.py:15
 msgid "Book report"
 msgstr "Kitob hisoboti."
 
-#: tgbot/bot/handlers/users/report.py:15 tgbot/bot/handlers/users/report.py:41
+#: tgbot/bot/handlers/users/report.py:17 tgbot/bot/handlers/users/report.py:48
 msgid "Nechanchi kun o'qiyotganingizni kiriting:"
 msgstr "Nechanchi kun o'qiyotganingizni kiriting: UZ"
 
-#: tgbot/bot/handlers/users/report.py:24
+#: tgbot/bot/handlers/users/report.py:27
 msgid "Bosh menyu"
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:30
+#: tgbot/bot/handlers/users/report.py:33 tgbot/bot/handlers/users/report.py:37
 msgid "Iltimos, to'g'ri kun raqamini kiriting."
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:34
+#: tgbot/bot/handlers/users/report.py:41
 msgid "Qaysi kitobni o'qiyotganingizni kiriting:"
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:45
-msgid "Necha bet o'qiganingizni kiriting:"
+#: tgbot/bot/handlers/users/report.py:55
+msgid "Iltimos, kitobni nomini to'g'ri kiriting."
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:53
+#: tgbot/bot/handlers/users/report.py:59
+msgid "Iltimos, kitobni nomini to'g'ri kiriting"
+msgstr ""
+
+#: tgbot/bot/handlers/users/report.py:63
+#, fuzzy
+#| msgid "Nechanchi kun o'qiyotganingizni kiriting:"
+msgid "Nechi bet o'qiganingizni kiriting:"
+msgstr "Nechanchi kun o'qiyotganingizni kiriting: UZ"
+
+#: tgbot/bot/handlers/users/report.py:73
 msgid "Iltimos, to'g'ri bet raqamini kiriting."
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:70
+#: tgbot/bot/handlers/users/report.py:77
+msgid "Iltimos, nechi bet o'qiganingizni raqamini to'g'ri kiriting."
+msgstr ""
+
+#: tgbot/bot/handlers/users/report.py:107
 msgid "tasdiqlash"
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:71
+#: tgbot/bot/handlers/users/report.py:108
 msgid "Bekor qilindi."
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:89
+#: tgbot/bot/handlers/users/report.py:131
 msgid "Hisobotingiz yuborildi."
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:53 tgbot/bot/handlers/users/start.py:119
-#: tgbot/bot/handlers/users/start.py:160
+#: tgbot/bot/handlers/users/start.py:55 tgbot/bot/handlers/users/start.py:121
+#: tgbot/bot/handlers/users/start.py:162
 msgid "Bosh menyu."
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:66 tgbot/bot/loader.py:88
+#: tgbot/bot/handlers/users/start.py:68 tgbot/bot/loader.py:88
 #: tgbot/bot/middlewares/checksub.py:28
 msgid ""
-"Quyidagi kanallarga obuna bo'lishingiz kerak, pastdagi tugmalar ustiga bosing ⬇️\n"
+"Quyidagi kanallarga obuna bo'lishingiz kerak, pastdagi tugmalar ustiga "
+"bosing ⬇️\n"
 "\n"
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:126
+#: tgbot/bot/handlers/users/start.py:128
 msgid "Barcha kanallarga obuna bo'ldingiz!"
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:132
+#: tgbot/bot/handlers/users/start.py:134
 msgid "Siz obuna bo'lmagan kanallar mavjud!"
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:178
+#: tgbot/bot/handlers/users/start.py:180
 msgid "Telefon raqamingizni quyidagi tugmani bosgan holda yuboring."
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:184
+#: tgbot/bot/handlers/users/start.py:186
 msgid "Ismingiz 60belgidan uzun bo'lmasligi kerak."
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:187
+#: tgbot/bot/handlers/users/start.py:189
 msgid "Faqat Text Formatda Kamida 2ta so'z bilan yozing"
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:199
+#: tgbot/bot/handlers/users/start.py:201
 msgid "Pastdagi tugma orqali raqamingizni yuboring"
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:224
+#: tgbot/bot/handlers/users/start.py:225
 msgid "Ro'yxatdan o'tdingiz, ma'lumotlaringiz saqlandi."
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:229
+#: tgbot/bot/handlers/users/start.py:230
 msgid "📲 Iltimos Raqamni Yuborish Tugmasini Bosing"
 msgstr ""
 
@@ -145,11 +154,11 @@ msgstr ""
 msgid "Bekor qilish"
 msgstr ""
 
-#: tgbot/bot/keyboards/reply.py:20
+#: tgbot/bot/keyboards/reply.py:30
 msgid "🏠 Asosiy menyu"
 msgstr ""
 
-#: tgbot/bot/keyboards/reply.py:32
+#: tgbot/bot/keyboards/reply.py:42
 msgid "📞 Telefon raqamni yuborish"
 msgstr ""
 
@@ -161,124 +170,128 @@ msgstr ""
 msgid "General "
 msgstr ""
 
-#: tgbot/models.py:14
+#: tgbot/models.py:16
 msgid "Created at"
 msgstr ""
 
-#: tgbot/models.py:15
+#: tgbot/models.py:17
 msgid "Updated at"
 msgstr ""
 
-#: tgbot/models.py:23
+#: tgbot/models.py:25
 msgid "Video"
 msgstr ""
 
-#: tgbot/models.py:24
+#: tgbot/models.py:26
 msgid "Image"
 msgstr ""
 
-#: tgbot/models.py:27
+#: tgbot/models.py:29
 msgid "File"
 msgstr ""
 
-#: tgbot/models.py:28
+#: tgbot/models.py:30
 msgid "File Type"
 msgstr ""
 
-#: tgbot/models.py:32 tgbot/models.py:33
+#: tgbot/models.py:34 tgbot/models.py:35
 msgid "Media"
 msgstr ""
 
-#: tgbot/models.py:47
+#: tgbot/models.py:49
 msgid "Site name"
 msgstr ""
 
-#: tgbot/models.py:48
+#: tgbot/models.py:50
 msgid "Site logo"
 msgstr ""
 
-#: tgbot/models.py:50
+#: tgbot/models.py:52
 msgid "Bot token"
 msgstr ""
 
-#: tgbot/models.py:51
+#: tgbot/models.py:53
 msgid "Host URL"
 msgstr ""
 
-#: tgbot/models.py:57
+#: tgbot/models.py:59
 msgid "Settings"
 msgstr ""
 
-#: tgbot/models.py:76 tgbot/models.py:118
+#: tgbot/models.py:78 tgbot/models.py:120
 msgid "Telegram Bot"
 msgstr ""
 
-#: tgbot/models.py:77
+#: tgbot/models.py:79
 msgid "Telegram Bots"
 msgstr ""
 
-#: tgbot/models.py:88
+#: tgbot/models.py:90
 msgid "Full Name"
 msgstr ""
 
-#: tgbot/models.py:89
+#: tgbot/models.py:91
 msgid "Phone Number"
 msgstr ""
 
-#: tgbot/models.py:103
+#: tgbot/models.py:105
 msgid "Chat ID or Username"
 msgstr ""
 
-#: tgbot/models.py:104
+#: tgbot/models.py:106
 msgid "Chat ID: -100000000 or Username: @username"
 msgstr ""
 
-#: tgbot/models.py:112 tgbot/models.py:113
+#: tgbot/models.py:114 tgbot/models.py:115
 msgid "Required Chats"
 msgstr ""
 
-#: tgbot/models.py:121
+#: tgbot/models.py:123
 msgid "Button Name"
 msgstr ""
 
-#: tgbot/models.py:122
+#: tgbot/models.py:124
 msgid "Button Text"
 msgstr ""
 
-#: tgbot/models.py:123
+#: tgbot/models.py:125
 msgid "Button Content"
 msgstr ""
 
-#: tgbot/models.py:124
+#: tgbot/models.py:126
 msgid "File ID"
 msgstr ""
 
-#: tgbot/models.py:132
+#: tgbot/models.py:134
 msgid "Invalid content"
 msgstr ""
 
-#: tgbot/models.py:158
+#: tgbot/models.py:160
 msgid "Title is required"
 msgstr ""
 
-#: tgbot/models.py:160
+#: tgbot/models.py:162
 msgid "Text is required"
 msgstr ""
 
-#: tgbot/models.py:164
+#: tgbot/models.py:166
 msgid "User"
 msgstr ""
 
-#: tgbot/models.py:165
+#: tgbot/models.py:167
 msgid "Reading day"
 msgstr ""
 
-#: tgbot/models.py:166
+#: tgbot/models.py:168
 msgid "Book title"
 msgstr ""
 
-#: tgbot/models.py:167
+#: tgbot/models.py:169
 msgid "Pages read"
+msgstr ""
+
+#: tgbot/tasks.py:28
+msgid "Notification"
 msgstr ""
 
 #: utils/decorators.py:52
@@ -292,3 +305,7 @@ msgstr ""
 #: utils/decorators.py:104
 msgid "Obuna bo'ling"
 msgstr ""
+
+#, python-brace-format
+#~ msgid "Language has been changed to {changed_language}"
+#~ msgstr "Til {changed_language} ga oʻzgartirildi"
