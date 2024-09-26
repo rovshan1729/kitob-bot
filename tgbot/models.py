@@ -196,6 +196,7 @@ class SingletonModel(models.Model):
         obj, created = cls.objects.get_or_create(id=1)
         return obj
 
+
 class DailyMessage(SingletonModel):
     message = models.TextField(verbose_name=_("Message"), default="Notification")
 
