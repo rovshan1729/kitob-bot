@@ -163,7 +163,7 @@ async def full_name(message: types.Message, state: FSMContext):
     full_name_text = message.text.strip()
     is_correct = full_name_text.split(' ')
 
-    if 3 >= len(is_correct) > 1 and len(full_name_text) <= 60:
+    if 4 >= len(is_correct) > 1 and len(full_name_text) <= 60:
         await state.update_data({"full_name": full_name_text})
         
         await message.answer(
