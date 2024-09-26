@@ -83,7 +83,7 @@ async def bot_start(message: types.Message, state: FSMContext):
         await do_start(message, state)
 
 
-@dp.callback_query_handler(ChatTypeFilter(ChatType.PRIVATE), text="check_subs", )
+@dp.callback_query_handler(ChatTypeFilter(ChatType.PRIVATE), text="check_subs")
 async def checker(call: types.CallbackQuery, state: FSMContext):
     data = await state.get_data()
     user = get_user(call.message.from_user.id)
@@ -136,27 +136,17 @@ async def checker(call: types.CallbackQuery, state: FSMContext):
 
 @dp.message_handler(state=AdmissionState.language)
 async def language(message: types.Message, state: FSMContext):
+    from tgbot.bot.loader import dp, i18n
     lang = message.text
     user = get_user(message.from_user.id)
-    language = user.language
-    
+    user.language = get_lang(lang)
+    user.save(update_fields=['language'])
+    i18n.ctx_locale.set(user.language)
+
     if not user.is_registered:
-        if lang == "O'zbekcha":
-            await message.answer("Iltimos, familiyangizni, ismingizni va otangizning ismini kiriting ⬇️",
+            await message.answer(_("Iltimos, familiyangizni, ismingizni va otangizning ismini kiriting ⬇️"),
                                  reply_markup=back_keyboard)   
             await AdmissionState.full_name.set()
-            
-        elif lang == "Русский":
-            await message.answer("️Пожалуйста, напишите, свою фамилию, имя и отчество ⬇️",
-                                 reply_markup=back_keyboard)   
-            await AdmissionState.full_name.set()
-            
-        else:
-            await message.answer(
-                "Iltimos Tugmalardan birini tanlang 🇺🇿\n\n"
-                "Пожалуйста, выберите одну из кнопок 🇷🇺", 
-                reply_markup=languages_markup
-                )       
     else:
         await message.answer(
             text=_("Bosh menyu."),
