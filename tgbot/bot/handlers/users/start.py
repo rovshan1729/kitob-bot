@@ -221,7 +221,6 @@ async def contact_handler(message: types.Message, state: FSMContext):
             user.is_registered = True
             user.save()
         
-        print("c")
         await message.answer(_("Ro'yxatdan o'tdingiz, ma'lumotlaringiz saqlandi."), reply_markup=main_markup(language=language))
         await state.reset_data()
         await state.finish()

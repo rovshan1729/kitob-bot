@@ -12,7 +12,8 @@ from aiogram.types import ChatType
 
 
 
-@dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text=_("Book report"), state="*")
+@dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text="Kitob hisoboti", state="*")
+@dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text="Отчет о книге", state="*") 
 async def send_daily_report_handler(message: types.Message, state: FSMContext):
     await message.answer(_("Nechanchi kun o'qiyotganingizni kiriting:"), reply_markup=back_keyboard)
     await ReportState.enter_reading_day.set()
