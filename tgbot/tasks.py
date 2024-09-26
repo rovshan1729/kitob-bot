@@ -3,6 +3,7 @@ from celery import shared_task
 from tgbot.bot.utils import get_all_users
 from tgbot.bot.loader import gettext as _
 import environ
+from tgbot.models import DailyMessage
 
 env = environ.Env()
 
@@ -23,8 +24,9 @@ def send_message(chat_id, text):
 @shared_task
 def send_daily_message():
     users = get_all_users()
+    daily_message = DailyMessage.load()
+
+    message_text = daily_message.message or "Default Notification Message"
+    
     for user in users:
-        try:
-            send_message(chat_id=user.telegram_id, text=_("Notification"))
-        except Exception as e:
-            print(f"Error sending message to {user.telegram_id}: {e}")
+        send_message(chat_id=user.telegram_id, text=message_text)
