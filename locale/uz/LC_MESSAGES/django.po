@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-24 17:32+0500\n"
-"PO-Revision-Date: 2024-09-11 15:53+0500\n"
+"POT-Creation-Date: 2024-09-26 16:37+0500\n"
+"PO-Revision-Date: 2024-09-26 16:37+0500\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: tgbot/bot/handlers/users/back_handler.py:11
 #: tgbot/bot/handlers/users/back_handler.py:19
-#: tgbot/bot/handlers/users/report.py:26 tgbot/bot/handlers/users/report.py:47
+#: tgbot/bot/handlers/users/report.py:27 tgbot/bot/handlers/users/report.py:48
 #: tgbot/bot/keyboards/reply.py:33 tgbot/bot/keyboards/reply.py:45
 #: tgbot/bot/keyboards/reply.py:54
 msgid "🔙 Orqaga"
@@ -31,78 +31,69 @@ msgstr ""
 msgid "Familiya, Ism va Sharifingizni kiriting"
 msgstr ""
 
-#: tgbot/bot/handlers/users/change_language.py:15
-msgid "🌐 Tilni o'zgartirish"
-msgstr ""
-
-#: tgbot/bot/handlers/users/change_language.py:37
+#: tgbot/bot/handlers/users/change_language.py:38
 msgid "Noma'lum til. Iltimos, tilni to'g'ri tanlang."
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:15
-msgid "Book report"
-msgstr "Kitob hisoboti."
-
-#: tgbot/bot/handlers/users/report.py:17 tgbot/bot/handlers/users/report.py:48
+#: tgbot/bot/handlers/users/report.py:18 tgbot/bot/handlers/users/report.py:49
 msgid "Nechanchi kun o'qiyotganingizni kiriting:"
 msgstr "Nechanchi kun o'qiyotganingizni kiriting: UZ"
 
-#: tgbot/bot/handlers/users/report.py:27
+#: tgbot/bot/handlers/users/report.py:28
 msgid "Bosh menyu"
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:33 tgbot/bot/handlers/users/report.py:37
+#: tgbot/bot/handlers/users/report.py:34 tgbot/bot/handlers/users/report.py:38
 msgid "Iltimos, to'g'ri kun raqamini kiriting."
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:41
+#: tgbot/bot/handlers/users/report.py:42
 msgid "Qaysi kitobni o'qiyotganingizni kiriting:"
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:55
+#: tgbot/bot/handlers/users/report.py:56
 msgid "Iltimos, kitobni nomini to'g'ri kiriting."
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:59
+#: tgbot/bot/handlers/users/report.py:60
 msgid "Iltimos, kitobni nomini to'g'ri kiriting"
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:63
+#: tgbot/bot/handlers/users/report.py:64
 #, fuzzy
 #| msgid "Nechanchi kun o'qiyotganingizni kiriting:"
 msgid "Nechi bet o'qiganingizni kiriting:"
 msgstr "Nechanchi kun o'qiyotganingizni kiriting: UZ"
 
-#: tgbot/bot/handlers/users/report.py:73
+#: tgbot/bot/handlers/users/report.py:74
 msgid "Iltimos, to'g'ri bet raqamini kiriting."
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:77
+#: tgbot/bot/handlers/users/report.py:78
 msgid "Iltimos, nechi bet o'qiganingizni raqamini to'g'ri kiriting."
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:107
+#: tgbot/bot/handlers/users/report.py:108
 msgid "tasdiqlash"
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:108
+#: tgbot/bot/handlers/users/report.py:109
 msgid "Bekor qilindi."
 msgstr ""
 
-#: tgbot/bot/handlers/users/report.py:131
+#: tgbot/bot/handlers/users/report.py:132
 msgid "Hisobotingiz yuborildi."
 msgstr ""
 
 #: tgbot/bot/handlers/users/start.py:55 tgbot/bot/handlers/users/start.py:121
-#: tgbot/bot/handlers/users/start.py:162
+#: tgbot/bot/handlers/users/start.py:152
 msgid "Bosh menyu."
 msgstr ""
 
 #: tgbot/bot/handlers/users/start.py:68 tgbot/bot/loader.py:88
 #: tgbot/bot/middlewares/checksub.py:28
 msgid ""
-"Quyidagi kanallarga obuna bo'lishingiz kerak, pastdagi tugmalar ustiga "
-"bosing ⬇️\n"
+"Quyidagi kanallarga obuna bo'lishingiz kerak, pastdagi tugmalar ustiga bosing ⬇️\n"
 "\n"
 msgstr ""
 
@@ -114,27 +105,31 @@ msgstr ""
 msgid "Siz obuna bo'lmagan kanallar mavjud!"
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:180
+#: tgbot/bot/handlers/users/start.py:147
+msgid "Iltimos, familiyangizni, ismingizni va otangizning ismini kiriting ⬇️"
+msgstr "ism familiya"
+
+#: tgbot/bot/handlers/users/start.py:170
 msgid "Telefon raqamingizni quyidagi tugmani bosgan holda yuboring."
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:186
+#: tgbot/bot/handlers/users/start.py:176
 msgid "Ismingiz 60belgidan uzun bo'lmasligi kerak."
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:189
+#: tgbot/bot/handlers/users/start.py:179
 msgid "Faqat Text Formatda Kamida 2ta so'z bilan yozing"
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:201
+#: tgbot/bot/handlers/users/start.py:191
 msgid "Pastdagi tugma orqali raqamingizni yuboring"
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:225
+#: tgbot/bot/handlers/users/start.py:214
 msgid "Ro'yxatdan o'tdingiz, ma'lumotlaringiz saqlandi."
 msgstr ""
 
-#: tgbot/bot/handlers/users/start.py:230
+#: tgbot/bot/handlers/users/start.py:219
 msgid "📲 Iltimos Raqamni Yuborish Tugmasini Bosing"
 msgstr ""
 
@@ -290,8 +285,16 @@ msgstr ""
 msgid "Pages read"
 msgstr ""
 
-#: tgbot/tasks.py:28
-msgid "Notification"
+#: tgbot/models.py:201
+msgid "Message"
+msgstr ""
+
+#: tgbot/models.py:207
+msgid "Daily Message"
+msgstr ""
+
+#: tgbot/models.py:208
+msgid "Daily Messages"
 msgstr ""
 
 #: utils/decorators.py:52
@@ -305,6 +308,9 @@ msgstr ""
 #: utils/decorators.py:104
 msgid "Obuna bo'ling"
 msgstr ""
+
+#~ msgid "Book report"
+#~ msgstr "Kitob hisoboti."
 
 #, python-brace-format
 #~ msgid "Language has been changed to {changed_language}"
