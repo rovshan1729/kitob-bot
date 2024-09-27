@@ -36,7 +36,10 @@ deploy_image:
     GIT_SUBMODULE_STRATEGY: none
   script:
     - docker service update --with-registry-auth --image $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$IMAGE_TAG 'kitob-bot_backend'
+    - docker service update --with-registry-auth --image $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$IMAGE_TAG 'kitob-bot_bot'
     - docker exec $(docker ps --filter "name=kitob-bot_backend.*" --format "{{.Names}}" | head -n 1) python manage.py migrate
+    - docker service update --with-registry-auth --image $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$IMAGE_TAG 'kitob-bot_celery_worker'
+    - docker service update --with-registry-auth --image $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$IMAGE_TAG 'kitob-bot_celery_beat'
   only:
     - master 
     - dev 
