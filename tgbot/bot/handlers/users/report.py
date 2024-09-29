@@ -10,6 +10,7 @@ from tgbot.bot.utils import get_user
 from aiogram.dispatcher.filters.builtin import ChatTypeFilter
 from aiogram.types import ChatType
 
+from datetime import datetime
 
 
 @dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text="Kitob hisoboti", state="*")
@@ -69,20 +70,22 @@ async def process_book_title(message: types.Message, state: FSMContext):
 async def process_pages_read(message: types.Message, state: FSMContext):
     user = get_user(message.from_user.id)
     language = user.language
-    pages = message.text
-    if not pages.isdigit():
+    pages_read = message.text
+    if not pages_read.isdigit():
         await message.answer(_("Iltimos, to'g'ri bet raqamini kiriting."), reply_markup=back_keyboard)
         return
     
-    if 1 > int(pages) or int(pages) > 2000:
+    if 1 > int(pages_read) or int(pages_read) > 2000:
         await message.answer(_("Iltimos, nechi bet o'qiganingizni raqamini to'g'ri kiriting."), reply_markup=back_keyboard)
         return
     
-    await state.update_data(pages_read=int(pages))
+    await state.update_data(pages_read=int(pages_read))
+
+    today = datetime.now()
     
     data = await state.get_data()
     confirmation_message = (
-        f"{data['reading_day']}-kun\n {data['book_title']}.\n {data['pages_read']}+ bet.\n"
+        f"{user.full_name}\n\n📊#kun - {data['reading_day']}  ({today.date()})\n\nKitob nomi: {data['book_title']}\n\n✅O‘qilgan betlar: {pages_read}+ bet.\n\n"
         "Tasdiqlaysizmi?"
     )
     
@@ -110,19 +113,19 @@ async def confirm_report(message: types.Message, state: FSMContext):
         await state.finish()
 
     today = timezone.now().date()
-    # existing_report = BookReport.objects.filter(user=user, created_at__date=today).exists()
+    existing_report = BookReport.objects.filter(user=user, created_at__date=today).exists()
     
-    # if existing_report:
-    #     await message.answer(_("Siz bugungi kun uchun allaqachon hisobotingizni yubordingiz."), reply_markup=main_markup(language=language))
-    #     await state.finish()
-    #     return
+    if existing_report:
+        await message.answer(_("Siz bugungi kun uchun allaqachon hisobotingizni yubordingiz."), reply_markup=main_markup(language=language))
+        await state.finish()
+        return
 
     data = await state.get_data()
     reading_day = data.get("reading_day")
     book = data.get("book_title")
     pages_read = data.get("pages_read")
         
-    BookReport.objects.create(
+    book_report = BookReport.objects.create(
         user=user,
         reading_day=reading_day, 
         book=book,
@@ -132,10 +135,11 @@ async def confirm_report(message: types.Message, state: FSMContext):
     await message.answer(_("Hisobotingiz yuborildi."), reply_markup=main_markup(language=language))
 
     new_report_message = (
-        f"@{user.username}\n{reading_day}-kun\n{book}.\n{pages_read}+ bet."
+        f"{user.full_name}\n\n📊#kun - {reading_day}  ({book_report.created_at.strftime('%Y-%m-%d')})\n\nKitob nomi: {book}\n\n✅O‘qilgan betlar: {pages_read}+ bet\n\n"
+        f"--------------------------------------------------"
     )
 
-    chat_id = "-4507787012"
+    chat_id = "-1002237773868"
 
     report_message, created = ReportMessage.objects.get_or_create(
         chat_id=chat_id,
