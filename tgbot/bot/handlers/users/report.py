@@ -54,11 +54,11 @@ async def process_book_title(message: types.Message, state: FSMContext):
     is_correct = message.text.split(' ')
     
     if len(is_correct) < 1 or len(is_correct) > 10:
-        await message.answer(_("Iltimos, kitobni nomini to'g'ri kiriting."))
+        await message.answer(_("Iltimos, kitobni nomini to'g'ri kiriting!"))
         return
     
-    if len(book_title) > 60:
-        await message.answer(_("Iltimos, kitobni nomini to'g'ri kiriting"))
+    if len(book_title) > 120:
+        await message.answer(_("Iltimos, kitobni nomi uzun bo'lmasin!"))
         return
         
     await state.update_data(book_title=book_title)
