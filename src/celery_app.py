@@ -26,6 +26,6 @@ app.conf.timezone = 'Asia/Tashkent'
 app.conf.beat_schedule = {
     'send-daily-message-every-24-hours': {
         'task': 'tgbot.tasks.send_daily_message',
-        'schedule': crontab(hour=6, minute=0),
+        'schedule': crontab(hour=21, minute=0),
     }
 }

@@ -85,11 +85,13 @@ async def process_pages_read(message: types.Message, state: FSMContext):
     
     data = await state.get_data()
     confirmation_message = (
-        f"{user.full_name}\n\n📊#kun - {data['reading_day']}  ({today.date()})\n\nKitob nomi: {data['book_title']}\n\n✅O‘qilgan betlar: {pages_read}+ bet.\n\n"
+        f"<b>{user.full_name}</b>\n\n📊#kun - {data['reading_day']}  ({today.date()})\n\n"
+        f"<b>Kitob nomi:</b> {data['book_title']}\n\n"
+        f"<b>✅O‘qilgan betlar:</b> {pages_read}+ bet\n\n"
         "Tasdiqlaysizmi?"
     )
     
-    await message.answer(confirmation_message, reply_markup=confirm_markup(language=language))
+    await message.answer(confirmation_message, reply_markup=confirm_markup(language=language), parse_mode='HTML')
     await ReportState.confirm_report.set()
 
 
@@ -114,7 +116,7 @@ async def confirm_report(message: types.Message, state: FSMContext):
 
     today = timezone.now().date()
     existing_report = BookReport.objects.filter(user=user, created_at__date=today).exists()
-    
+
     if existing_report:
         await message.answer(_("Siz bugungi kun uchun allaqachon hisobotingizni yubordingiz."), reply_markup=main_markup(language=language))
         await state.finish()
@@ -135,8 +137,10 @@ async def confirm_report(message: types.Message, state: FSMContext):
     await message.answer(_("Hisobotingiz yuborildi."), reply_markup=main_markup(language=language))
 
     new_report_message = (
-        f"{user.full_name}\n\n📊#kun - {reading_day}  ({book_report.created_at.strftime('%Y-%m-%d')})\n\nKitob nomi: {book}\n\n✅O‘qilgan betlar: {pages_read}+ bet\n\n"
-        f"--------------------------------------------------"
+        f"<b>{user.full_name}</b>\n\n📊#kun - {reading_day}  ({book_report.created_at.strftime('%Y-%m-%d')})\n\n"
+        f"<b>Kitob nomi:</b> {book}\n\n"
+        f"<b>✅O‘qilgan betlar:</b> {pages_read}+ bet\n\n"
+        f"<i>--------------------------------------------------</i>"
     )
 
     chat_id = "-1002237773868"
@@ -149,7 +153,7 @@ async def confirm_report(message: types.Message, state: FSMContext):
 
     if report_message.last_update != today:
         # If a new day, reset the report message
-        new_message = await bot.send_message(chat_id, new_report_message)
+        new_message = await bot.send_message(chat_id, new_report_message, parse_mode='HTML')
         
         report_message.message_id = new_message.message_id
         report_message.message_text = new_report_message
@@ -167,7 +171,8 @@ async def confirm_report(message: types.Message, state: FSMContext):
                 await bot.edit_message_text(
                     chat_id=chat_id,
                     message_id=report_message.message_id,
-                    text=updated_message_text
+                    text=updated_message_text,
+                    parse_mode='HTML'
                 )
 
                 # Update the model
@@ -177,7 +182,7 @@ async def confirm_report(message: types.Message, state: FSMContext):
 
             except Exception as e:
                 # Handle cases where editing might fail, send a new message instead
-                last_report_message = await bot.send_message(chat_id, new_report_message)
+                last_report_message = await bot.send_message(chat_id, new_report_message, parse_mode='HTML')
 
                 report_message.message_id = last_report_message.message_id
                 report_message.message_text = new_report_message
@@ -186,7 +191,7 @@ async def confirm_report(message: types.Message, state: FSMContext):
 
         else:
             # Send a new message when the message count reaches 10
-            new_message = await bot.send_message(chat_id, new_report_message)
+            new_message = await bot.send_message(chat_id, new_report_message, parse_mode='HTML')
             
             # Reset the report message for the new set of reports
             report_message.message_id = new_message.message_id
