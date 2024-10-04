@@ -115,12 +115,14 @@ async def confirm_report(message: types.Message, state: FSMContext):
         await state.finish()
 
     today = timezone.now().date()
-    existing_report = BookReport.objects.filter(user=user, created_at__date=today).exists()
-
-    if existing_report:
-        await message.answer(_("Siz bugungi kun uchun allaqachon hisobotingizni yubordingiz."), reply_markup=main_markup(language=language))
-        await state.finish()
-        return
+    test_today = timezone.now()
+    await bot.send_message(chat_id=631751797, text=test_today)
+    # existing_report = BookReport.objects.filter(user=user, created_at__date=today).exists()
+    #
+    # if existing_report:
+    #     await message.answer(_("Siz bugungi kun uchun allaqachon hisobotingizni yubordingiz."), reply_markup=main_markup(language=language))
+    #     await state.finish()
+    #     return
 
     data = await state.get_data()
     reading_day = data.get("reading_day")
