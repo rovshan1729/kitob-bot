@@ -11,6 +11,7 @@ from aiogram.dispatcher.filters.builtin import ChatTypeFilter
 from aiogram.types import ChatType
 
 from datetime import datetime
+from django.utils import timezone
 
 
 @dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text="Kitob hisoboti", state="*")
@@ -68,6 +69,10 @@ async def process_book_title(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=ReportState.enter_pages_read)
 async def process_pages_read(message: types.Message, state: FSMContext):
+    if message.text == _("🔙 Orqaga"):
+        await message.answer(_("Qaysi kitobni o'qiyotganingizni kiriting:"), reply_markup=back_keyboard)
+        return await ReportState.enter_book_title.set()
+
     user = get_user(message.from_user.id)
     language = user.language
     pages_read = message.text
@@ -95,13 +100,11 @@ async def process_pages_read(message: types.Message, state: FSMContext):
     await ReportState.confirm_report.set()
 
 
-from aiogram import types
-from django.utils import timezone
+
 
 last_report_message = None 
 last_report_date = None 
 counter = 0   
-
 
 @dp.message_handler(state=ReportState.confirm_report)
 async def confirm_report(message: types.Message, state: FSMContext):
@@ -142,7 +145,7 @@ async def confirm_report(message: types.Message, state: FSMContext):
         f"<b>{user.full_name}</b>\n\n📊#kun - {reading_day}  ({book_report.created_at.strftime('%Y-%m-%d')})\n\n"
         f"<b>Kitob nomi:</b> {book}\n\n"
         f"<b>✅O‘qilgan betlar:</b> {pages_read}+ bet\n\n"
-        f"<i>--------------------------------------------------</i>"
+        f"<i>----------------------------------</i>"
     )
 
     chat_id = "-1002237773868"
