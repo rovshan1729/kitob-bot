@@ -90,6 +90,7 @@ async def process_pages_read(message: types.Message, state: FSMContext):
     
     data = await state.get_data()
     confirmation_message = (
+        f"@{user.username}\n\n"
         f"<b>{user.full_name}</b>\n\n📊#kun - {data['reading_day']}  ({today.date()})\n\n"
         f"<b>Kitob nomi:</b> {data['book_title']}\n\n"
         f"<b>✅O‘qilgan betlar:</b> {pages_read}+ bet\n\n"
@@ -142,6 +143,7 @@ async def confirm_report(message: types.Message, state: FSMContext):
     await message.answer(_("Hisobotingiz yuborildi."), reply_markup=main_markup(language=language))
 
     new_report_message = (
+        f"@{user.username}\n\n"
         f"<b>{user.full_name}</b>\n\n📊#kun - {reading_day}  ({book_report.created_at.strftime('%Y-%m-%d')})\n\n"
         f"<b>Kitob nomi:</b> {book}\n\n"
         f"<b>✅O‘qilgan betlar:</b> {pages_read}+ bet\n\n"
