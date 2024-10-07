@@ -1,9 +1,13 @@
+from datetime import timedelta
+
 import requests
 from celery import shared_task
 from tgbot.bot.utils import get_all_users
 from tgbot.bot.loader import gettext as _
 import environ
-from tgbot.models import DailyMessage
+from tgbot.models import DailyMessage, BookReport
+from django.utils import timezone
+import pytz
 
 env = environ.Env()
 
@@ -19,14 +23,26 @@ def send_message(chat_id, text):
         }
     response = requests.post(url, data=data)
     return response.json(), response.status_code
-        
+
 
 @shared_task
 def send_daily_message():
-    users = get_all_users()
-    daily_message = DailyMessage.load()
+    local_tz = pytz.timezone('Asia/Tashkent')
 
-    message_text = daily_message.message or "Default Notification Message"
-    
+    users = get_all_users()
+
+    daily_message = DailyMessage.load()
+    message_text = daily_message.message
+
+    now = timezone.now().astimezone(local_tz)
+
+    today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    today_end = today_start + timezone.timedelta(days=1)
+
+    reported_users = set(
+        BookReport.objects.filter(created_at__range=(today_start, today_end)).values_list('user_id', flat=True)
+    )
+
     for user in users:
-        send_message(chat_id=user.telegram_id, text=message_text)
+        if user.id not in reported_users:
+            send_message(chat_id=user.telegram_id, text=message_text)
