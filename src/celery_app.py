@@ -21,8 +21,6 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
 
-app.conf.timezone = 'Asia/Tashkent'
-
 app.conf.beat_schedule = {
     'send-daily-message-every-24-hours': {
         'task': 'tgbot.tasks.send_daily_message',
