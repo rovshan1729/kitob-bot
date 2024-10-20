@@ -9,10 +9,10 @@ admin.site.register(models.TelegramBot)
 
 @admin.register(models.TelegramProfile)
 class TelegramProfileAdmin(admin.ModelAdmin):
-    list_display = ("id", "telegram_id", "username", "language",)
-    list_display_links = ("id", 'telegram_id', "username")
+    list_display = ("id", "group", "username", "language",)
+    list_display_links = ("id", "username")
     list_filter = ("language", "is_registered",)
-    search_fields = ("username", "telegram_id")
+    search_fields = ("username",)
     list_per_page = 20
 
 
