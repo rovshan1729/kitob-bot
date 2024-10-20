@@ -1,5 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from tgbot.bot.loader import gettext as _
+from tgbot.models import TelegramButton, Group
+from utils.bot import get_object_value
 
 
 def confirm_markup(language="uz"):
@@ -8,19 +10,31 @@ def confirm_markup(language="uz"):
     return button
 
 
+def group_markup(language="uz"):
+    button_obj = Group.objects.all()
+    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
+    button.add(*(KeyboardButton(text=get_object_value(button, "title", language)) for button in button_obj if
+                 get_object_value(button, "title", language) is not None))
+    return button
+
+
 def main_markup(language="uz"):
     if language == "uz":
-        content = "Kitob hisoboti"
+        content = "📚 Kitob hisoboti"
         lang = "🌐 Tilni o'zgartirish"
+        group = "👤 Guruhni o'zgartirish"
+
     elif language == "ru":
-        content = "Отчет о книге"
+        content = "📚 Отчет о книге"
         lang = "🌐 Изменить язык"
+        group = "👤 Изменить группу"
     else:
-        content = "Kitob hisoboti"
+        content = "📚 Kitob hisoboti"
         lang = "🌐 Tilni o'zgartirish"
+        group = "👤 Guruhni o'zgartirish"
         
     button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    button.add(KeyboardButton(text=content), KeyboardButton(text=lang))
+    button.add(KeyboardButton(text=content), KeyboardButton(text=lang), KeyboardButton(text=group))
     return button 
 
     

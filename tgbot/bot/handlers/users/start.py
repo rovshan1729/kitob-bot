@@ -136,7 +136,7 @@ async def checker(call: types.CallbackQuery, state: FSMContext):
 
 @dp.message_handler(state=AdmissionState.language)
 async def language(message: types.Message, state: FSMContext):
-    from tgbot.bot.loader import dp, i18n
+    from tgbot.bot.loader import i18n
     lang = message.text
     user = get_user(message.from_user.id)
     user.language = get_lang(lang)

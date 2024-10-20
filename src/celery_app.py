@@ -24,6 +24,6 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'send-daily-message-every-24-hours': {
         'task': 'tgbot.tasks.send_daily_message',
-        'schedule': crontab(hour=16, minute=0),
+        'schedule': crontab(hour=20, minute=0),
     }
 }
