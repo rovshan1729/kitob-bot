@@ -6,11 +6,14 @@ class AdmissionState(StatesGroup):
     phone_number = State()
     
 class ReportState(StatesGroup):
-    enter_reading_day = State()
-    enter_book_title = State()
-    enter_pages_read = State()
+    reading_day = State()
+    book_title = State()
+    pages_read = State()
     confirm_report = State()
     
 class ChangeLanguageState(StatesGroup):
     language_change = State()
+
+class GroupStates(StatesGroup):
+    group = State()
     

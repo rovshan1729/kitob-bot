@@ -80,6 +80,22 @@ class TelegramBot(BaseModel):
         db_table = "telegram_bots"
 
 
+class Group(BaseModel):
+    title = models.CharField(max_length=255, verbose_name=_("Group name"))
+    topic_id = models.CharField(max_length=255, verbose_name=_("Topic ID"))
+    chat_id = models.CharField(max_length=255, verbose_name=_("Chat ID"), default="-1002237773868")
+
+    ordering = models.IntegerField(_("Ordering"), default=1)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        db_table = "groups"
+        verbose_name = _("Group")
+        verbose_name_plural = _("Groups")
+
+
 class TelegramProfile(BaseModel):
     bot = models.ForeignKey(TelegramBot, models.CASCADE, null=True)
     telegram_id = models.PositiveBigIntegerField()
@@ -89,6 +105,7 @@ class TelegramProfile(BaseModel):
 
     full_name = models.CharField(max_length=255, null=True, blank=True, verbose_name=_("Full Name"))
     phone_number = models.CharField(max_length=128, blank=True, null=True, verbose_name=_("Phone Number"))
+    group = models.ForeignKey(Group, models.CASCADE, null=True, blank=True, verbose_name=_("Group"))
 
     is_registered = models.BooleanField(default=False)
 
@@ -121,7 +138,7 @@ class TelegramButton(BaseModel):
     parent = models.ForeignKey("self", models.CASCADE, blank=True, null=True)
 
     title = models.CharField(max_length=255, verbose_name=_("Button Name"))
-    text = RichTextField(verbose_name=_("Button Text"))
+    text = RichTextField(verbose_name=_("Button Text"), blank=True, null=True)
     content = models.FileField(upload_to="buttons", verbose_name=_("Button Content"), blank=True, null=True)
     file_id = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("File ID"))
 
@@ -129,37 +146,21 @@ class TelegramButton(BaseModel):
         return self.title
 
     def save(self, *args, **kwargs):
-        if not is_valid_content(self.text_en) and not is_valid_content(self.text_ru) and not is_valid_content(
-                self.text_uz):
-            raise ValidationError(_("Invalid content"))
-
         if not self.title_uz:
             self.title_uz = self.title
         if not self.title_ru:
             self.title_ru = self.title
-        if not self.title_en:
-            self.title_en = self.title
 
         if not self.text_uz:
             self.text_uz = self.text
         if not self.text_ru:
             self.text_ru = self.text
-        if not self.text_en:
-            self.text_en = self.text
 
-        if self.text_en:
-            self.text_en = validate_content(self.text_en)
         if self.text_ru:
             self.text_ru = validate_content(self.text_ru)
         if self.text_uz:
             self.text_uz = validate_content(self.text_uz)
         super(TelegramButton, self).save(*args, **kwargs)
-
-    def clean(self):
-        if not self.title:
-            raise ValidationError(_("Title is required"))
-        if not self.text:
-            raise ValidationError(_("Text is required"))
         
 
 class BookReport(BaseModel):
@@ -174,6 +175,7 @@ class BookReport(BaseModel):
 
 class ReportMessage(models.Model):
     chat_id = models.CharField(max_length=255)
+    group = models.ForeignKey(Group, models.CASCADE, null=True, blank=True, verbose_name=_("Group"))
     message_id = models.PositiveIntegerField(null=True, blank=True)
     message_text = models.TextField(null=True, blank=True)
     last_update = models.DateField(default=timezone.now)
@@ -181,23 +183,15 @@ class ReportMessage(models.Model):
 
     def __str__(self):
         return f"Message {self.message_id} in chat {self.chat_id}"
-    
-    
-class SingletonModel(models.Model):
-    class Meta:
-        abstract = True
 
-    def save(self, *args, **kwargs):
-        self.__class__.objects.all().delete() 
-        super(SingletonModel, self).save(*args, **kwargs)
+class LastTopicID(SingletonModel):
+    topic_id = models.CharField(max_length=255, verbose_name=_("Topic ID"))
 
-    @classmethod
-    def load(cls):
-        obj, created = cls.objects.get_or_create(id=1)
-        return obj
+    def __str__(self):
+        return self.topic_id
 
 
-class DailyMessage(SingletonModel):
+class DailyMessage(models.Model):
     message = models.TextField(verbose_name=_("Message"), default="Notification")
 
     def __str__(self):
@@ -206,6 +200,19 @@ class DailyMessage(SingletonModel):
     class Meta:
         verbose_name = _("Daily Message")
         verbose_name_plural = _("Daily Messages")
+
+
+class BlockedUser(models.Model):
+    user = models.ForeignKey(TelegramProfile, models.CASCADE, verbose_name=_("Blocked User"))
+    blocked_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Blocked At"))
+
+    class Meta:
+        verbose_name = _("Blocked User")
+        verbose_name_plural = _("Blocked Users")
+
+    def __str__(self):
+        return f"{self.user.full_name} (Blocked)"
+
 
 
 auditlog.register(RequiredGroup)

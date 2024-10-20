@@ -1,7 +1,10 @@
+from venv import create
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from celery.app.trace import report_internal_error
 
-from tgbot.models import BookReport, ReportMessage
+from tgbot.models import BookReport, ReportMessage, LastTopicID
 from tgbot.bot.keyboards.reply import confirm_markup, main_markup, back_keyboard
 from tgbot.bot.loader import dp, bot
 from tgbot.bot.loader import gettext as _
@@ -14,14 +17,14 @@ from datetime import datetime
 from django.utils import timezone
 
 
-@dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text="Kitob hisoboti", state="*")
-@dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text="Отчет о книге", state="*") 
+@dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text="📚 Kitob hisoboti", state="*")
+@dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text="📚 Отчет о книге", state="*")
 async def send_daily_report_handler(message: types.Message, state: FSMContext):
     await message.answer(_("Nechanchi kun o'qiyotganingizni kiriting:"), reply_markup=back_keyboard)
-    await ReportState.enter_reading_day.set()
+    await ReportState.reading_day.set()
     
     
-@dp.message_handler(state=ReportState.enter_reading_day)
+@dp.message_handler(state=ReportState.reading_day)
 async def process_reading_day(message: types.Message, state: FSMContext):
     user = get_user(message.from_user.id)
     language = user.language
@@ -42,14 +45,14 @@ async def process_reading_day(message: types.Message, state: FSMContext):
     
     await state.update_data(reading_day=int(day))
     await message.answer(_("Qaysi kitobni o'qiyotganingizni kiriting:"), reply_markup=back_keyboard)
-    await ReportState.enter_book_title.set()
+    await ReportState.book_title.set()
     
     
-@dp.message_handler(state=ReportState.enter_book_title)
+@dp.message_handler(state=ReportState.book_title)
 async def process_book_title(message: types.Message, state: FSMContext):
     if message.text == _("🔙 Orqaga"):
         await message.answer(_("Nechanchi kun o'qiyotganingizni kiriting:"), reply_markup=back_keyboard)
-        return await ReportState.enter_reading_day.set()
+        return await ReportState.reading_day.set()
     
     book_title = message.text.strip()
     is_correct = message.text.split(' ')
@@ -64,14 +67,14 @@ async def process_book_title(message: types.Message, state: FSMContext):
         
     await state.update_data(book_title=book_title)
     await message.answer(_("Nechi bet o'qiganingizni kiriting:"), reply_markup=back_keyboard)
-    await ReportState.enter_pages_read.set()
+    await ReportState.pages_read.set()
     
 
-@dp.message_handler(state=ReportState.enter_pages_read)
+@dp.message_handler(state=ReportState.pages_read)
 async def process_pages_read(message: types.Message, state: FSMContext):
     if message.text == _("🔙 Orqaga"):
         await message.answer(_("Qaysi kitobni o'qiyotganingizni kiriting:"), reply_markup=back_keyboard)
-        return await ReportState.enter_book_title.set()
+        return await ReportState.book_title.set()
 
     user = get_user(message.from_user.id)
     language = user.language
@@ -101,11 +104,9 @@ async def process_pages_read(message: types.Message, state: FSMContext):
     await ReportState.confirm_report.set()
 
 
-
-
-last_report_message = None 
-last_report_date = None 
-counter = 0   
+last_report_message = None
+last_report_date = None
+counter = 0
 
 @dp.message_handler(state=ReportState.confirm_report)
 async def confirm_report(message: types.Message, state: FSMContext):
@@ -119,8 +120,7 @@ async def confirm_report(message: types.Message, state: FSMContext):
         await state.finish()
 
     today = timezone.now().date()
-    test_today = timezone.now()
-    await bot.send_message(chat_id=631751797, text=test_today)
+
     # existing_report = BookReport.objects.filter(user=user, created_at__date=today).exists()
     #
     # if existing_report:
@@ -132,14 +132,14 @@ async def confirm_report(message: types.Message, state: FSMContext):
     reading_day = data.get("reading_day")
     book = data.get("book_title")
     pages_read = data.get("pages_read")
-        
+
     book_report = BookReport.objects.create(
         user=user,
-        reading_day=reading_day, 
+        reading_day=reading_day,
         book=book,
         pages_read=pages_read
     )
-    
+
     await message.answer(_("Hisobotingiz yuborildi."), reply_markup=main_markup(language=language))
 
     new_report_message = (
@@ -150,31 +150,43 @@ async def confirm_report(message: types.Message, state: FSMContext):
         f"<i>----------------------------------</i>"
     )
 
-    chat_id = "-1002237773868"
+    if user.group:
+        chat_id = user.group.chat_id
+        topic_id = user.group.topic_id
+    else:
+        chat_id = "-1002237773868"
+        topic_id = 3336
+
+    last_topic_instance = LastTopicID.get_solo()
+    group = user.group
 
     report_message, created = ReportMessage.objects.get_or_create(
         chat_id=chat_id,
         last_update=today,
-        defaults={'message_count': 0, 'message_text': '', 'message_id': None}
+        group=group,
+        defaults={'message_count': 0, 'message_text': '', 'message_id': None, 'group': group}
     )
 
     if report_message.last_update != today:
-        # If a new day, reset the report message
-        new_message = await bot.send_message(chat_id, new_report_message, parse_mode='HTML')
-        
+        new_message = await bot.send_message(
+            chat_id=chat_id,
+            message_thread_id=topic_id,
+            text=new_report_message,
+            parse_mode='HTML'
+        )
+
         report_message.message_id = new_message.message_id
+        report_message.topic_id = new_message.topic_id
         report_message.message_text = new_report_message
-        report_message.message_count = 1  # Reset the count for the new day
+        report_message.message_count = 1
         report_message.last_update = today
         report_message.save()
 
     else:
-        # Same day, check if we can append the message
-        if report_message.message_count < 10:  # Append to the current message if less than 10 reports
-            try:
-                updated_message_text = report_message.message_text + f"\n\n{new_report_message}"
+        try:
+            updated_message_text = report_message.message_text + f"\n\n{new_report_message}"
 
-                # Edit the existing message
+            if int(last_topic_instance.topic_id) == int(topic_id):
                 await bot.edit_message_text(
                     chat_id=chat_id,
                     message_id=report_message.message_id,
@@ -182,29 +194,42 @@ async def confirm_report(message: types.Message, state: FSMContext):
                     parse_mode='HTML'
                 )
 
-                # Update the model
                 report_message.message_text = updated_message_text
                 report_message.message_count += 1
                 report_message.save()
 
-            except Exception as e:
-                # Handle cases where editing might fail, send a new message instead
-                last_report_message = await bot.send_message(chat_id, new_report_message, parse_mode='HTML')
+            else:
+                new_message = await bot.send_message(
+                    chat_id=chat_id,
+                    message_thread_id=topic_id,
+                    text=new_report_message,
+                    parse_mode='HTML'
+                )
 
-                report_message.message_id = last_report_message.message_id
+                report_message.message_id = new_message.message_id
+                report_message.topic_id = topic_id
                 report_message.message_text = new_report_message
-                report_message.message_count = 1  # Reset count for the new message
+                report_message.message_count = 1
+                report_message.last_update = today
                 report_message.save()
 
-        else:
-            # Send a new message when the message count reaches 10
-            new_message = await bot.send_message(chat_id, new_report_message, parse_mode='HTML')
-            
-            # Reset the report message for the new set of reports
-            report_message.message_id = new_message.message_id
+                last_topic_instance.topic_id = topic_id
+                last_topic_instance.save()
+
+        except Exception as e:
+            last_report_message = await bot.send_message(
+                chat_id=chat_id,
+                message_thread_id=topic_id,
+                text=new_report_message,
+                parse_mode='HTML'
+            )
+
+            report_message.message_id = last_report_message.message_id
             report_message.message_text = new_report_message
-            report_message.message_count = 1  # Reset count for the new message
-            report_message.last_update = today
+            report_message.message_count = 1
             report_message.save()
+
+            last_topic_instance.topic_id = topic_id
+            last_topic_instance.save()
 
     await state.finish()

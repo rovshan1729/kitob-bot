@@ -46,3 +46,31 @@ class BookReportAdmin(admin.ModelAdmin):
 @admin.register(models.DailyMessage)
 class DailyMessageAdmin(admin.ModelAdmin):
     list_display = ("id", "message")
+
+
+@admin.register(models.Group)
+class GroupAdmin(TabbedTranslationAdmin):
+    list_display = ("id", "title", "created_at")
+    list_display_links = ("id", "title")
+
+
+@admin.register(models.ReportMessage)
+class GroupAdmin(TabbedTranslationAdmin):
+    list_display = ("id", "group", "message_id", "last_update")
+    list_display_links = ("id",)
+
+
+@admin.register(models.LastTopicID)
+class LastTopicIDAdmin(admin.ModelAdmin):
+    list_display = ('id', 'topic_id')
+
+
+@admin.register(models.BlockedUser)
+class BlockedUserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'get_user_full_name', 'blocked_at')
+    list_display_links = ('id', 'get_user_full_name')
+
+    def get_user_full_name(self, obj):
+        return obj.user.full_name
+
+    get_user_full_name.short_description = 'User Full Name'
