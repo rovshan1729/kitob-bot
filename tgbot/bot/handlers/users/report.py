@@ -1,10 +1,9 @@
-from venv import create
-
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from celery.app.trace import report_internal_error
 
-from tgbot.models import BookReport, ReportMessage, LastTopicID
+from tgbot.bot.handlers.users.start import full_name
+from tgbot.models import BookReport, ReportMessage, LastTopicID, ConfirmationReport
 from tgbot.bot.keyboards.reply import confirm_markup, main_markup, back_keyboard
 from tgbot.bot.loader import dp, bot
 from tgbot.bot.loader import gettext as _
@@ -139,6 +138,13 @@ async def confirm_report(message: types.Message, state: FSMContext):
         book=book,
         pages_read=pages_read
     )
+    ConfirmationReport.objects.create(
+        user=user,
+        reading_day=reading_day,
+        book=book,
+        date=today,
+        pages_read=pages_read
+    )
 
     await message.answer(_("Hisobotingiz yuborildi."), reply_markup=main_markup(language=language))
 
@@ -153,9 +159,11 @@ async def confirm_report(message: types.Message, state: FSMContext):
     if user.group:
         chat_id = user.group.chat_id
         topic_id = user.group.topic_id
+        print("chat_id", chat_id)
+        print("topic_id", topic_id)
     else:
         chat_id = "-1002237773868"
-        topic_id = 3336
+        topic_id = 3333
 
     last_topic_instance = LastTopicID.get_solo()
     group = user.group

@@ -1,3 +1,5 @@
+from unittest.mock import numerics
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from solo.models import SingletonModel
@@ -183,6 +185,18 @@ class ReportMessage(models.Model):
 
     def __str__(self):
         return f"Message {self.message_id} in chat {self.chat_id}"
+
+
+class ConfirmationReport(models.Model):
+    user = models.ForeignKey(TelegramProfile, on_delete=models.CASCADE, verbose_name=_("User"))
+    reading_day = models.IntegerField()
+    book = models.CharField(max_length=255, null=True, blank=True)
+    date = models.DateField(default=timezone.now)
+    pages_read = models.IntegerField()
+
+    def __str__(self):
+        return f"User {self.user.full_name} readed {self.pages_read} pages"
+
 
 class LastTopicID(SingletonModel):
     topic_id = models.CharField(max_length=255, verbose_name=_("Topic ID"))
