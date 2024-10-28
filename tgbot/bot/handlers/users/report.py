@@ -1,10 +1,9 @@
-from venv import create
-
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from celery.app.trace import report_internal_error
 
-from tgbot.models import BookReport, ReportMessage, LastTopicID
+from tgbot.bot.handlers.users.start import full_name
+from tgbot.models import BookReport, ReportMessage, LastTopicID, ConfirmationReport
 from tgbot.bot.keyboards.reply import confirm_markup, main_markup, back_keyboard
 from tgbot.bot.loader import dp, bot
 from tgbot.bot.loader import gettext as _
@@ -137,6 +136,11 @@ async def confirm_report(message: types.Message, state: FSMContext):
         user=user,
         reading_day=reading_day,
         book=book,
+        pages_read=pages_read
+    )
+    ConfirmationReport.objects.create(
+        user=user,
+        date=today,
         pages_read=pages_read
     )
 

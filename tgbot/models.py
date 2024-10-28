@@ -184,6 +184,16 @@ class ReportMessage(models.Model):
     def __str__(self):
         return f"Message {self.message_id} in chat {self.chat_id}"
 
+
+class ConfirmationReport(models.Model):
+    user = models.ForeignKey(TelegramProfile, on_delete=models.CASCADE, verbose_name=_("User"))
+    date = models.DateField(default=timezone.now)
+    pages_read = models.IntegerField()
+
+    def __str__(self):
+        return f"User {self.user.full_name} readed {self.pages_read} pages"
+
+
 class LastTopicID(SingletonModel):
     topic_id = models.CharField(max_length=255, verbose_name=_("Topic ID"))
 

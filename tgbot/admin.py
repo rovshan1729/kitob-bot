@@ -60,6 +60,16 @@ class GroupAdmin(TabbedTranslationAdmin):
     list_display_links = ("id",)
 
 
+@admin.register(models.ConfirmationReport)
+class ConfirmationReportAdmin(admin.ModelAdmin):
+    list_display = ('user_full_name', 'date', 'pages_read')
+
+    def user_full_name(self, obj):
+        return f"{obj.user.full_name}"
+
+    user_full_name.short_description = 'User'
+
+
 @admin.register(models.LastTopicID)
 class LastTopicIDAdmin(admin.ModelAdmin):
     list_display = ('id', 'topic_id')
