@@ -7,10 +7,10 @@ from celery.schedules import crontab
 
 
 env = environ.Env()
-env.read_env(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
+env.read_env(os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env"))
 
 # Set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', env.str('DJANGO_SETTINGS_MODULE'))
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", env.str("DJANGO_SETTINGS_MODULE"))
 
 app = Celery('src')
 
@@ -29,22 +29,22 @@ app.conf.beat_schedule = {
 
     'send-daily-top-read-pages-user': {
         'task': 'tgbot.tasks.daily_top_read_user',
-        'schedule': crontab(hour=23, minute=59),  # Har kun soat 00:00 da
+        'schedule': crontab(hour=23, minute=59),
     },
 
     'send-weekly-top-read-pages-user': {
         'task': 'tgbot.tasks.weekly_top_read_user',
-        'schedule': crontab(hour=23, minute=59, day_of_week='sunday'),  # Har hafta yakshanba soat 00:00
+        'schedule': crontab(hour=23, minute=59, day_of_week='sunday'),
     },
 
     'send-monthly-top-read-pages-user': {
         'task': 'tgbot.tasks.monthly_top_read_user',
-        'schedule': crontab(hour=23, minute=59, day_of_month='1'),  # Har oyning 1-kuni soat 00:00
+        'schedule': crontab(hour=23, minute=59, day_of_month='1'),
     },
 
     'send-yearly-top-read-pages-user': {
         'task': 'tgbot.tasks.yearly_top_read_user',
-        'schedule': crontab(hour=23, minute=59, day_of_month='1'),  # Har oyning 1-kuni soat 00:00
+        'schedule': crontab(hour=23, minute=59, month_of_year=12, day_of_month=31),
     },
 
 }

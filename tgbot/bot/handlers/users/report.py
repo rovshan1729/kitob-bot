@@ -140,8 +140,6 @@ async def confirm_report(message: types.Message, state: FSMContext):
     )
     ConfirmationReport.objects.create(
         user=user,
-        reading_day=reading_day,
-        book=book,
         date=today,
         pages_read=pages_read
     )
@@ -159,11 +157,9 @@ async def confirm_report(message: types.Message, state: FSMContext):
     if user.group:
         chat_id = user.group.chat_id
         topic_id = user.group.topic_id
-        print("chat_id", chat_id)
-        print("topic_id", topic_id)
     else:
         chat_id = "-1002237773868"
-        topic_id = 3333
+        topic_id = 3336
 
     last_topic_instance = LastTopicID.get_solo()
     group = user.group

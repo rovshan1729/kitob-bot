@@ -1,5 +1,3 @@
-from unittest.mock import numerics
-
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from solo.models import SingletonModel
@@ -189,8 +187,6 @@ class ReportMessage(models.Model):
 
 class ConfirmationReport(models.Model):
     user = models.ForeignKey(TelegramProfile, on_delete=models.CASCADE, verbose_name=_("User"))
-    reading_day = models.IntegerField()
-    book = models.CharField(max_length=255, null=True, blank=True)
     date = models.DateField(default=timezone.now)
     pages_read = models.IntegerField()
 

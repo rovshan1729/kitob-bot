@@ -1,5 +1,4 @@
 import random
-from tokenize import group
 
 import requests
 from celery import shared_task
@@ -79,7 +78,7 @@ def daily_top_read_user():
 
 
 @shared_task
-async def weekly_top_read_user():
+def weekly_top_read_user():
     weekly = timezone.now() - timedelta(days=7)
     top_users = ConfirmationReport.objects.filter(
         date__date=weekly.date()).annotate(
@@ -99,7 +98,7 @@ async def weekly_top_read_user():
 
 
 @shared_task
-async def monthly_top_read_user():
+def monthly_top_read_user():
     monthly = timezone.now() - timedelta(days=30)
     top_users = ConfirmationReport.objects.filter(
         date__date=monthly.date()).annotate(
@@ -119,7 +118,7 @@ async def monthly_top_read_user():
 
 
 @shared_task
-async def yearly_top_read_user():
+def yearly_top_read_user():
     yearly = timezone.now() - timedelta(days=365)
     top_users = ConfirmationReport.objects.filter(
         date__date=yearly.date()).annotate(

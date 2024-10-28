@@ -61,8 +61,8 @@ class GroupAdmin(TabbedTranslationAdmin):
 
 
 @admin.register(models.ConfirmationReport)
-class ConfirmationReportAdmin(TabbedTranslationAdmin):
-    list_display = ('user_full_name', 'reading_day', 'date', 'book', 'pages_read')
+class ConfirmationReportAdmin(admin.ModelAdmin):
+    list_display = ('user_full_name', 'date', 'pages_read')
 
     def user_full_name(self, obj):
         return f"{obj.user.full_name}"
