@@ -1,3 +1,4 @@
+import asyncio
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from celery.app.trace import report_internal_error
@@ -101,6 +102,12 @@ async def process_pages_read(message: types.Message, state: FSMContext):
     
     await message.answer(confirmation_message, reply_markup=confirm_markup(language=language), parse_mode='HTML')
     await ReportState.confirm_report.set()
+
+    await asyncio.sleep(5*60)
+    current_state = await state.get_state()
+
+    if current_state == ReportState.confirm_report.state:
+        await message.answer("Tasqidlaysizmi?", reply_markup=confirm_markup(language=language), parse_mode='HTML')
 
 
 last_report_message = None
