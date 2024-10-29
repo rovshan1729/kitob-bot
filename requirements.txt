@@ -128,3 +128,5 @@ django-prometheus==2.3.1
 django-auditlog==3.0.0
 django-rosetta==0.10.0
 gunicorn
+
+Django~=5.0.9
