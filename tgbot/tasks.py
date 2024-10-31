@@ -59,9 +59,9 @@ def send_daily_message():
 
 @shared_task
 def daily_top_read_user():
-    yesterday = timezone.now() - timedelta(days=1)
+    today = timezone.now()
     top_users = ConfirmationReport.objects.filter(
-        date=yesterday.date()).annotate(
+        date=today.date()).annotate(
         total_pages=Sum('pages_read')
     ).order_by('-total_pages')[:5]
 
