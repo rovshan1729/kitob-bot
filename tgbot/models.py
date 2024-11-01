@@ -186,7 +186,7 @@ class ReportMessage(models.Model):
 
 
 class ConfirmationReport(models.Model):
-    user = models.ForeignKey(TelegramProfile, on_delete=models.CASCADE, verbose_name=_("User"))
+    user = models.ForeignKey(TelegramProfile, on_delete=models.CASCADE, verbose_name=_("User"),)
     date = models.DateField(default=timezone.now)
     pages_read = models.IntegerField()
 

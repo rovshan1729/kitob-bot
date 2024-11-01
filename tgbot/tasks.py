@@ -1,10 +1,12 @@
 import random
+from pyexpat.errors import messages
 
 import requests
 from celery import shared_task
 from tgbot.bot.utils import get_all_users
 import environ
-from tgbot.models import DailyMessage, BookReport, BlockedUser, Group, ConfirmationReport
+from tgbot.models import DailyMessage, BookReport, BlockedUser, \
+    Group, ConfirmationReport, TelegramProfile
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Sum
@@ -68,7 +70,7 @@ def daily_top_read_user():
     if top_users:
         message = f"📚 Bugun eng ko'p kitob o'qigan 5ta Peshqadam foydalanuvchilar: \n\n"
         for index, user in enumerate(top_users, start=1):
-            message += f"{index}) <b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
+            message += f"{index}) {user.user.username}<b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
     else:
         message = "📚 Kecha uchun kitob o'qigan foydalanuvchilar yo'q."
 
@@ -88,7 +90,7 @@ def weekly_top_read_user():
     if top_users:
         message = f"📚 Bu hafta eng ko'p kitob o'qigan 10ta Peshqadam foydalanuvchilar: \n"
         for index, user in enumerate(top_users, start=1):
-            message += f"{index}) <b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
+            message += f"{index}) {user.user.username}<b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
     else:
         message = "📚 Bu hafta uchun kitob o'qigan foydalanuvchilar yo'q."
 
@@ -108,7 +110,7 @@ def monthly_top_read_user():
     if top_users:
         message = f"📚 Bu oy eng ko'p kitob o'qigan 15ta Peshqadam foydalanuvchilar: \n"
         for index, user in enumerate(top_users, start=1):
-            message += f"{index}) <b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
+            message += f"{index}) {user.user.username}<b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
     else:
         message = "📚 Bu oy uchun kitob o'qigan foydalanuvchilar yo'q."
 
@@ -128,11 +130,28 @@ def yearly_top_read_user():
     if top_users:
         message = f"📚 Bu yil eng ko'p kitob o'qigan 30 ta Peshqadam foydalanuvchilar: \n\n"
         for index, user in enumerate(top_users, start=1):
-            message += f"{index}) <b>{user.user.full_name}</b>:{user.pages_read} bet 📚\n\n"
+            message += f"{index}) {user.user.username}<b>{user.user.full_name}</b>:{user.pages_read} bet 📚\n\n"
     else:
         message = "📚 Bu yil uchun kitob o'qigan foydalanuvchilar yo'q."
 
     group_instance = Group.objects.first()
     chat_id = group_instance.chat_id
     send_message(chat_id, message)
+
+
+@shared_task
+def users_unread_book():
+    today = timezone.now()
+    users = TelegramProfile.objects.exclude(confirmationreport__date=today.date())
+
+    if users:
+        users_count = users.count()
+        message = f"‼️ Bugun hisobot yubormaganlar: {users_count}ta\n\n"
+        for user in users:
+            message += f"-@{user.username} (<b>{user.full_name}</b>)\n"
+        message += "\nKuniga 5-10 daqiqa va siz yana safdasiz 🚀 \n\n *Bizdan qolib ketmysiz degan umiddamiz xurmatli do‘stlar"
+        group_instance = Group.objects.first()
+        chat_id = group_instance.chat_id
+        send_message(chat_id, message)
+
 
