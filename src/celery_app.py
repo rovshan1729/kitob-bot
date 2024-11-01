@@ -49,7 +49,7 @@ app.conf.beat_schedule = {
 
     'send-daily-users-unread-book': {
         'task': 'tgbot.tasks.users_unread_book',
-        'schedule': crontab(hour=23, minute=00)
+        'schedule': crontab(hour=23, minute=30)
     }
 
 }
