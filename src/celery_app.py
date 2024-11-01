@@ -47,6 +47,11 @@ app.conf.beat_schedule = {
         'schedule': crontab(hour=0, minute=0, month_of_year=12, day_of_month=31),
     },
 
+    'send-daily-users-unread-book': {
+        'task': 'tgbot.tasks.users_unread_book',
+        'schedule': crontab(hour=23, minute=00)
+    }
+
 }
 
 
