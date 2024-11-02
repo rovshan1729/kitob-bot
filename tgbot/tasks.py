@@ -148,6 +148,8 @@ def users_unread_book():
         users_count = users.count()
         message = f"‼️ Bugun hisobot yubormaganlar: {users_count}ta\n\n"
         for user in users:
+            if user.full_name is None:
+                user.delete()
             message += f"-@{user.username} (<b>{user.full_name}</b>)\n"
         message += "\nKuniga 5-10 daqiqa va siz yana safdasiz 🚀 \n\n *Bizdan qolib ketmysiz degan umiddamiz xurmatli do‘stlar"
         group_instance = Group.objects.first()
