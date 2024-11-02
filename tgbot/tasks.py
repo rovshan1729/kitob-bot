@@ -70,7 +70,7 @@ def daily_top_read_user():
     if top_users:
         message = f"📚 Bugun eng ko'p kitob o'qigan 5ta Peshqadam foydalanuvchilar: \n\n"
         for index, user in enumerate(top_users, start=1):
-            message += f"{index}) {user.user.username}<b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
+            message += f"{index}) @{user.user.username} <b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
     else:
         message = "📚 Kecha uchun kitob o'qigan foydalanuvchilar yo'q."
 
@@ -90,7 +90,7 @@ def weekly_top_read_user():
     if top_users:
         message = f"📚 Bu hafta eng ko'p kitob o'qigan 10ta Peshqadam foydalanuvchilar: \n"
         for index, user in enumerate(top_users, start=1):
-            message += f"{index}) {user.user.username}<b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
+            message += f"{index}) @{user.user.username} <b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
     else:
         message = "📚 Bu hafta uchun kitob o'qigan foydalanuvchilar yo'q."
 
@@ -110,7 +110,7 @@ def monthly_top_read_user():
     if top_users:
         message = f"📚 Bu oy eng ko'p kitob o'qigan 15ta Peshqadam foydalanuvchilar: \n"
         for index, user in enumerate(top_users, start=1):
-            message += f"{index}) {user.user.username}<b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
+            message += f"{index}) @{user.user.username}<b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
     else:
         message = "📚 Bu oy uchun kitob o'qigan foydalanuvchilar yo'q."
 
@@ -130,7 +130,7 @@ def yearly_top_read_user():
     if top_users:
         message = f"📚 Bu yil eng ko'p kitob o'qigan 30 ta Peshqadam foydalanuvchilar: \n\n"
         for index, user in enumerate(top_users, start=1):
-            message += f"{index}) {user.user.username}<b>{user.user.full_name}</b>:{user.pages_read} bet 📚\n\n"
+            message += f"{index}) @{user.user.username}<b>{user.user.full_name}</b>:{user.pages_read} bet 📚\n\n"
     else:
         message = "📚 Bu yil uchun kitob o'qigan foydalanuvchilar yo'q."
 
