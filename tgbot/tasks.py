@@ -1,5 +1,4 @@
 import random
-from pyexpat.errors import messages
 
 import requests
 from celery import shared_task
@@ -151,12 +150,10 @@ def users_unread_book():
             if user.full_name is None:
                 user.delete()
             else:
-                if user.telegram_id != 631751797
+                if user.telegram_id != 631751797:
                     message += f"-@{user.username} (<b>{user.full_name}</b>)\n"
 
         message += "\nKuniga 5-10 daqiqa va siz yana safdasiz 🚀 \n\n *Bizdan qolib ketmysiz degan umiddamiz xurmatli do‘stlar"
         group_instance = Group.objects.first()
         chat_id = group_instance.chat_id
         send_message(chat_id, message)
-
-
