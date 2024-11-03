@@ -50,9 +50,9 @@ def send_daily_message():
                 message_text = message_instance.message
                 response, status = send_message(chat_id=user.telegram_id, text=message_text)
 
-                if status == 400:
+                if status != 200:
                     BlockedUser.objects.get_or_create(user=user)
-                    send_message(chat_id=631751797,text=f'Blocked User {user.full_name}, {user.username}')
+                    send_message(chat_id=631751797, text=f'Blocked User {user.full_name} - {user.username}')
 
 
     send_message(chat_id=631751797, text=f"Users reported: {users_reported}\n"
@@ -151,7 +151,9 @@ def users_unread_book():
             if user.full_name is None:
                 user.delete()
             else:
-                message += f"-@{user.username} (<b>{user.full_name}</b>)\n"
+                if user.telegram_id != 631751797
+                    message += f"-@{user.username} (<b>{user.full_name}</b>)\n"
+
         message += "\nKuniga 5-10 daqiqa va siz yana safdasiz 🚀 \n\n *Bizdan qolib ketmysiz degan umiddamiz xurmatli do‘stlar"
         group_instance = Group.objects.first()
         chat_id = group_instance.chat_id

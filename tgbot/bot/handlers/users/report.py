@@ -1,9 +1,7 @@
 import asyncio
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from celery.app.trace import report_internal_error
 
-from tgbot.bot.handlers.users.start import full_name
 from tgbot.models import BookReport, ReportMessage, LastTopicID, ConfirmationReport
 from tgbot.bot.keyboards.reply import confirm_markup, main_markup, back_keyboard
 from tgbot.bot.loader import dp, bot
@@ -20,6 +18,11 @@ from django.utils import timezone
 @dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text="📚 Kitob hisoboti", state="*")
 @dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), text="📚 Отчет о книге", state="*")
 async def send_daily_report_handler(message: types.Message, state: FSMContext):
+    user = get_user(message.from_user.id)
+    if user.is_blocked:
+        await message.answer(_("Siz bot tomonidan bloklangansiz."))
+        return await state.finish()
+
     await message.answer(_("Nechanchi kun o'qiyotganingizni kiriting:"), reply_markup=back_keyboard)
     await ReportState.reading_day.set()
     
@@ -39,7 +42,7 @@ async def process_reading_day(message: types.Message, state: FSMContext):
         await message.answer(_("Iltimos, to'g'ri kun raqamini kiriting."), reply_markup=back_keyboard)
         return
 
-    if 1 > int(day) or int(day) > 1000:
+    if 1 > int(day) or int(day) > 500:
         await message.answer(_("Iltimos, to'g'ri kun raqamini kiriting."), reply_markup=back_keyboard)
         return
     
@@ -83,7 +86,7 @@ async def process_pages_read(message: types.Message, state: FSMContext):
         await message.answer(_("Iltimos, to'g'ri bet raqamini kiriting."), reply_markup=back_keyboard)
         return
     
-    if 1 > int(pages_read) or int(pages_read) > 2000:
+    if 1 > int(pages_read) or int(pages_read) > 300:
         await message.answer(_("Iltimos, nechi bet o'qiganingizni raqamini to'g'ri kiriting."), reply_markup=back_keyboard)
         return
     
@@ -139,18 +142,26 @@ async def confirm_report(message: types.Message, state: FSMContext):
     book = data.get("book_title")
     pages_read = data.get("pages_read")
 
-    book_report = BookReport.objects.create(
-        user=user,
-        reading_day=reading_day,
-        book=book,
-        pages_read=pages_read
-    )
+    book_report = BookReport.objects.filter(user=user).first()
+    if book_report:
+        book_report.book = book
+        book_report.reading_day = reading_day
+        book_report.pages_read = pages_read
+        book_report.save()
+    else:
+        BookReport.objects.create(
+            user=user,
+            reading_day=reading_day,
+            book=book,
+            pages_read=pages_read,
+        )
+
     ConfirmationReport.objects.create(
         user=user,
+        pages_read=pages_read,
         date=today,
-        pages_read=pages_read
+        book=book
     )
-
     await message.answer(_("Hisobotingiz yuborildi."), reply_markup=main_markup(language=language))
 
     new_report_message = (

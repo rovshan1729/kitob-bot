@@ -108,9 +108,10 @@ class TelegramProfile(BaseModel):
     group = models.ForeignKey(Group, models.CASCADE, null=True, blank=True, verbose_name=_("Group"))
 
     is_registered = models.BooleanField(default=False)
+    is_blocked = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.full_name} {self.username} {self.telegram_id}"
+        return f"{self.full_name} - {self.username}"
 
     class Meta:
         verbose_name = "Telegram Profile"
@@ -188,6 +189,7 @@ class ReportMessage(models.Model):
 class ConfirmationReport(models.Model):
     user = models.ForeignKey(TelegramProfile, on_delete=models.CASCADE, verbose_name=_("User"),)
     date = models.DateField(default=timezone.now)
+    book = models.CharField(max_length=255, null=True, blank=True)
     pages_read = models.IntegerField()
 
     def __str__(self):
