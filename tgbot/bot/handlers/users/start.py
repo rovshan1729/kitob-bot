@@ -57,6 +57,11 @@ async def do_start(message: types.Message, state: FSMContext):
 
 @dp.message_handler(CommandStart(), ChatTypeFilter(ChatType.PRIVATE), state="*")
 async def bot_start(message: types.Message, state: FSMContext):
+    user = get_user(message.from_user.id)
+    if user.is_blocked:
+        await message.answer(_("Siz bot tomonidan bloklangansiz."))
+        return await state.finish()
+
     await state.finish()
 
     final_status, chat_ids = await get_result(user_id=message.from_user.id)

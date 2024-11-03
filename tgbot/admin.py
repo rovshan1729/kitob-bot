@@ -2,18 +2,16 @@ from django.contrib import admin
 
 from . import models
 from tgbot.mixins import TabbedTranslationAdmin, TranslationRequiredMixin
-# Register your models here.
 
 admin.site.register(models.TelegramBot)
 
 
 @admin.register(models.TelegramProfile)
 class TelegramProfileAdmin(admin.ModelAdmin):
-    list_display = ("id", "group", "username", "language",)
+    list_display = ("id", "group", "username", "full_name", "language",)
     list_display_links = ("id", "username")
     list_filter = ("language", "is_registered",)
-    search_fields = ("username",)
-    list_per_page = 20
+    search_fields = ("username", "full_name")
 
 
 @admin.register(models.RequiredGroup)
@@ -40,6 +38,8 @@ class TelegramButtonAdmin(TranslationRequiredMixin, TabbedTranslationAdmin):
 
 @admin.register(models.BookReport)
 class BookReportAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'book', 'pages_read')
+    search_fields = ('user__username', 'user__full_name')
     readonly_fields= ("created_at",)
     
 
@@ -62,12 +62,8 @@ class GroupAdmin(TabbedTranslationAdmin):
 
 @admin.register(models.ConfirmationReport)
 class ConfirmationReportAdmin(admin.ModelAdmin):
-    list_display = ('user_full_name', 'date', 'pages_read')
-
-    def user_full_name(self, obj):
-        return f"{obj.user.full_name}"
-
-    user_full_name.short_description = 'User'
+    list_display = ('user', 'book', 'date', 'pages_read')
+    search_fields = ('user__username', 'user__full_name')
 
 
 @admin.register(models.LastTopicID)
@@ -77,10 +73,7 @@ class LastTopicIDAdmin(admin.ModelAdmin):
 
 @admin.register(models.BlockedUser)
 class BlockedUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'get_user_full_name', 'blocked_at')
-    list_display_links = ('id', 'get_user_full_name')
+    list_display = ('id', 'user', 'blocked_at')
+    list_display_links = ('id', 'user')
+    search_fields = ('user__username', 'user__full_name')
 
-    def get_user_full_name(self, obj):
-        return obj.user.full_name
-
-    get_user_full_name.short_description = 'User Full Name'
