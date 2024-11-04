@@ -61,10 +61,12 @@ def send_daily_message():
 @shared_task
 def daily_top_read_user():
     today = timezone.now()
-    top_users = ConfirmationReport.objects.filter(
-        date=today.date()).annotate(
-        total_pages=Sum('pages_read')
-    ).order_by('-total_pages')[:5]
+    top_users = (
+        ConfirmationReport.objects.filter(date=today.date())
+        .values('user')
+        .annotate(total_pages=Sum('pages_read'))
+        .order_by('-total_pages')[:5]
+    )
 
     if top_users:
         message = f"📚 Bugun eng ko'p kitob o'qigan 5ta Peshqadam foydalanuvchilar: \n\n"
