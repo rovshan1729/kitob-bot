@@ -70,3 +70,17 @@ back_keyboard = ReplyKeyboardMarkup(
     ],
     resize_keyboard=True,
 )
+
+admin_keyboard = ReplyKeyboardMarkup(
+    keyboard=[
+        [
+            KeyboardButton(text=_("✅ Ro'yhatdan o'tganlar")),
+            KeyboardButton(text=_("❌ Ro'yhatdan o'tmaganlar"))
+        ],
+        [
+            KeyboardButton(text=_("👨‍👩‍👦‍👦 Barcha foydalanuvchilar")),
+            KeyboardButton(text=_("📊 Statistikani ko'rish"))
+        ]
+    ],
+    resize_keyboard=True,
+)

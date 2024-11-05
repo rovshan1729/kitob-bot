@@ -16,4 +16,8 @@ class ChangeLanguageState(StatesGroup):
 
 class GroupStates(StatesGroup):
     group = State()
+
+class StatisticState(StatesGroup):
+    input_user_id = State()
+
     
