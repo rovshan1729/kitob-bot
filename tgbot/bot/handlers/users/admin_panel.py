@@ -6,22 +6,22 @@ from tgbot.models import TelegramProfile, BookReport
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from tgbot.bot.states.main import StatisticState
+from tgbot.bot.filters import IsPrivate
+from tgbot.bot.utils import get_user
 
 
-@dp.message_handler(commands=["admin"])
+
+@dp.message_handler(IsPrivate(), commands=["admin"])
 async def admin_commands(message: types.Message):
     telegram_id = message.from_user.id
-    try:
-        user = await TelegramProfile.objects.aget(telegram_id=telegram_id)
-        if user.is_admin:
-            await message.answer("Menudan birini tanlang:", reply_markup=admin_keyboard)
-        else:
-            await message.answer("Siz admin emassiz!")
-    except TelegramProfile.DoesNotExist:
-        await message.answer("Profilingiz topilmadi!")
+    user = get_user(telegram_id)
+    if user.is_admin:
+        await message.answer("Menudan birini tanlang:", reply_markup=admin_keyboard)
+    else:
+        await message.answer("Siz admin emassiz!")
 
 
-@dp.message_handler(Text("✅ Ro'yhatdan o'tganlar"))
+@dp.message_handler(IsPrivate(), Text("✅ Ro'yhatdan o'tganlar"))
 async def registered_lists(message: types.Message):
     reg_users = TelegramProfile.objects.filter(is_registered=True).order_by('id')
     reg_users_count = reg_users.count()
@@ -42,7 +42,7 @@ async def registered_lists(message: types.Message):
     await message.answer(response, parse_mode="HTML")
 
 
-@dp.message_handler(Text("❌ Ro'yhatdan o'tmaganlar"))
+@dp.message_handler(IsPrivate(), Text("❌ Ro'yhatdan o'tmaganlar"))
 async def unregistered_lists(message: types.Message):
     unreg_users = TelegramProfile.objects.filter(is_registered=False).order_by('id')
     unreg_users_count = unreg_users.count()
@@ -54,7 +54,6 @@ async def unregistered_lists(message: types.Message):
 
     for user in unreg_users:
         user_id = user.telegram_id
-        print(user_id)
         if user.full_name:
             mention = hlink(user.full_name, f"tg://user?id={user_id}")
         elif user.username:
@@ -67,7 +66,7 @@ async def unregistered_lists(message: types.Message):
     await message.answer(response, parse_mode="HTML")
 
 
-@dp.message_handler(Text(contains="‍👩‍👦‍👦 Barcha foydalanuvchilar"))
+@dp.message_handler(IsPrivate(), Text(contains="‍👩‍👦‍👦 Barcha foydalanuvchilar"))
 async def all_users(message: types.Message):
     all_users = TelegramProfile.objects.all().order_by('id')
     total_users_count = all_users.count()
@@ -94,13 +93,13 @@ async def all_users(message: types.Message):
     await message.answer(response, parse_mode="HTML")
 
 
-@dp.message_handler(Text("📊 Statistikani ko'rish"))
+@dp.message_handler(IsPrivate(), Text("📊 Statistikani ko'rish"))
 async def get_book_info_start(message: types.Message):
     await message.answer("Iltimos, foydalanuvchi ID'sini kiriting:", reply_markup=types.ReplyKeyboardRemove())
     await StatisticState.input_user_id.set()
 
 
-@dp.message_handler(state=StatisticState.input_user_id)
+@dp.message_handler(IsPrivate(), state=StatisticState.input_user_id)
 async def input_user_id(message: types.Message, state: FSMContext):
     if not message.text.strip().isdigit():
         await message.answer("Iltimos, faqatgina foydalanuvchi ID'sini kiriting:")
