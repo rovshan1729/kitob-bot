@@ -60,6 +60,7 @@ def send_daily_message():
 
 @shared_task
 def daily_top_read_user():
+    send_message(631751797, "daily_works")
     today = timezone.now()
     top_users = (
         ConfirmationReport.objects.filter(date=today.date())
@@ -82,6 +83,8 @@ def daily_top_read_user():
 
 @shared_task
 def weekly_top_read_user():
+    send_message(631751797, "weekly_works")
+
     weekly = timezone.now() - timedelta(days=7)
     top_users = ConfirmationReport.objects.filter(
         date__date=weekly.date()).annotate(
@@ -102,6 +105,8 @@ def weekly_top_read_user():
 
 @shared_task
 def monthly_top_read_user():
+    send_message(631751797, "monthly_works")
+
     monthly = timezone.now() - timedelta(days=30)
     top_users = ConfirmationReport.objects.filter(
         date__date=monthly.date()).annotate(
@@ -122,6 +127,8 @@ def monthly_top_read_user():
 
 @shared_task
 def yearly_top_read_user():
+    send_message(631751797, "yearly_works")
+
     yearly = timezone.now() - timedelta(days=365)
     top_users = ConfirmationReport.objects.filter(
         date__date=yearly.date()).annotate(
