@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 from tgbot.bot.loader import dp
-import tgbot.bot.middlewares, tgbot.bot.filters, tgbot.bot.handlers
 from utils.bot import send_message
 from django.conf import settings
 from aiogram import executor

@@ -109,6 +109,7 @@ class TelegramProfile(BaseModel):
 
     is_registered = models.BooleanField(default=False)
     is_blocked = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.full_name} - {self.username}"
