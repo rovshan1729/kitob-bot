@@ -102,7 +102,7 @@ async def process_pages_read(message: types.Message, state: FSMContext):
         f"<b>✅O‘qilgan betlar:</b> {pages_read}+ bet\n\n"
         "Tasdiqlaysizmi?"
     )
-    
+
     await message.answer(confirmation_message, reply_markup=confirm_markup(language=language), parse_mode='HTML')
     await ReportState.confirm_report.set()
 
@@ -143,6 +143,7 @@ async def confirm_report(message: types.Message, state: FSMContext):
     pages_read = data.get("pages_read")
 
     book_report = BookReport.objects.filter(user=user).first()
+
     if book_report:
         book_report.book = book
         book_report.reading_day = reading_day
@@ -163,10 +164,11 @@ async def confirm_report(message: types.Message, state: FSMContext):
         book=book
     )
     await message.answer(_("Hisobotingiz yuborildi."), reply_markup=main_markup(language=language))
+    last_date = ConfirmationReport.objects.filter(user=user).order_by('-date').first()
 
     new_report_message = (
         f"@{user.username}\n\n"
-        f"<b>{user.full_name}</b>\n\n📊#kun - {reading_day}  ({book_report.created_at.strftime('%Y-%m-%d')})\n\n"
+        f"<b>{user.full_name}</b>\n\n📊#kun - {reading_day}  ({last_date.date.strftime('%Y-%m-%d')})\n\n"
         f"<b>Kitob nomi:</b> {book}\n\n"
         f"<b>✅O‘qilgan betlar:</b> {pages_read}+ bet\n\n"
         f"<i>----------------------------------</i>"
