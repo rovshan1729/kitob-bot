@@ -12,7 +12,7 @@ def confirm_markup(language="uz"):
 
 def group_markup(language="uz"):
     button_obj = Group.objects.all()
-    button = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
+    button = ReplyKeyboardMarkup(row_width=3, resize_keyboard=True)
     button.add(*(KeyboardButton(text=get_object_value(button, "title", language)) for button in button_obj if
                  get_object_value(button, "title", language) is not None))
     return button
