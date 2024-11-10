@@ -79,7 +79,7 @@ def daily_top_read_user():
     ).filter(rank=1).order_by('-total_pages')[:10]
 
     if ranked_reports:
-        message = f"📚 Bugun eng ko'p kitob o'qigan 5ta Peshqadam foydalanuvchilar: \n\n"
+        message = f"📚 Bugun eng ko'p kitob o'qigan 10ta Peshqadam foydalanuvchilar: \n\n"
         for index, user in enumerate(ranked_reports, start=1):
             message += f"{index}) @{user.user.username} <b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
     else:
