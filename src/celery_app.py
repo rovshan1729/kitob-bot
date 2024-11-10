@@ -44,12 +44,12 @@ app.conf.beat_schedule = {
 
     'send-monthly-top-read-pages-user': {
         'task': 'tgbot.tasks.monthly_top_read_user',
-        'schedule': crontab(hour=0, minute=5, day_of_month='1'),
+        'schedule': crontab(hour=0, minute=0, day_of_month='1'),
     },
 
     'send-yearly-top-read-pages-user': {
         'task': 'tgbot.tasks.yearly_top_read_user',
-        'schedule': crontab(hour=0, minute=10, month_of_year=12, day_of_month=31),
+        'schedule': crontab(hour=23, minute=59, day_of_month='31', month_of_year='12'),
     },
 
     'send-daily-users-unread-book': {
