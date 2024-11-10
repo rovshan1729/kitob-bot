@@ -1,13 +1,16 @@
 import random
 import requests
 from celery import shared_task
+from django.db.models.functions.window import Rank
+from django.utils.timezone import now
+
 from tgbot.bot.utils import get_all_users
 import environ
 from tgbot.models import DailyMessage, BookReport, BlockedUser, \
     Group, ConfirmationReport, TelegramProfile
 from django.utils import timezone
 from datetime import timedelta
-from django.db.models import Sum
+from django.db.models import Sum, Q, Window, F
 
 env = environ.Env()
 
@@ -59,19 +62,24 @@ def send_daily_message():
 @shared_task
 def daily_top_read_user():
     send_message(631751797, "daily_works")
-    send_message(6956376313, "daily_works")
-    today = timezone.now()
-    top_users = (
-        ConfirmationReport.objects.filter(date=today.date())
-        .values('user__username', 'user__full_name')
-        .annotate(total_pages=Sum('pages_read'))
-        .order_by('-total_pages')[:10]
-    )
+    today = now().date()
+    # top_users = ConfirmationReport.objects.filter(date__date=today) \
+    #     .annotate(total_pages=Sum('pages_read')) \
+    #     .order_by('-total_pages').distinct('user')[:10]
 
-    if top_users:
-        message = "📚 Bugun eng ko'p kitob o'qigan 5ta Peshqadam foydalanuvchilar: \n\n"
-        for index, user in enumerate(top_users, start=1):
-            message += f"{index}) @{user['user__username']} <b>{user['user__full_name']}</b>: {user['total_pages']} bet 📚\n\n"
+    ranked_reports = ConfirmationReport.objects.filter(date__date=today).annotate(
+        total_pages=Sum('pages_read'),
+        rank=Window(
+            expression=Rank(),
+            partition_by=F('user_id'),
+            order_by=F('total_pages').desc()
+        )
+    ).filter(rank=1).order_by('-total_pages')[:10]
+
+    if ranked_reports:
+        message = f"📚 Bugun eng ko'p kitob o'qigan 5ta Peshqadam foydalanuvchilar: \n\n"
+        for index, user in enumerate(ranked_reports, start=1):
+            message += f"{index}) @{user.user.username} <b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
     else:
         message = "📚 Kecha uchun kitob o'qigan foydalanuvchilar yo'q."
 
@@ -87,17 +95,28 @@ def weekly_top_read_user():
 
     weekly_start_date = timezone.now() - timedelta(days=7)
 
-    top_users = ConfirmationReport.objects.filter(
-        date__gte=weekly_start_date.date()
-    ).values('user__username', 'user__full_name')
-    top_users = top_users.annotate(
-        total_pages=Sum('pages_read')
-    ).order_by('-total_pages')[:10]
+    weekly = now() - timedelta(days=7)
+    # top_users = ConfirmationReport.objects.filter(
+    #     Q(date__date__gte=weekly.date()) &
+    #     Q(date__date__lte=now().date())
+    #     ).annotate(
+    #     total_pages=Sum('pages_read')
+    # ).order_by('-total_pages')[:10]
 
-    if top_users:
+    weekly_ranked_reports = ConfirmationReport.objects.filter(Q(date__date__gte=weekly.date()) &
+        Q(date__date__lte=now().date())).annotate(
+        total_pages=Sum('pages_read'),
+        rank=Window(
+            expression=Rank(),
+            partition_by=F('user_id'),
+            order_by=F('total_pages').desc()
+        )
+    ).filter(rank=1).order_by('-total_pages')[:10]
+
+    if weekly_ranked_reports:
         message = f"📚 Bu hafta eng ko'p kitob o'qigan 10ta Peshqadam foydalanuvchilar: \n"
-        for index, user in enumerate(top_users, start=1):
-            message += f"{index}) @{user['user__username']} <b>{user['user__full_name']}</b>: {user['total_pages']} bet 📚\n\n"
+        for index, user in enumerate(weekly_ranked_reports, start=1):
+            message += f"{index}) @{user.user.username} <b>{user.user.full_name}</b>: {user.pages_read} bet 📚\n\n"
     else:
         message = "📚 Bu hafta uchun kitob o'qigan foydalanuvchilar yo'q."
 
@@ -113,10 +132,11 @@ def monthly_top_read_user():
 
     monthly_start_date = timezone.now() - timedelta(days=30)
 
+    monthly = now() - timedelta(days=30)
     top_users = ConfirmationReport.objects.filter(
-        date__gte=monthly_start_date.date()
-    ).values('user__username', 'user__full_name')
-    top_users = top_users.annotate(
+        Q(date__date__gte=monthly.date()) &
+        Q(date__date__lte=now().date())
+        ).annotate(
         total_pages=Sum('pages_read')
     ).order_by('-total_pages')[:15]
 
@@ -140,9 +160,8 @@ def yearly_top_read_user():
     yearly_start_date = timezone.now() - timedelta(days=365)
 
     top_users = ConfirmationReport.objects.filter(
-        date__gte=yearly_start_date
-    ).values('user__username', 'user__full_name')
-    top_users = top_users.annotate(
+        Q(date__date__gte=yearly.date()) & Q(date__date__lte=now().date())
+        ).annotate(
         total_pages=Sum('pages_read')
     ).order_by('-total_pages')[:30]
 

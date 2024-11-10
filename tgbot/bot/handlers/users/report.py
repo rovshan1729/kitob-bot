@@ -156,11 +156,11 @@ async def confirm_report(message: types.Message, state: FSMContext):
             book=book,
             pages_read=pages_read,
         )
-
+    datetime_now = timezone.now()
     ConfirmationReport.objects.create(
         user=user,
         pages_read=pages_read,
-        date=today,
+        date=datetime_now,
         book=book
     )
     await message.answer(_("Hisobotingiz yuborildi."), reply_markup=main_markup(language=language))
