@@ -65,7 +65,7 @@ def daily_top_read_user():
         ConfirmationReport.objects.filter(date=today.date())
         .values('user__username', 'user__full_name')
         .annotate(total_pages=Sum('pages_read'))
-        .order_by('-total_pages')[:5]
+        .order_by('-total_pages')[:10]
     )
 
     if top_users:

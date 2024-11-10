@@ -92,7 +92,7 @@ async def bot_start(message: types.Message, state: FSMContext):
 async def checker(call: types.CallbackQuery, state: FSMContext):
     data = await state.get_data()
     user = get_user(call.message.from_user.id)
-    language = user.language
+    lang = user.language
 
     final_status, chat_ids = await get_result(user_id=call.from_user.id)
     if final_status:
@@ -123,7 +123,7 @@ async def checker(call: types.CallbackQuery, state: FSMContext):
             await AdmissionState.language.set()
             
         else:
-            await call.message.answer(_("Bosh menyu."), reply_markup=main_markup(language=language))
+            await call.message.answer(_("Bosh menyu."), reply_markup=main_markup(language=lang))
             
     else:
         reply_markup = await get_check_button(chat_ids)
