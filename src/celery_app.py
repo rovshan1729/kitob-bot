@@ -22,9 +22,14 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'send-daily-message-every-24-hours': {
+    'send-daily-message-at-13': {
         'task': 'tgbot.tasks.send_daily_message',
-        'schedule': crontab(hour=20, minute=0),
+        'schedule': crontab(hour=13, minute=0),
+    },
+
+    'send-daily-message-at-21': {
+        'task': 'tgbot.tasks.send_daily_message',
+        'schedule': crontab(hour=21, minute=0),
     },
 
     'send-daily-top-read-pages-user': {
