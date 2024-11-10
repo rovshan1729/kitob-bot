@@ -39,7 +39,7 @@ app.conf.beat_schedule = {
 
     'send-weekly-top-read-pages-user': {
         'task': 'tgbot.tasks.weekly_top_read_user',
-        'schedule': crontab(hour=0, minute=0, day_of_week='sunday'),
+        'schedule': crontab(hour=23, minute=59, day_of_week='sunday'),
     },
 
     'send-monthly-top-read-pages-user': {
