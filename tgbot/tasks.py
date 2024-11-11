@@ -90,6 +90,7 @@ def daily_top_read_user():
     send_message(chat_id, message)
 
 
+
 @shared_task
 def weekly_top_read_user():
     send_message(631751797, "weekly_works")
