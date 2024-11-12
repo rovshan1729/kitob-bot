@@ -86,7 +86,7 @@ async def process_pages_read(message: types.Message, state: FSMContext):
         await message.answer(_("Iltimos, to'g'ri bet raqamini kiriting."), reply_markup=back_keyboard)
         return
     
-    if 1 > int(pages_read) or int(pages_read) > 300:
+    if 1 > int(pages_read) or int(pages_read) > 411:
         await message.answer(_("Iltimos, nechi bet o'qiganingizni raqamini to'g'ri kiriting."), reply_markup=back_keyboard)
         return
     
