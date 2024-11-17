@@ -16,5 +16,3 @@ async def unregister_command(message: types.Message):
         await message.answer(_("Qaytadan ro‘yxatdan o‘tish uchun /start tugmasini bosing."))
     else:
         await message.answer(_("Siz ro‘yxatdan o‘tib bo‘lgansiz"))
-
-        
